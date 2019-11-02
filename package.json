@@ -19,7 +19,7 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "slr"
+    "extends": "react-app"
   },
   "browserslist": {
     "production": [
