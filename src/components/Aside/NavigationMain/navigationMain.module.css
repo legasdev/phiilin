@@ -1,0 +1,13 @@
+.nav {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.link {
+    width: 100%;
+}
+
+.link.active {
+    width: 120%;
+}
