@@ -9,10 +9,10 @@ const AccountInfoAside = props => {
         <div className={s.info}>
             <div className={s.info__name}>
                 <div>
-                    {props.userName}
+                    {`${props.userName} ${props.userLastName}`} 
                 </div>
                 <div>
-                    {props.userLogin}
+                    {props.userPosition}
                 </div>
             </div>
             <img src={IMG_AVATAR} className={s.avatar} alt="Ава"/>
