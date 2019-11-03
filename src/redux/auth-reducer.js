@@ -15,12 +15,12 @@ const
 // Инициализация
 
 const initialState = {
-    id: '1',
-    login: 'legasdev',
-    name: 'Артем',
-    lastName: 'Степанов',
-    position: 'Преподаватель',
-    isAuth: true,
+    id: 0,
+    login: '',
+    name: '',
+    lastName: '',
+    position: '',
+    isAuth: false,
     isFetching: false,
 };
 
@@ -49,13 +49,12 @@ export default authReducer;
 
 export const setUserData = data => ({type: SET_USER_DATA, data});
 
-
 // Thunks
 
 export const getAuthData = () => dispatch => {
     authAPI
         .getAuthData()
         .then(res => {
-            console.log(res);
+            dispatch(setUserData(res.data));
         });
 }

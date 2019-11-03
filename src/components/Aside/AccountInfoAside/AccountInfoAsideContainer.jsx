@@ -1,6 +1,8 @@
 import React from 'react';
-import AccountInfoAside from './AccountInfoAside';
 import { connect } from 'react-redux';
+
+import AccountInfoAside from './AccountInfoAside';
+
 import { getAuthData } from '../../../redux/auth-reducer';
 
 class AccountInfoAsideContainer extends React.Component {

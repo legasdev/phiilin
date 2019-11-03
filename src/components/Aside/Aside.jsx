@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 import s from './aside.module.css';
 
@@ -10,7 +11,9 @@ import NavigationMain from './NavigationMain/NavigationMain';
 const Aside = props => {
     return (
         <aside className={s.aside}>
-            <img src={IMG_LOGO} className={s.logo} alt="Логотип"/>
+            <NavLink to={'/'}>
+                <img src={IMG_LOGO} className={s.logo} alt="Логотип"/>
+            </NavLink>
             <AccountInfoAsideContainer />
             <NavigationMain />
         </aside>
