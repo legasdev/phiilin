@@ -5,10 +5,6 @@ import { compose } from 'redux';
 import AccountInfoAside from './AccountInfoAside';
 
 class AccountInfoAsideContainer extends React.Component {
-
-    componentDidMount() {
-    }
-
     render() {
         return <AccountInfoAside { ...this.props } />;
     }

@@ -14,7 +14,11 @@ const Aside = props => {
             <NavLink to={'/'}>
                 <img src={IMG_LOGO} className={s.logo} alt="Логотип"/>
             </NavLink>
-            <AccountInfoAsideContainer />
+            {
+                props.isAuth
+                 ? <AccountInfoAsideContainer />
+                 : <></>
+            }
             <NavigationMain />
         </aside>
     );

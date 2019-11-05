@@ -1,7 +1,7 @@
 /**
  * 
  * HOC функция
- * Редирект на логин, если юзер не залогинен
+ * Редирект на главную, если юзер залогинен
  * 
  */
 
@@ -10,17 +10,19 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
 const mapStateToProps = state => ({
-    isAuth: state.auth.isAuth
+    auth: state.auth.isAuth
 });
 
-export const withAuthRedirect = Component => {
+const withRedirToMain = Component => {
 
     class RedirectComponent extends React.Component {
         render() {
-            if (!this.props.isAuth) return <Redirect to={'/login'} />;
+            if (this.props.auth) return <Redirect to={'/'} />;
             return <Component { ...this.props } />;
         }
     }
 
     return connect(mapStateToProps)(RedirectComponent);
 }
+
+export default withRedirToMain;

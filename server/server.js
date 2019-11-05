@@ -12,7 +12,7 @@ app.get('/auth/me', (req, res) => {
             'Access-Control-Allow-Origin': 'http://localhost:3000',
         });
     
-    if (true) 
+    if (!true) 
         res
             .status(200)
             .send({

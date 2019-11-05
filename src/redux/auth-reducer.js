@@ -52,10 +52,9 @@ export const setUserData = data => ({type: SET_USER_DATA, data});
 // Thunks
 
 export const getAuthData = () => dispatch => {
-    authAPI
-        .getAuthData()
-        .then(res => {
-            console.log(res);
-            dispatch(setUserData(res.data));
-        });
+    return authAPI
+            .getAuthData()
+            .then(res => {
+                dispatch(setUserData(res.data));
+            });
 }
