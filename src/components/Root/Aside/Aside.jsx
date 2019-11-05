@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 import s from './aside.module.css';
 
-import IMG_LOGO from './../../assets/img/logo.png';
+import IMG_LOGO from './../../../assets/img/logo.png';
 
 import AccountInfoAsideContainer from './AccountInfoAside/AccountInfoAsideContainer';
 import NavigationMain from './NavigationMain/NavigationMain';

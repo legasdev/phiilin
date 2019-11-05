@@ -34,7 +34,7 @@ const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 ...action.data,
-                isFetching: true
+                isAuth: true
             }
 
         default: return state;
@@ -55,6 +55,7 @@ export const getAuthData = () => dispatch => {
     authAPI
         .getAuthData()
         .then(res => {
+            console.log(res);
             dispatch(setUserData(res.data));
         });
 }

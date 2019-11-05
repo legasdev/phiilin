@@ -10,14 +10,24 @@ app.get('/auth/me', (req, res) => {
         .set({
             'Access-Control-Allow-Credentials': 'true',
             'Access-Control-Allow-Origin': 'http://localhost:3000',
-        })
-        .send({
-            id: '1',
-            login: 'legasdev',
-            name: 'Артем',
-            lastName: 'Степанов',
-            position: 'Преподаватель',
         });
+    
+    if (true) 
+        res
+            .status(200)
+            .send({
+                id: '1',
+                login: 'legasdev',
+                name: 'Артем',
+                lastName: 'Степанов',
+                position: 'Преподаватель',
+            });
+    else
+        res
+            .status(403)
+            .send({
+                errorCode: 403
+            });
 });
 
 
