@@ -1,10 +1,19 @@
 const express = require('express');
 const app = express();
 
-app.get('/', (request, response) => {
-    throw new Error('oops');
-});
+const
+    authData = {
+        user: {
+            id: '1',
+            login: 'legasdev',
+            name: 'Артем',
+            lastName: 'Степанов',
+            position: 'Преподаватель',
+        },
+        isAutorized: false
+    }
 
+// Проверка авторизации
 app.get('/auth/me', (req, res) => {
     res
         .set({
@@ -12,16 +21,10 @@ app.get('/auth/me', (req, res) => {
             'Access-Control-Allow-Origin': 'http://localhost:3000',
         });
     
-    if (!true) 
+    if (authData.isAutorized) 
         res
             .status(200)
-            .send({
-                id: '1',
-                login: 'legasdev',
-                name: 'Артем',
-                lastName: 'Степанов',
-                position: 'Преподаватель',
-            });
+            .send(authData.user);
     else
         res
             .status(403)
