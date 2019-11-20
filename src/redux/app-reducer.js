@@ -4,7 +4,7 @@
  * 
 */
 
-import { getAuthData } from "./auth-reducer";
+import { getMe } from "./auth-reducer";
 
 // Названия действий
 
@@ -42,14 +42,14 @@ export default appReducer;
 
 export const setInitializedSuccess = () => ({type: SET_INITIALIZED});
 
+
 // Thunks
 
 export const initializeApp = () => dispatch => {
-    const promise = dispatch(getAuthData());
-
-    Promise
-        .all([promise])
-        .finally(() => {
-            dispatch(setInitializedSuccess());
-        });
+    const p = dispatch(getMe());
+    
+    Promise.all([p]).finally(()=> {
+        dispatch(setInitializedSuccess());
+    });
+    
 }

@@ -1,14 +1,16 @@
-import Axios from 'axios';
+import Instance from './instance';
 
-const instance = Axios.create({
-    baseURL: 'http://127.0.0.1:8080',
-    withCredentials: true,
-});
-
+// Апи авторизации
 export const authAPI = {
 
-    async getAuthData() {
-        return await instance.get('/auth/me');
-    }
+    // Получить данные о своей авторизации
+    async getMe() {
+        return await Instance.get('/auth/me');
+    },
+
+    // Логин
+    async login(login, password) {
+        return await Instance.post('/auth/login', {login, password});
+    },
 
 }

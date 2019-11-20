@@ -1,8 +1,23 @@
 .main {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
   height: 100%;
-  background-color: #fff;
+}
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #FBCF57;
+  width: 290px;
+  height: 60px;
+  border: none;
+  border-radius: 50vh;
+  cursor: pointer;
+}
+.loginForm {
+  display: flex;
+  flex-direction: column;
 }

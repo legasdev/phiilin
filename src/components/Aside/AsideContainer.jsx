@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { getAuthData } from './../../redux/auth-reducer';
+import { getMe } from './../../redux/auth-reducer';
 
 import Aside from './Aside';
 
 class AsideContainer extends React.Component {
 
     componentDidMount() {
-        this.props.getAuthData();
+        this.props.getMe();
     }
 
     render() {
@@ -22,4 +22,4 @@ const mstp = state => ({
     isAuth: state.auth.isAuth
 });
 
-export default connect(mstp, { getAuthData })(AsideContainer);
+export default connect(mstp, { getMe })(AsideContainer);

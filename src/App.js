@@ -18,24 +18,25 @@ class App extends React.Component {
   }
 
   render() {
-
-    return !this.props.initialized
-      ? <div>Загрузка...</div>
-      : (
-        <div className="App">
-          <AsideContainer />
-          <div>
-              <Route
-                path={'/'}
-                render={ () => <MainContainer /> }
-              />
-              <Route
-                path={'/login'}
-                render={ () => <LoginWrapper /> }
-              />
-            </div>
-        </div>
-      );
+    return (
+      !this.props.initialized
+        ? <div>Загрузка...</div>
+        : (
+          <div className="App">
+            <AsideContainer />
+            <div>
+                <Route
+                  path={'/'}
+                  render={ () => <MainContainer /> }
+                />
+                <Route
+                  path={'/login'}
+                  render={ () => <LoginWrapper /> }
+                />
+              </div>
+          </div>
+        )
+    );
   }
   
 };

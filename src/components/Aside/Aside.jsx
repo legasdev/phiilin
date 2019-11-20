@@ -9,17 +9,14 @@ import AccountInfoAsideContainer from './AccountInfoAside/AccountInfoAsideContai
 import NavigationMain from './NavigationMain/NavigationMain';
 
 const Aside = props => {
+
     return (
         <aside className={s.aside}>
             <NavLink to={'/'}>
                 <img src={IMG_LOGO} className={s.logo} alt="Логотип"/>
             </NavLink>
-            {
-                props.isAuth
-                 ? <AccountInfoAsideContainer />
-                 : <></>
-            }
-            <NavigationMain />
+            { props.isAuth && <AccountInfoAsideContainer /> }
+            { props.isAuth && <NavigationMain /> }
         </aside>
     );
 }
