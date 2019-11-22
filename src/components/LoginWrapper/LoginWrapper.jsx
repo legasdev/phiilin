@@ -12,6 +12,7 @@ import withRedirToMain from '../../hoc/withRedirToMain';
 import { Form, Field } from 'react-final-form';
 import { renderInput } from '../common/FormFields/FormFields';
 import { maxSymbols, requiredField } from '../../utils/validators/validators';
+import { getLoginError } from '../../redux/selectors/form-selectors';
 
 const composeValidators = (...validators) => value =>
     validators.reduce((error, validator) => error || validator(value), undefined);
@@ -21,12 +22,12 @@ const
     vRequired = requiredField('Вы не заполнили это поле');
 
 const FormLogin = props => {
+
+    console.warn('RENDER');
+
     return (
         <Form
             onSubmit={props.onSubmit}
-            validate={values => {
-                console.log(values);
-            }}
             render={ ({ handleSubmit, submitError, form }) => (
                 <form className={s.loginForm} onSubmit={handleSubmit}>
                     <Field
@@ -34,7 +35,7 @@ const FormLogin = props => {
                         component={renderInput}
                         type={"text"}
                         labeltext={'Логин'}
-                        validate={composeValidators(vRequired)}
+                        validate={composeValidators(vRequired, vMaxSymbols)}
                     />
                     <Field
                         name={"password"}
@@ -45,7 +46,7 @@ const FormLogin = props => {
                     />
                     <button className={s.btn} type={'submit'}>Войти</button>
                     {
-                        submitError &&
+                        props.submitError &&
                             <div className={s.errorMsg}>Неверный логин или пароль</div>
                     }
                 </form>
@@ -62,14 +63,18 @@ const LoginWrapper = props => {
 
     return (
         <div className={s.main}>
-            <FormLogin onSubmit={onSubmit} />
+            <FormLogin onSubmit={onSubmit} submitError={props.loginError} />
             <NavLink to={'/registration'} className={s.regLink}>Регистрация</NavLink>
         </div>
     );
 
 }
 
+const mstp = state => ({
+    loginError: getLoginError(state),
+});
+
 export default compose(
-    connect(null, { login }),
+    connect(mstp, { login }),
     withRedirToMain,
 )(LoginWrapper);

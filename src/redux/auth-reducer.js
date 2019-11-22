@@ -5,12 +5,12 @@
 */
 
 import { authAPI } from "../api/api";
-import { stopSubmit } from 'redux-form';
 
 // Названия действий
 
 const
-    SET_USER_DATA = 'set_info';
+    SET_USER_DATA = 'set_info',             // Авторизация пользователя
+    SET_LOGIN_ERROR = 'set_login_error';    // При авторизации возникла ошибка
 
 
 // Инициализация
@@ -23,6 +23,7 @@ const initialState = {
     position: '',
     isAuth: false,
     isFetching: false,
+    loginError: false,
 };
 
 
@@ -38,6 +39,13 @@ const authReducer = (state = initialState, action) => {
                 isAuth: true
             }
 
+        case SET_LOGIN_ERROR:
+            return {
+                ...state,
+                loginError: action.loginError
+            }
+        
+
         default: return state;
     }
 
@@ -49,6 +57,7 @@ export default authReducer;
 // Actions
 
 export const setUserData = data => ({type: SET_USER_DATA, data});
+export const setLoginError = loginError => ({type: SET_LOGIN_ERROR, loginError});
 
 
 // Thunks
@@ -76,10 +85,12 @@ export const login = (login, password) => dispatch => {
     Promise.all([p])
         .then(res => {
             console.log(res[0]);
-            if (!res[0].data.errorCode)
+            if (!res[0].data.errorCode) {
+                dispatch(setLoginError(false));
                 dispatch(getMe());
+            }
             else 
-                dispatch(stopSubmit('login', {_error: 'Ошибка'}));
+                dispatch(setLoginError(true));
                 
         })
         .catch(res => {
