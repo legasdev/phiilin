@@ -12,7 +12,7 @@ const Aside = props => {
 
     return (
         <aside className={s.aside}>
-            <NavLink to={'/'}>
+            <NavLink to={props.isAuth ? '/' : '/login'}>
                 <img src={IMG_LOGO} className={s.logo} alt="Логотип"/>
             </NavLink>
             { props.isAuth && <AccountInfoAsideContainer /> }

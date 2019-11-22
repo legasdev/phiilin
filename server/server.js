@@ -15,7 +15,7 @@ const
             lastName: 'Степанов',
             position: 'Преподаватель',
         },
-        isAutorized: true,
+        isAutorized: false,
     }
 
 app.use(function(req, res, next) {
@@ -52,6 +52,11 @@ app.post('/api/auth/login', (req, res) => {
     } else {
         return res.json({errorCode: 2}).status(413);
     }
+    
+});
+
+// Регистрация
+app.post('/api/auth/register', (req, res) => {
     
 });
 

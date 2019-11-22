@@ -1,45 +1,58 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import { reduxForm, Field } from 'redux-form';
-import { FieldComponent } from '../common/FormFields/FormFields';
-import { login } from './../../redux/auth-reducer';
+import { login } from '../../redux/auth-reducer';
 
 import s from './loginWrapper.module.css';
 
 import withRedirToMain from '../../hoc/withRedirToMain';
 
+import { Form, Field } from 'react-final-form';
+import { renderInput } from '../common/FormFields/FormFields';
+import { maxSymbols, requiredField } from '../../utils/validators/validators';
+
+const composeValidators = (...validators) => value =>
+    validators.reduce((error, validator) => error || validator(value), undefined);
 
 const
-    FieldInput = FieldComponent('input');
+    vMaxSymbols = maxSymbols(20),
+    vRequired = requiredField('Вы не заполнили это поле');
 
-const Forms = props => {
-    const { handleSubmit } = props;
+const FormLogin = props => {
     return (
-        <form className={s.loginForm} onSubmit={ handleSubmit }>
-            <Field 
-                component={FieldInput}
-                name={'login'}
-                type={'text'}
-                placeholder={'login'}
-            />
-            <Field 
-                component={FieldInput}
-                name={'password'}
-                type={'password'}
-                placeholder={'password'}
-            />
-            <button className={s.btn} type={'submit'}>Войти</button>
-            {
-                props.error &&
-                    <div>Неверный логин или пароль</div>
-            }
-        </form>
+        <Form
+            onSubmit={props.onSubmit}
+            validate={values => {
+                console.log(values);
+            }}
+            render={ ({ handleSubmit, submitError, form }) => (
+                <form className={s.loginForm} onSubmit={handleSubmit}>
+                    <Field
+                        name={"login"}
+                        component={renderInput}
+                        type={"text"}
+                        labeltext={'Логин'}
+                        validate={composeValidators(vRequired)}
+                    />
+                    <Field
+                        name={"password"}
+                        component={renderInput}
+                        type={"password"}
+                        labeltext={'Пароль'}
+                        validate={composeValidators(vRequired)}
+                    />
+                    <button className={s.btn} type={'submit'}>Войти</button>
+                    {
+                        submitError &&
+                            <div className={s.errorMsg}>Неверный логин или пароль</div>
+                    }
+                </form>
+            ) }
+        />
     );
 }
-
-const LoginForm = reduxForm({form: 'login'})(Forms);
 
 const LoginWrapper = props => {
 
@@ -49,8 +62,8 @@ const LoginWrapper = props => {
 
     return (
         <div className={s.main}>
-            <h1>Авторизация</h1>
-            <LoginForm onSubmit={onSubmit} />
+            <FormLogin onSubmit={onSubmit} />
+            <NavLink to={'/registration'} className={s.regLink}>Регистрация</NavLink>
         </div>
     );
 

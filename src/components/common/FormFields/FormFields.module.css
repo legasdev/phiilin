@@ -9,7 +9,36 @@
   border: 2px solid #EFEFEF;
   border-radius: 50vh;
   margin-bottom: 25px;
+  font-size: 16px;
+}
+.inputError {
+  border: 2px solid #ee6767;
 }
 .label {
+  position: relative;
+}
+.labelText {
   padding: 5px 20px;
+}
+.spanError {
+  position: absolute;
+  left: 104%;
+  width: 150px;
+  top: 49.5%;
+  transform: translateY(-50%);
+  background-color: #ffb1b1;
+  padding: 5px 10px;
+  border-radius: 10px;
+  z-index: 5;
+}
+.spanError:before {
+  content: '';
+  position: absolute;
+  left: -5px;
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+  background-color: #ffb1b1;
+  width: 25px;
+  height: 25px;
+  z-index: -1;
 }

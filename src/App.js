@@ -10,6 +10,7 @@ import './App.css';
 import AsideContainer from './components/Aside/AsideContainer';
 import LoginWrapper from './components/LoginWrapper/LoginWrapper';
 import MainContainer from './components/Main/MainContainer';
+import Register from './components/Register/Register';
 
 class App extends React.Component {
 
@@ -24,7 +25,7 @@ class App extends React.Component {
         : (
           <div className="App">
             <AsideContainer />
-            <div>
+            <>
                 <Route
                   path={'/'}
                   render={ () => <MainContainer /> }
@@ -33,7 +34,11 @@ class App extends React.Component {
                   path={'/login'}
                   render={ () => <LoginWrapper /> }
                 />
-              </div>
+                <Route
+                  path={'/registration'}
+                  render={ () => <Register /> }
+                />
+              </>
           </div>
         )
     );
