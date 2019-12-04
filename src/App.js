@@ -9,7 +9,7 @@ import './App.css';
 
 import AsideContainer from './components/Aside/AsideContainer';
 import LoginWrapper from './components/LoginWrapper/LoginWrapper';
-import MainContainer from './components/Main/MainContainer';
+import ProfileContainer from './components/Profile/ProfileContainer';
 import Register from './components/Register/Register';
 
 class App extends React.Component {
@@ -28,7 +28,7 @@ class App extends React.Component {
             <>
                 <Route
                   path={'/'}
-                  render={ () => <MainContainer /> }
+                  render={ () => <ProfileContainer /> }
                 />
                 <Route
                   path={'/login'}

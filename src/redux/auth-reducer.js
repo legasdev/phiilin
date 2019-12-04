@@ -9,8 +9,9 @@ import { authAPI } from "../api/api";
 // Названия действий
 
 const
-    SET_USER_DATA = 'set_info',             // Авторизация пользователя
-    SET_LOGIN_ERROR = 'set_login_error';    // При авторизации возникла ошибка
+    SET_USER_DATA = Symbol('set_info'),             // Авторизация пользователя
+    SET_LOGIN_ERROR = Symbol('set_login_error'),    // При авторизации возникла ошибка
+    SET_LOGOUT = Symbol('set_logout');              // Выход (разлогин)
 
 
 // Инициализация
@@ -45,6 +46,11 @@ const authReducer = (state = initialState, action) => {
                 loginError: action.loginError
             }
         
+        case SET_LOGOUT:
+            return {
+                ...state,
+                isAuth: false
+            }
 
         default: return state;
     }
@@ -58,6 +64,7 @@ export default authReducer;
 
 export const setUserData = data => ({type: SET_USER_DATA, data});
 export const setLoginError = loginError => ({type: SET_LOGIN_ERROR, loginError});
+export const setLogout = () => ({type: SET_LOGOUT});
 
 
 // Thunks
@@ -84,7 +91,6 @@ export const login = (login, password) => dispatch => {
 
     Promise.all([p])
         .then(res => {
-            console.log(res[0]);
             if (!res[0].data.errorCode) {
                 dispatch(setLoginError(false));
                 dispatch(getMe());
@@ -96,4 +102,12 @@ export const login = (login, password) => dispatch => {
         .catch(res => {
             console.error(`Неизвестный ответ: <authAPI.login>\n${res}`);
         });
+}
+
+export const logout = () => async dispatch => {
+    const res = await authAPI.logout();
+
+    if (!res.data.errorCode) {
+        dispatch(setLogout());
+    }
 }

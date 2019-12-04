@@ -13,4 +13,9 @@ export const authAPI = {
         return await Instance.post('/auth/login', {login, password});
     },
 
+    // Выход (Разлогин)
+    async logout() {
+        return await Instance.delete('/auth/login');
+    },
+
 }

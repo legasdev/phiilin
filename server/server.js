@@ -21,6 +21,7 @@ const
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "http://localhost:3000");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
     res.header('Access-Control-Allow-Credentials', true);
     next();
 });
@@ -53,6 +54,12 @@ app.post('/api/auth/login', (req, res) => {
         return res.json({errorCode: 2}).status(413);
     }
     
+});
+
+// Выход (разлог)
+app.delete('/api/auth/login', (req, res) => {
+    authData.isAutorized = false;
+    return res.json({errorCode: 0}).status(200);
 });
 
 // Регистрация
