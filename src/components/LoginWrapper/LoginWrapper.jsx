@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import { login } from '../../redux/auth-reducer';
+import { login, setError } from '../../redux/auth-reducer';
 
 import s from './loginWrapper.module.css';
 
@@ -13,22 +13,18 @@ import { Form, Field } from 'react-final-form';
 import { renderInput } from '../common/FormFields/FormFields';
 import { maxSymbols, requiredField } from '../../utils/validators/validators';
 import { getLoginError } from '../../redux/selectors/form-selectors';
-
-const composeValidators = (...validators) => value =>
-    validators.reduce((error, validator) => error || validator(value), undefined);
+import { composeValidators } from './../../utils/form-helper';
+import Portal from '../common/Portal/Portal';
 
 const
     vMaxSymbols = maxSymbols(20),
     vRequired = requiredField('Вы не заполнили это поле');
 
-const FormLogin = props => {
-
-    console.warn('RENDER');
-
+const FormLogin = ({ onSubmit, submitError, onPortalClose, ...props }) => {
     return (
         <Form
-            onSubmit={props.onSubmit}
-            render={ ({ handleSubmit, submitError, form }) => (
+            onSubmit={onSubmit}
+            render={ ({ handleSubmit }) => (
                 <form className={s.loginForm} onSubmit={handleSubmit}>
                     <Field
                         name={"login"}
@@ -46,8 +42,14 @@ const FormLogin = props => {
                     />
                     <button className={s.btn} type={'submit'}>Войти</button>
                     {
-                        props.submitError &&
-                            <div className={s.errorMsg}>Неверный логин или пароль</div>
+                        submitError 
+                            && <Portal 
+                                    type={'error'}
+                                    msg={'Неверный логин или пароль'}
+                                    callback={onPortalClose}
+                                    time={3000}
+                                    closeBtn={true}
+                                />
                     }
                 </form>
             ) }
@@ -55,15 +57,19 @@ const FormLogin = props => {
     );
 }
 
-const LoginWrapper = props => {
+const LoginWrapper = ({loginError, setLoginError, ...props}) => {
 
     const onSubmit = ({login, password}) => {
         props.login(login, password);
     };
 
+    const onPortalClose = () => {
+        props.setError(false);
+    }
+
     return (
         <div className={s.main}>
-            <FormLogin onSubmit={onSubmit} submitError={props.loginError} />
+            <FormLogin onSubmit={onSubmit} submitError={loginError} onPortalClose={onPortalClose} />
             <NavLink to={'/registration'} className={s.regLink}>Регистрация</NavLink>
         </div>
     );
@@ -75,6 +81,6 @@ const mstp = state => ({
 });
 
 export default compose(
-    connect(mstp, { login }),
+    connect(mstp, { login, setError }),
     withRedirToMain,
 )(LoginWrapper);

@@ -1,14 +1,12 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { connect } from 'react-redux';
 
 import s from './Register.module.css';
 
 import { Form, Field } from 'react-final-form';
 import { renderInput, renderSelect } from '../common/FormFields/FormFields';
 import { requiredField, compareValue } from '../../utils/validators/validators';
-const composeValidators = (...validators) => value => 
-    validators.reduce((error, validator) => error || validator(value), undefined);
+import { composeValidators } from './../../utils/form-helper';
 
 const
     reqInput = requiredField('Заполните поле'),

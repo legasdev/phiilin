@@ -33,12 +33,17 @@
   font-size: 24px;
   margin-bottom: 50px;
 }
-.errorMsg {
-  text-align: center;
-  margin-top: 25px;
-  color: #ff4a4a;
-}
 .regLink {
   margin-top: 35px;
   color: #000;
+}
+
+.errorMsg {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  text-align: center;
+  margin-top: 25px;
+  transform: translateX(-50%);
+  color: #ff4a4a;
 }

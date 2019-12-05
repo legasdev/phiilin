@@ -62,9 +62,9 @@ export default authReducer;
 
 // Actions
 
-export const setUserData = data => ({type: SET_USER_DATA, data});
-export const setLoginError = loginError => ({type: SET_LOGIN_ERROR, loginError});
-export const setLogout = () => ({type: SET_LOGOUT});
+const setUserData = data => ({type: SET_USER_DATA, data});
+const setLoginError = loginError => ({type: SET_LOGIN_ERROR, loginError});
+const setLogout = () => ({type: SET_LOGOUT});
 
 
 // Thunks
@@ -86,22 +86,16 @@ export const getMe = () => async dispatch => {
 //     }
 // }
 
-export const login = (login, password) => dispatch => {
-    const p = authAPI.login(login, password);
+export const login = (login, password) => async dispatch => {
+    const res = await authAPI.login(login, password);
 
-    Promise.all([p])
-        .then(res => {
-            if (!res[0].data.errorCode) {
-                dispatch(setLoginError(false));
-                dispatch(getMe());
-            }
-            else 
-                dispatch(setLoginError(true));
-                
-        })
-        .catch(res => {
-            console.error(`Неизвестный ответ: <authAPI.login>\n${res}`);
-        });
+    if (!res.data.errorCode) {
+        dispatch(setLoginError(false));
+        dispatch(getMe());
+    }
+    else 
+        dispatch(setLoginError(true));
+        
 }
 
 export const logout = () => async dispatch => {
@@ -111,3 +105,8 @@ export const logout = () => async dispatch => {
         dispatch(setLogout());
     }
 }
+
+// Отключение ошибки логина
+export const setError = sel => dispatch => {
+    dispatch(setLoginError(sel));
+};
