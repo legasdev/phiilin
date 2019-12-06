@@ -1,55 +1,66 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
 import s from './Portal.module.css';
 
-class Portal extends React.PureComponent {
-    constructor(props) {
-        super(props);
-        this.state = {showClass: ''};
-        this.root = document.createElement('div');
-    };
+const Portal = ({time, callback, type, msg, closeBtn}) => {
+    const [showClass, setShowClass] = useState('');
+    const [root] = useState(document.createElement('div'));
+    const [isActive, setIsActive] = useState(true);
+    const [portalOpen, setPortalOpen] = useState(false);
 
-    componentDidMount() {
-        document.querySelector('#portals').appendChild(this.root);
-        this.openPortal();
-    };
+    useEffect(() => {
+        document.querySelector('#portals').appendChild(root);
+        setPortalOpen(true);
 
-    openPortal = () => {
-        setTimeout(() => this.setState({showClass: 'active'}), 10);
-        this.timeoutTimer = setInterval(() => this.closePortal(), this.props.time);
-    }
+        return () => {
+            document.querySelector('#portals').removeChild(root);
+        };
+    }, [root]);
 
-    closePortal = () => {
-        clearInterval(this.timeoutTimer);
-        this.setState({showClass: ''});
-        setTimeout(() => this.props.callback(), 500);
-    };
+    useEffect(() => {
 
-    componentWillUnmount() {
-        document.querySelector('#portals').removeChild(this.root);
-    };
+        const timer = setInterval(() => close(), time);
 
-    render() {
-        return ReactDOM.createPortal(
+        function close() {
+            setShowClass('');
+            setTimeout(() => {
+                setPortalOpen(false);
+                callback();
+            }, 500); 
+        };
+
+        if (isActive) {
+            setTimeout(() => setShowClass('active'), 10);
+        }
+        else
+            close();
+
+        return () => {
+            clearInterval(timer);
+        }
+
+    }, [isActive, callback, time]);
+
+    return portalOpen &&
+        ReactDOM.createPortal(
             <div className={`
                 ${s.portal} 
-                ${s[this.state.showClass]} 
-                ${this.props.closeBtn ? s.spaceBetween : ''} 
-                ${s[this.props.type]}
+                ${s[showClass]} 
+                ${closeBtn ? s.spaceBetween : ''} 
+                ${s[type]}
             `}>
-                <p>{this.props.msg}</p>
+                <p>{msg}</p>
                 {
-                    this.props.closeBtn && 
-                        <div className={s.closeBtn} onClick={this.closePortal}>
+                    closeBtn && 
+                        <div className={s.closeBtn} onClick={() => setIsActive(false)}>
                             <i></i>
                             <i></i>
                         </div>
                 }
             </div>,
-            this.root
+            root
         );
-    };
-}
+};
 
 export default Portal;
