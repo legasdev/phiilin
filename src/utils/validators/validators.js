@@ -14,5 +14,5 @@ export const maxSymbols = (maxNum=1000, msg=`Максимальное колич
     value => (value && value.length <= maxNum) ? undefined : msg;
 
 // Проверка на совпадение паролей
-export const compareValue = valFirst => value => 
-    value === valFirst ? undefined : 'Пароли не совпадают';
+export const compareValue = (valFirst, msg='Пароли не совпадают') => value => 
+    value === valFirst ? undefined : msg;

@@ -62,9 +62,9 @@ export default authReducer;
 
 // Actions
 
-const setUserData = data => ({type: SET_USER_DATA, data});
-const setLoginError = loginError => ({type: SET_LOGIN_ERROR, loginError});
-const setLogout = () => ({type: SET_LOGOUT});
+export const setUserData = data => ({type: SET_USER_DATA, data});
+export const setLoginError = loginError => ({type: SET_LOGIN_ERROR, loginError});
+export const setLogout = () => ({type: SET_LOGOUT});
 
 
 // Thunks
