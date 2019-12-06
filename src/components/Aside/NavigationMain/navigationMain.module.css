@@ -9,7 +9,10 @@
     padding: 10px 0 10px 19px;
     text-decoration: none;
     color: #000;
-    transition: background-color .2s;
+    transition: 
+            background-color .2s,
+            width .2s,
+            border-radius .2s;
 }
 
 .link.active {
