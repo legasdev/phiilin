@@ -9,13 +9,15 @@ import { getMe } from "./auth-reducer";
 // Названия действий
 
 const
-    SET_INITIALIZED = 'set_initial';
+    SET_INITIALIZED = 'app/setInitial',
+    SET_ROLLUP = 'app/setRollup';
 
 
 // Инициализация
 
 const initialState = {
-    initialized: false
+    initialized: false,
+    rollUp: true,
 };
 
 
@@ -29,6 +31,12 @@ const appReducer = (state = initialState, action) => {
                 ...state,
                 initialized: true
             }
+            
+        case SET_ROLLUP:
+            return {
+                ...state,
+                rollUp: action.newStatus
+            }
 
         default: return state;
     }
@@ -41,15 +49,17 @@ export default appReducer;
 // Actions
 
 export const setInitializedSuccess = () => ({type: SET_INITIALIZED});
+export const setRollUpSuccess = newStatus => ({type: SET_ROLLUP, newStatus});
 
 
 // Thunks
 
-export const initializeApp = () => dispatch => {
-    const p = dispatch(getMe());
-    
-    Promise.all([p]).finally(()=> {
-        dispatch(setInitializedSuccess());
-    });
-    
-}
+// Инициализирование приложения
+export const initializeApp = () => async dispatch => {
+    let res = await dispatch(getMe());
+    console.log(res);
+    dispatch(setInitializedSuccess());
+};
+
+// Развернуть/свернуть боковое меню
+export const setRollUp = newStatus => dispatch => dispatch(setRollUpSuccess(newStatus));

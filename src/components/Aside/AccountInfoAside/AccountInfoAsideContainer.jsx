@@ -4,6 +4,8 @@ import { compose } from 'redux';
 
 import AccountInfoAside from './AccountInfoAside';
 
+import { getRollUpStatus } from './../../../redux/selectors/app-selectors';
+
 class AccountInfoAsideContainer extends React.Component {
     render() {
         return <AccountInfoAside { ...this.props } />;
@@ -17,8 +19,9 @@ const mapStateToProps = state => ({
     userName: state.auth.name,
     userLastName: state.auth.lastName,
     userPosition: state.auth.position,
+    rollUpStatus: getRollUpStatus(state),
 });
 
 export default compose(
-    connect(mapStateToProps),
+    connect(mapStateToProps, null),
 )(AccountInfoAsideContainer);

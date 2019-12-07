@@ -2,12 +2,12 @@ import React from 'react';
 
 import s from './Profile.module.css';
 
+import Avatar from '../common/Avatar/Avatar';
+
 const Profile = props => {
     return (
         <main className={s.main}>
-            <div className={s.avatar}>
-                <img src="/imgs/avatar_default.png" alt="" className={s.avatarImg} />
-            </div>
+            <Avatar />
             <div className={s.name}>
                 {`${props.name} ${props.lastName}`}
             </div>

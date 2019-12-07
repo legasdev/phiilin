@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import { initializeApp } from './redux/app-reducer';
+import { getRollUpStatus } from './redux/selectors/app-selectors';
 
 import './App.css';
 
@@ -23,9 +24,9 @@ class App extends React.Component {
   render() {
     return (
       !this.props.initialized
-        ? <div>Загрузка...</div>
+        ? <div className={'App'}>Загрузка...</div>
         : (
-          <div className="App">
+          <div className={`App ${this.props.rollUpStatus ? '' : 'close'}`}>
             <AsideContainer />
             <>
                 <Route
@@ -54,14 +55,14 @@ class App extends React.Component {
         )
     );
   }
-  
 };
 
 const mstp = state => ({
   initialized: state.app.initialized,
+  rollUpStatus: getRollUpStatus(state),
 });
 
 export default compose(
-  withRouter,
-  connect(mstp, { initializeApp })
+  connect(mstp, { initializeApp }),
+  withRouter
 )(App);

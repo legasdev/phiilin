@@ -9,8 +9,13 @@
   height: 100vh;
   background-color: #FBCF57;
   z-index: 10;
+  transition: width 0.2s ease-out 0s;
 }
 .logo {
   width: 100px;
   margin: 10px 0 0;
+}
+.close {
+  width: 100px;
+  transition: width 0.2s ease-out 0.2s;
 }

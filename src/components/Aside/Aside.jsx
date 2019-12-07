@@ -6,17 +6,18 @@ import s from './aside.module.css';
 import IMG_LOGO from './../../assets/img/logo.png';
 
 import AccountInfoAsideContainer from './AccountInfoAside/AccountInfoAsideContainer';
-import NavigationMain from './NavigationMain/NavigationMain';
+import RollUpButtonContainer from './RollUpButton/RollUpButtonContainer';
+import NavigationMainContainer from './NavigationMain/NavigationMainContainer';
 
-const Aside = props => {
-
+const Aside = ({ isAuth, rollUpStatus }) => {
     return (
-        <aside className={s.aside}>
-            <NavLink to={props.isAuth ? '/' : '/login'}>
+        <aside className={`${s.aside} ${rollUpStatus ? '' : s.close}`}>
+            <RollUpButtonContainer />
+            <NavLink to={isAuth ? '/' : '/login'}>
                 <img src={IMG_LOGO} className={s.logo} alt="Логотип"/>
             </NavLink>
-            { props.isAuth && <AccountInfoAsideContainer /> }
-            { props.isAuth && <NavigationMain /> }
+            { isAuth && <AccountInfoAsideContainer /> }
+            { isAuth && <NavigationMainContainer /> }
         </aside>
     );
 }

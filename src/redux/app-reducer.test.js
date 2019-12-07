@@ -1,4 +1,7 @@
-import appReducer, { setInitializedSuccess } from "./app-reducer";
+import appReducer, { 
+    setInitializedSuccess,
+    setRollUpSuccess
+} from "./app-reducer";
 
 /**
  * 
@@ -8,7 +11,8 @@ import appReducer, { setInitializedSuccess } from "./app-reducer";
 */
 
 const initialState = {
-    initialized: false
+    initialized: false,
+    rollUp: null,
 };
 
 it('Инициализация приложения', () => {
@@ -21,5 +25,31 @@ it('Инициализация приложения', () => {
 
     // Ожидание
     expect(newState.initialized).toBe(true);
+
+});
+
+it('Свертывание бокового меню', () => {
+
+    // Инициализация
+    const action = setRollUpSuccess(false);
+
+    // Создание action
+    const newState = appReducer(initialState, action);
+
+    // Ожидание
+    expect(newState.rollUp).toBe(false);
+
+});
+
+it('Открытие бокового меню', () => {
+
+    // Инициализация
+    const action = setRollUpSuccess(true);
+
+    // Создание action
+    const newState = appReducer(initialState, action);
+
+    // Ожидание
+    expect(newState.rollUp).toBe(true);
 
 });

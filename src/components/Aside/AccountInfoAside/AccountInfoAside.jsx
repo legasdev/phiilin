@@ -2,12 +2,12 @@ import React from 'react';
 
 import s from './accountInfoAside.module.css';
 
-import IMG_AVATAR from './../../../assets/img/avatar_default.png';
+import Avatar from '../../common/Avatar/Avatar';
 
 const AccountInfoAside = props => {
     return (
         <div className={s.info}>
-            <div className={s.info__name}>
+            <div className={`${s.infoName} ${props.rollUpStatus ? s.unhideInfoName : s.hideInfoName}`}>
                 <div>
                     {`${props.userName} ${props.userLastName}`} 
                 </div>
@@ -15,7 +15,7 @@ const AccountInfoAside = props => {
                     {props.userPosition}
                 </div>
             </div>
-            <img src={IMG_AVATAR} className={s.avatar} alt="Ава"/>
+            <Avatar min={true} />
         </div>
     );
 }

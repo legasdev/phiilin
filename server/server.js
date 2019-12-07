@@ -32,11 +32,11 @@ app.get('/api/auth/me', (req, res) => {
     if (authData.isAutorized) 
         res
             .status(200)
-            .send(authData.user);
+            .json(authData.user);
     else
         res
             .status(403)
-            .send({
+            .json({
                 errorCode: 403
             });
 });

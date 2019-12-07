@@ -1,0 +1,40 @@
+.avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 140px;
+    height: 140px;
+    border-radius: 75px;
+    box-shadow: 0 6px 16px rgba(0,0,0,.1);
+
+    &:before {
+        content: '';
+        position: absolute;
+        width: ~'calc(100% + 20px)';
+        height: ~'calc(100% + 20px)';
+        background-color: #fff;
+        left: -10px; top: -10px;
+        box-shadow: 0 6px 16px rgba(0,0,0,.1);
+        border-radius: 50vh;
+        z-index: -1;
+    }
+}
+
+.avatarImg {
+    width: 100%;
+    height: 100%;
+    border-radius: 50vh;    
+}
+
+.avatarMin {
+    width: 50px;
+    height: 50px;
+
+    &:before {
+        width: ~'calc(100% + 10px)';
+        height: ~'calc(100% + 10px)';
+        left: -5px; top: -5px;
+        box-shadow: 0 3px 6px rgba(0,0,0,.1);
+    }
+}

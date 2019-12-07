@@ -71,9 +71,13 @@ export const setLogout = () => ({type: SET_LOGOUT});
 
 // Проверка авторизации
 export const getMe = () => async dispatch => {
-    const res = await authAPI.getMe();
-    dispatch(setUserData(res.data));
-}
+    try {
+        const res = await authAPI.getMe();
+        dispatch(setUserData(res.data));
+    } catch(e) {
+        console.log(e);
+    }
+};
 
 // Попытка авторизации
 // export const login = (login, password) => async dispatch => {
