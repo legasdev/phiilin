@@ -1,11 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+
 import Groups from './Groups';
 
-class GroupsContainer extends React.PureComponent {
+import { setListGroups } from '../../redux/groups-reducer';
+import { getListGroups } from '../../redux/selectors/groups-selectors';
 
-    render() {
-        return <Groups />;
-    }
+const GroupsContainer = ({ setListGroups, ...props}) => {
+
+    useEffect(() => {
+        setListGroups();
+    }, [setListGroups]);
+
+    return (
+        <Groups { ...props } />
+    );
 };
 
-export default GroupsContainer;
+const mstp = state => ({
+    listGroups: getListGroups(state),
+});
+
+export default connect(mstp, { setListGroups })(GroupsContainer);

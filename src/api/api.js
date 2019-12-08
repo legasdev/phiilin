@@ -1,6 +1,6 @@
 import Instance from './instance';
 
-// Апи авторизации
+// API авторизации
 export const authAPI = {
 
     // Получить данные о своей авторизации
@@ -18,4 +18,14 @@ export const authAPI = {
         return await Instance.delete('/auth/login');
     },
 
-}
+};
+
+// API групп
+export const groupsAPI = {
+
+    // Получить список групп
+    async getGroups() {
+        return await Instance.get('/groups');
+    },
+
+};

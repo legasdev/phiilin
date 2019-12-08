@@ -67,6 +67,60 @@ app.post('/api/auth/register', (req, res) => {
     
 });
 
+/**
+ * 
+ * Группы
+ * 
+*/
+
+const groups = {
+    listGroups: [
+        {
+            id: 1,
+            name: '381804м',
+            users: 8,
+        },
+        {
+            id: 2,
+            name: '381803',
+            users: 5,
+        },
+        {
+            id: 3,
+            name: '381802',
+            users: 17,
+        },
+        {
+            id: 4,
+            name: '381801a',
+            users: 18,
+        },
+        {
+            id: 5,
+            name: '381801б',
+            users: 22,
+        },
+    ],
+};
+
+// Список всех групп
+app.get('/api/groups', (req, res) => {
+
+    if (authData.isAutorized) 
+        res
+            .status(200)
+            .json({ 
+                listGroups: groups.listGroups,
+                errorCode: 0
+            });
+    else
+        res
+            .status(403)
+            .json({
+                errorCode: 403
+            });
+
+});
 
 app.listen(8080, () => {
     console.log('Ok. Server working...');
