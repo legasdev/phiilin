@@ -29,7 +29,7 @@
   max-width: 410px;
 }
 .loginTitle {
-  font-weight: 800;
+  font-family: var(--fontBook);
   font-size: 24px;
   margin-bottom: 50px;
 }
@@ -40,7 +40,7 @@
 }
 .regLink {
   margin-top: 35px;
-  color: #000;
+  color: #2b2b2b;
 }
 .registerForm {
   max-width: 840px;

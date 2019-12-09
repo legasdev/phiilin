@@ -30,7 +30,12 @@ textarea {
 }
 body {
   overflow-x: hidden;
-  background-color: #FCFAF4;
+  background-color: #fffaf0;
   scroll-behavior: smooth;
   width: 100%;
+
+  --fontLight: 'FuturaLightC', "Segoe UI", "Roboto", 'Arial', sans-serif;
+  --fontBook: 'FuturaBookC', "Segoe UI", "Roboto", 'Arial', sans-serif;
+  --fontMedium: 'FuturaMediumC', "Segoe UI", "Roboto", 'Arial', sans-serif;
+  --fontDemi: 'FuturaDemiC', "Segoe UI", "Roboto", 'Arial', sans-serif;
 }

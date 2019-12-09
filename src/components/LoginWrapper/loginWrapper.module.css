@@ -29,21 +29,16 @@
   max-width: 410px;
 }
 .loginTitle {
-  font-weight: 800;
+  font-family: var(--fontBook);
   font-size: 24px;
   margin-bottom: 50px;
 }
-.regLink {
-  margin-top: 35px;
-  color: #000;
-}
-
 .errorMsg {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
   text-align: center;
   margin-top: 25px;
-  transform: translateX(-50%);
   color: #ff4a4a;
+}
+.regLink {
+  margin-top: 35px;
+  color: #2b2b2b;
 }

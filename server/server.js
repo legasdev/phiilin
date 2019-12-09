@@ -100,6 +100,11 @@ const groups = {
             name: '381801б',
             users: 22,
         },
+        {
+            id: 6,
+            name: '381805б',
+            users: 32,
+        },
     ],
 };
 

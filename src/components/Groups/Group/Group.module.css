@@ -1,0 +1,41 @@
+.group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+  border-radius: 50px;
+  border: 1px solid #EFEFEF;
+  width: 227px;
+  height: 252px;
+  margin: 0 20px;
+}
+.info {
+  padding: 25px;
+  width: 100%;
+}
+.nameGroup {
+  font-family: var(--fontDemi);
+}
+.usersGroup {
+  margin-top: 30px;
+}
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 64px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+  background-color: #F9D87D;
+  color: #2b2b2b;
+  font-family: var(--fontDemi);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.btn:hover {
+  background-color: #fae5aa;
+}

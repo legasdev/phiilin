@@ -26,6 +26,7 @@ const FormLogin = ({ onSubmit, submitError, onPortalClose, ...props }) => {
             onSubmit={onSubmit}
             render={ ({ handleSubmit }) => (
                 <form className={s.loginForm} onSubmit={handleSubmit}>
+                    <h2 className={s.loginTitle}>Авторизация</h2>
                     <Field
                         name={"login"}
                         component={renderInput}

@@ -75,7 +75,7 @@ export const getMe = () => async dispatch => {
         const res = await authAPI.getMe();
         dispatch(setUserData(res.data));
     } catch(e) {
-        console.log(e);
+        console.error(e);
     }
 };
 
