@@ -1,4 +1,4 @@
-import { createSelector } from "reselect";
+import { createSelector } from 'reselect';
 
 /**
  * 
@@ -15,4 +15,4 @@ export const _getListGroups = state => state.groups.listGroups;
 
 // Selector
 
-export const getListGroups = createSelector(_getListGroups, getListGroups => getListGroups);
+export const getListGroups = createSelector(_getListGroups, listGroups => listGroups);

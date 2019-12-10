@@ -22,7 +22,7 @@ const NavigationMain = ({rollUpStatus}) => {
                 to={'/users'} 
                 className={`${s.link} ${rollUpStatus ? '' : s.close}`} 
                 activeClassName={s.active}>
-                    <span>Пользователи</span>
+                <span>Пользователи</span>
             </NavLink>
         </nav>
     )

@@ -79,31 +79,43 @@ const groups = {
             id: 1,
             name: '381804м',
             users: 8,
+            course: 6,
         },
         {
             id: 2,
             name: '381803',
             users: 5,
+            course: 6,
         },
         {
             id: 3,
             name: '381802',
             users: 17,
+            course: 5,
         },
         {
             id: 4,
             name: '381801a',
             users: 18,
+            course: 4,
         },
         {
             id: 5,
             name: '381801б',
             users: 22,
+            course: 3,
         },
         {
             id: 6,
             name: '381805б',
             users: 32,
+            course: 2,
+        },
+        {
+            id: 7,
+            name: '381809',
+            users: 32,
+            course: 1,
         },
     ],
 };
