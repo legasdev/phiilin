@@ -18,11 +18,11 @@ const createRender = render => ({input, meta: {touched, error}, ...props}) => {
         <label className={`${s.label} ${props.className && props.className}`}>
             <div className={s.labelText}>{props.labeltext}</div>
             { 
-            render(
-                input,
-                props.children, 
-                `${s.input}  ${hasError ? s.inputError : ''}`,
-                props)
+                render(
+                    input,
+                    props.children, 
+                    `${s.input} ${hasError ? s.inputError : ''}`,
+                    props)
             }
             {hasError && <span className={s.spanError}>{error}</span>}
         </label>
@@ -37,5 +37,5 @@ export const renderSelect = createRender((input, children, className, props) => 
     );    
 });
 
-export const renderInput = createRender((input, children, className, props) => 
-    <input name={props.name} className={className} type={props.type} {...input}/>);
+export const renderInput = createRender((input, children, className, {placeholder, ...props}) => 
+    <input name={props.name} className={className} type={props.type} placeholder={placeholder} {...input} />);

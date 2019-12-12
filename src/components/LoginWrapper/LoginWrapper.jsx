@@ -20,7 +20,7 @@ const
     vMaxSymbols = maxSymbols(20),
     vRequired = requiredField('Вы не заполнили это поле');
 
-const FormLogin = ({ onSubmit, submitError, onPortalClose, ...props }) => {
+const FormLogin = ({ onSubmit, submitError, onPortalClose }) => {
     return (
         <Form
             onSubmit={onSubmit}

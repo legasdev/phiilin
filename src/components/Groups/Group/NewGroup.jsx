@@ -2,8 +2,8 @@ import React from 'react';
 
 import s from './Group.module.css';
 
-const NewGroup = props => (
-    <button className={`${s.group} ${s.groupNew}`}>
+const NewGroup = ({ onOpenNewGroup }) => (
+    <button className={`${s.group} ${s.groupNew}`} onClick={onOpenNewGroup}>
         <p className={s.textNew}>Добавить новую группу</p>
         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
             <g id="GroupNewIcon" transform="translate(-362 -272)">

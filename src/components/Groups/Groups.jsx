@@ -5,11 +5,11 @@ import s from './Groups.module.css';
 import Group from './Group/Group';
 import NewGroup from './Group/NewGroup';
 
-const Groups = ({ listGroups }) => {
+const Groups = ({ listGroups, onOpenNewGroup }) => {
 
     return (
         <div className={s.main}>
-            <NewGroup />
+            <NewGroup onOpenNewGroup={onOpenNewGroup} />
             {listGroups &&
                 listGroups.map( item => <Group key={item.id} { ...item } />)
             }

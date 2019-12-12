@@ -3,20 +3,13 @@ import ReactDOM from 'react-dom';
 
 import s from './Portal.module.css';
 
+import { useCreatePoral } from '../../../utils/effects';
+
 const Portal = ({time, callback, type, msg, closeBtn}) => {
     const [showClass, setShowClass] = useState('');
-    const [root] = useState(document.createElement('div'));
     const [isActive, setIsActive] = useState(true);
     const [portalOpen, setPortalOpen] = useState(false);
-
-    useEffect(() => {
-        document.querySelector('#portals').appendChild(root);
-        setPortalOpen(true);
-
-        return () => {
-            document.querySelector('#portals').removeChild(root);
-        };
-    }, [root]);
+    const root = useCreatePoral(setPortalOpen);
 
     useEffect(() => {
 
