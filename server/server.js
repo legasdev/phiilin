@@ -15,7 +15,7 @@ const
             lastName: 'Степанов',
             position: 'Преподаватель',
         },
-        isAutorized: false,
+        isAutorized: true,
     }
 
 app.use(function(req, res, next) {
@@ -137,6 +137,37 @@ app.get('/api/groups', (req, res) => {
                 errorCode: 403
             });
 
+});
+
+// Добавить новую группу
+app.post('/api/groups/add', (req, res) => {
+    const {name, course} = {...req.body};
+    
+    if (!name.length) return res.json({errorCode: 1}).status(400);
+
+    if (authData.isAutorized) {
+        console.group('=={ Adding groups... }==')
+        console.log(name, course)
+
+        groups.listGroups.push({
+            id: Object.keys(groups.listGroups).length + 1,
+            name,
+            users: 0,
+            course: parseInt(course),
+        });
+
+        console.log('=={ Groups added! }==')
+        console.groupEnd();
+        
+        return res
+            .json({
+                listGroups: groups.listGroups, 
+                errorCode: 0
+            })
+            .status(200);
+    } else {
+        return res.json({errorCode: 2}).status(413);
+    }
 });
 
 app.listen(8080, () => {

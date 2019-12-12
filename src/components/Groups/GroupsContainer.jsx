@@ -4,14 +4,21 @@ import { compose } from 'redux';
 
 import Groups from './Groups';
 
-import { setListGroups } from '../../redux/groups-reducer';
-import { getListGroups } from '../../redux/selectors/groups-selectors';
+import { 
+    setListGroups, 
+    addNewGroup,
+    setErrorAddNew
+} from '../../redux/groups-reducer';
+import { 
+    getListGroups, 
+    getIsErrorAddNew
+} from '../../redux/selectors/groups-selectors';
 import { withAuthRedirect } from '../../hoc/withAuthRedirect';
 import GroupSelector from './GroupsSelector/GroupSelector';
 import Popup from '../common/Popup/Popup';
 import NewGroupForm from './NewGroupForm/NewGroupForm';
 
-const GroupsContainer = ({ setListGroups, listGroups}) => {
+const GroupsContainer = ({ setListGroups, listGroups, addNewGroup, isErrorAddNew, setErrorAddNew }) => {
 
     const [courseFilter, setCourseFilter] = useState(0);
     const [isNewGroupOpen, setIsNewGroupOpen] = useState(false);
@@ -34,17 +41,16 @@ const GroupsContainer = ({ setListGroups, listGroups}) => {
 
     const setCourse = num => setCourseFilter(num);
 
-    const onOpenNewGroup = () => {
-        setIsNewGroupOpen(true);
-    };
+    const onOpenNewGroup = () => setIsNewGroupOpen(true);
 
     const onCloseNewGroup = () => {
         setIsNewGroupOpen(false);
+        setErrorAddNew(null);
     };
 
-    const onNewGroupSubmit = ({num}) => {
-        alert(`Вы ввели ${num}`);
-    };
+    const onNewGroupSubmit = data => addNewGroup(data);
+
+    const onPortalClose = () => setErrorAddNew(null);
 
     return (
         <>
@@ -53,7 +59,12 @@ const GroupsContainer = ({ setListGroups, listGroups}) => {
             {
                 isNewGroupOpen && 
                     <Popup onClose={onCloseNewGroup}>
-                        <NewGroupForm onClose={onCloseNewGroup} onSubmit={onNewGroupSubmit} />
+                        <NewGroupForm 
+                            onClose={onCloseNewGroup} 
+                            submitError={isErrorAddNew} 
+                            onSubmit={onNewGroupSubmit}
+                            onPortalClose={onPortalClose}
+                        />
                     </Popup>
             }
         </>
@@ -62,10 +73,11 @@ const GroupsContainer = ({ setListGroups, listGroups}) => {
 
 const mstp = state => ({
     listGroups: getListGroups(state),
+    isErrorAddNew: getIsErrorAddNew(state),
 });
 
 const GroupsContainerCompose = compose(
-    connect(mstp, { setListGroups }),
+    connect(mstp, { setListGroups, addNewGroup, setErrorAddNew }),
     withAuthRedirect
 )(GroupsContainer)
 

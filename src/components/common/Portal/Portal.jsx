@@ -19,7 +19,7 @@ const Portal = ({time, callback, type, msg, closeBtn}) => {
             setShowClass('');
             setTimeout(() => {
                 setPortalOpen(false);
-                callback();
+                callback && callback();
             }, 500); 
         };
 

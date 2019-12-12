@@ -15,6 +15,7 @@
   background-color: #fff;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
   overflow: hidden;
+  z-index: 200;
 }
 .portal:after {
   content: '';

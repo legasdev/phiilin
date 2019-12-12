@@ -11,24 +11,39 @@ import { maxSymbols, requiredField } from '../../../utils/validators/validators'
 
 const
     vMaxSymbols = maxSymbols(20),
+    courseMaxSymbols = maxSymbols(1),
     vRequired = requiredField('Вы не заполнили это поле');
 
 const FormGroup = ({ onSubmit, submitError, onPortalClose, onClose}) => (
     <Form 
         onSubmit={onSubmit}
-        render={({handleSubmit}) => (
-            <form className={s.form} onSubmit={handleSubmit}>
+        render={({handleSubmit, form}) => (
+            <form 
+                className={s.form} 
+                onSubmit={e => {
+                    const promise = handleSubmit(e);
+                    promise && promise.then(() => {form.reset();})
+                }}
+            >
                 <div className={s.title}>
                     <h2 className={s.loginTitle}>Добавить новую группу</h2>
                     <div className={s.closeBtn} onClick={onClose}><i></i><i></i></div>
                 </div>
                 <Field 
-                    name={"num"}
+                    name={"name"}
                     component={renderInput}
                     type={"text"}
                     labeltext={'Введите номер группы'}
                     placeholder={'Например, 1234'}
                     validate={composeValidators(vRequired, vMaxSymbols)}
+                />
+                <Field 
+                    name={"course"}
+                    component={renderInput}
+                    type={"text"}
+                    labeltext={'Введите курс группы'}
+                    placeholder={'Например, 4'}
+                    validate={composeValidators(vRequired, courseMaxSymbols)}
                 />
                 <button className={s.btn} type={'submit'}>Добавить</button>
                 {
@@ -40,13 +55,28 @@ const FormGroup = ({ onSubmit, submitError, onPortalClose, onClose}) => (
                                 time={3000}
                                 closeBtn={true}
                             />
-                }   
+                }
+                {
+                    Object.is(submitError, false)
+                        && <Portal
+                                type={'msg'}
+                                msg={'Группа успешно добавлена!'}
+                                callback={onPortalClose}
+                                time={3000}
+                                closeBtn={true}
+                            />
+                }  
             </form>
         )}
     />
 );
 
-const NewGroupForm = ({ onSubmit, onClose }) => 
-    <FormGroup onSubmit={onSubmit} onClose={onClose} />;
+const NewGroupForm = ({ onSubmit, onClose, submitError, onPortalClose }) => 
+    <FormGroup 
+        onSubmit={onSubmit} 
+        onClose={onClose} 
+        submitError={submitError} 
+        onPortalClose={onPortalClose}
+    />;
 
 export default NewGroupForm;

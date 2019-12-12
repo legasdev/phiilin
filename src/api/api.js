@@ -28,4 +28,9 @@ export const groupsAPI = {
         return await Instance.get('/groups');
     },
 
+    // Добавить новую группу
+    async addNewGroup(data) {
+        return await Instance.post('/groups/add', data);
+    },
+
 };
