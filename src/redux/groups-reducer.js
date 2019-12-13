@@ -9,13 +9,16 @@ import { groupsAPI } from "../api/api";
 
 const
     SET_LIST_GROUPS = 'groups/set_list_groups',
+    SET_INFO_GROUP = 'groups/set_info_group',
     SET_ERROR_NEW = 'groups/set_error_new';
+
 
 
 // Initial
 
 const initialState = {
     listGroups: null,
+    infoGroup: null,
     isErrorAddNew: null,
 };
 
@@ -36,6 +39,12 @@ const groupsReducer = (state = initialState, action) => {
                 isErrorAddNew: action.flag
             };
 
+        case SET_INFO_GROUP:
+            return {
+                ...state,
+                infoGroup: action.infoGroup
+            }
+
         default: return { ...state }
     }
 
@@ -47,19 +56,25 @@ export default groupsReducer;
 // Actons
 
 export const _setListGroups = listGroups => ({type: SET_LIST_GROUPS, listGroups});
+export const _setInfoGroup = infoGroup => ({type: SET_INFO_GROUP, infoGroup});
 export const _setErrorAddNew = flag => ({type: SET_ERROR_NEW, flag});
 
 
 // Thunks
 
 // Запрашиваем и добавляем в редакс список групп
-export const setListGroups = () => async dispatch => {
-    const res = await groupsAPI.getGroups();
+export const setListGroups = id => async dispatch => {
+    const res = await groupsAPI.getGroups(id);
 
     !res.data.errorCode
-        ? dispatch(_setListGroups(res.data.listGroups))
+        ? id 
+            ? dispatch(_setInfoGroup(res.data.listGroups[0])) 
+            : dispatch(_setListGroups(res.data.listGroups))
         : console.error(`Код ошибки: ${res.data.errorCode}`);
 };
+
+// Удаляем данные из стейта по группе
+export const clearInfoGroup = () => dispatch => dispatch(_setInfoGroup(null));
 
 // Добавляем новую группу в бд и делаем новый запрос на обновление групп
 export const addNewGroup = data => async dispatch => {
@@ -76,7 +91,4 @@ export const addNewGroup = data => async dispatch => {
 };
 
 // Изменить статус ошибки
-export const setErrorAddNew = flag => dispatch => {
-    console.log(flag)
-    dispatch(_setErrorAddNew(flag));
-}
+export const setErrorAddNew = flag => dispatch => dispatch(_setErrorAddNew(flag));

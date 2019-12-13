@@ -24,13 +24,27 @@ export const authAPI = {
 export const groupsAPI = {
 
     // Получить список групп
-    async getGroups() {
-        return await Instance.get('/groups');
+    async getGroups(id) {
+        return id
+            ? await Instance.get(`/groups?id=${id}`)
+            : await Instance.get('/groups');
     },
 
     // Добавить новую группу
     async addNewGroup(data) {
         return await Instance.post('/groups/add', data);
+    },
+
+};
+
+// API пользователей
+export const usersAPI = {
+
+    // Получить всех пользователей
+    async getUsers(id) {
+        return id 
+            ? await Instance.get(`/users?id=${id}`)
+            : await Instance.get(`/users`);
     },
 
 };

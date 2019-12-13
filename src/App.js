@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, withRouter } from 'react-router-dom';
+import { Route, withRouter, Switch } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
@@ -14,6 +14,8 @@ import ProfileContainer from './components/Profile/ProfileContainer';
 import Register from './components/Register/Register';
 import GroupsContainer from './components/Groups/GroupsContainer';
 import Users from './components/Users/Users';
+import PageGroupContainer from './components/PageGroup/PageGroupContainer';
+import Empty from './components/Empty/Empty';
 
 class App extends React.Component {
 
@@ -28,7 +30,7 @@ class App extends React.Component {
         : (
           <div className={`App ${this.props.rollUpStatus ? '' : 'close'}`}>
             <AsideContainer />
-            <>
+            <Switch>
                 <Route
                   exact
                   path={'/'}
@@ -43,14 +45,20 @@ class App extends React.Component {
                   render={ () => <Register /> }
                 />
                 <Route
+                  exact
                   path={'/groups'}
                   render={ () => <GroupsContainer /> }
+                />
+                <Route
+                  path={'/groups/:groupId'}
+                  render={ () => <PageGroupContainer /> }
                 />
                 <Route
                   path={'/users'}
                   render={ () => <Users /> }
                 />
-              </>
+                <Route render={ () => <Empty /> }/>
+              </Switch>
           </div>
         )
     );

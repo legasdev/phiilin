@@ -10,13 +10,15 @@ import thunk from "redux-thunk";
 
 import authReducer from './auth-reducer';
 import appReducer from './app-reducer';
-import groupsReducer from "./groups-reducer";
+import groupsReducer from './groups-reducer';
+import usersReducer from './users-reducer';
 
 // Редьюсеры
 const reducers = combineReducers({
     auth: authReducer,
     app: appReducer,
     groups: groupsReducer,
+    users: usersReducer,
 });
 
 

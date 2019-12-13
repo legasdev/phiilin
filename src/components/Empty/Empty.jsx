@@ -1,11 +1,11 @@
 import React from 'react';
 
-const PageGroup = props => {
+const Empty = props => {
     return (
         <div>
-            
+            404 страница
         </div>
     );
 };
 
-export default PageGroup;
+export default Empty;

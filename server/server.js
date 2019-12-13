@@ -16,7 +16,140 @@ const
             position: 'Преподаватель',
         },
         isAutorized: true,
+    },
+
+    groups = {
+        listGroups: [
+            {
+                id: 1,
+                name: '381804м',
+                users: 8,
+                course: 6,
+            },
+            {
+                id: 2,
+                name: '381803',
+                users: 5,
+                course: 6,
+            },
+            {
+                id: 3,
+                name: '381802',
+                users: 17,
+                course: 5,
+            },
+            {
+                id: 4,
+                name: '381801a',
+                users: 18,
+                course: 4,
+            },
+            {
+                id: 5,
+                name: '381801б',
+                users: 22,
+                course: 3,
+            },
+            {
+                id: 6,
+                name: '381805б',
+                users: 32,
+                course: 2,
+            },
+            {
+                id: 7,
+                name: '381809',
+                users: 32,
+                course: 1,
+            },
+        ],
+    },
+
+    users = {
+        listUsers: [
+            {
+                id: 1,
+                name: 'Чехов Эдуард Федорович',
+                course: 6,
+                group: '381804м',
+                works: 11,
+                check: 3,
+                edit: 0,
+                done: 8,
+            },
+            {
+                id: 2,
+                name: 'Дмитровский Венедикт Филимонович',
+                course: 6,
+                group: '381804м',
+                works: 3,
+                check: 3,
+                edit: 0,
+                done: 0,
+            },
+            {
+                id: 3,
+                name: 'Качурина Евгения Александровна',
+                course: 5,
+                group: '381804м',
+                works: 5,
+                check: 3,
+                edit: 1,
+                done: 6,
+            },
+            {
+                id: 4,
+                name: 'Головнина Дина Юлиевна',
+                course: 4,
+                group: '381804м',
+                works: 9,
+                check: 3,
+                edit: 2,
+                done: 2,
+            },
+            {
+                id: 5,
+                name: 'Помельников Прокофий Изяславович',
+                course: 3,
+                group: '381804м',
+                works: 4,
+                check: 3,
+                edit: 1,
+                done: 0,
+            },
+            {
+                id: 6,
+                name: 'Яшнов Адам Леонидович',
+                course: 2,
+                group: '381804м',
+                works: 12,
+                check: 3,
+                edit: 2,
+                done: 3,
+            },
+            {
+                id: 7,
+                name: 'Карякин Станислав Архипович',
+                course: 1,
+                group: '381802',
+                works: 22,
+                check: 3,
+                edit: 3,
+                done: 5,
+            },
+            {
+                id: 8,
+                name: 'Кравчикова Милена Данииловна',
+                course: 8,
+                group: '381804м',
+                works: 12,
+                check: 4,
+                edit: 6,
+                done: 5,
+            },
+        ]
     }
+    
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "http://localhost:3000");
@@ -73,61 +206,21 @@ app.post('/api/auth/register', (req, res) => {
  * 
 */
 
-const groups = {
-    listGroups: [
-        {
-            id: 1,
-            name: '381804м',
-            users: 8,
-            course: 6,
-        },
-        {
-            id: 2,
-            name: '381803',
-            users: 5,
-            course: 6,
-        },
-        {
-            id: 3,
-            name: '381802',
-            users: 17,
-            course: 5,
-        },
-        {
-            id: 4,
-            name: '381801a',
-            users: 18,
-            course: 4,
-        },
-        {
-            id: 5,
-            name: '381801б',
-            users: 22,
-            course: 3,
-        },
-        {
-            id: 6,
-            name: '381805б',
-            users: 32,
-            course: 2,
-        },
-        {
-            id: 7,
-            name: '381809',
-            users: 32,
-            course: 1,
-        },
-    ],
-};
-
-// Список всех групп
+// Список всех групп/инфа о группе
 app.get('/api/groups', (req, res) => {
+
+    const {id} = {...req.query};
+
+    const list = 
+        id
+            ? groups.listGroups.filter(item => item.id === parseInt(id))
+            : groups.listGroups;
 
     if (authData.isAutorized) 
         res
             .status(200)
             .json({ 
-                listGroups: groups.listGroups,
+                listGroups: list,
                 errorCode: 0
             });
     else
@@ -170,6 +263,41 @@ app.post('/api/groups/add', (req, res) => {
     }
 });
 
+/**
+ * 
+ * Пользователи
+ * 
+*/
+
+// Список всех пользователей
+app.get('/api/users', (req, res) => {
+
+    const {id} = {...req.query};
+
+    const [group] = groups.listGroups.filter(item => item.id === parseInt(id));
+
+    const list = 
+        id
+            ? users.listUsers.filter(item => item.group === group.name)
+            : users.listUsers;
+
+    if (authData.isAutorized) 
+        res
+            .status(200)
+            .json({ 
+                listUsers: list,
+                errorCode: 0
+            });
+    else
+        res
+            .status(403)
+            .json({
+                errorCode: 403
+            });
+
+});
+
+// Запуск сервера
 app.listen(8080, () => {
     console.log('Ok. Server working...');
 });
