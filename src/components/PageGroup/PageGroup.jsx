@@ -1,7 +1,7 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 
 import s from './PageGroup.module.css';
+import Card from '../common/Card/Card';
 
 const PageGroup = ({ groupInfo, users }) => (
     <div className={s.main}>
@@ -15,19 +15,13 @@ const PageGroup = ({ groupInfo, users }) => (
             {
                 users && users.length
                     ? users.map(item => (
-                        <div className="card" key={item.id}>
-                            <div className="card__info">
-                                <p className="card__name">{item.name}</p>
-                                <p>Группа: {item.group}</p>
-                                <p>Работ: {item.works}</p>
-                                <p>На проверке: {item.check}</p>
-                                <p>В доработке: {item.edit}</p>
-                                <p>Принято: {item.done}</p>
-                            </div>
-                            <NavLink to={`/groups/${item.id}`} className="card__btn">
-                                Подробнее
-                            </NavLink>
-                        </div>
+                        <Card 
+                            key={item.id}
+                            name={item.name}
+                            desk={item.desk}
+                            link={`/groups/${item.id}`}
+                            btnName={'Подробнее'}
+                        />
                     ))
                     : <p className={s.centerBlock}>У данной группы нет пользователей.</p>
             }
