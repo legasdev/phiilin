@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { usersEnRu } from '../../lang/en-Ru';
+import { EnRu } from '../../lang/en-Ru';
 
 const listUsers = state => state.users.listUsers;
 
@@ -8,7 +8,7 @@ export const getListUsers = createSelector(listUsers, listUsers => {
         let array = [];
         Object.keys(item.desk).forEach(key => {
             array.push({
-                name: usersEnRu[key],
+                name: EnRu[key],
                 value: item.desk[key]
             });
         });

@@ -23,58 +23,58 @@ const
             {
                 id: 1,
                 name: '381804м',
-                desk: [
-                    {users: 8},
-                    {course: 6},
-                ],
+                desk: {
+                    users: 8,
+                    course: 6
+                },
             },
             {
                 id: 2,
                 name: '381803',
-                desk: [
-                    {users: 5},
-                    {course: 6},
-                ],
+                desk: {
+                    users: 5,
+                    course: 6
+                },
             },
             {
                 id: 3,
                 name: '381802',
-                desk: [
-                    {users: 17},
-                    {course: 5},
-                ],
+                desk: {
+                    users: 17,
+                    course: 5
+                },
             },
             {
                 id: 4,
                 name: '381801a',
-                desk: [
-                    {users: 18},
-                    {course: 4},
-                ],
+                desk: {
+                    users: 18,
+                    course: 4
+                },
             },
             {
                 id: 5,
                 name: '381801б',
-                desk: [
-                    {users: 22},
-                    {course: 3},
-                ],
+                desk: {
+                    users: 22,
+                    course: 3
+                },
             },
             {
                 id: 6,
                 name: '381805б',
-                desk: [
-                    {users: 32},
-                    {course: 2},
-                ],
+                desk: {
+                    users: 32,
+                    course: 2
+                },
             },
             {
                 id: 7,
                 name: '381809',
-                desk: [
-                    {users: 32},
-                    {course: 1},
-                ],
+                desk: {
+                    users: 32,
+                    course: 1
+                },
             },
         ],
     },
@@ -275,8 +275,10 @@ app.post('/api/groups/add', (req, res) => {
         groups.listGroups.push({
             id: Object.keys(groups.listGroups).length + 1,
             name,
-            users: 0,
-            course: parseInt(course),
+            desk: {
+                users: 0,
+                course: parseInt(course),
+            }            
         });
 
         console.log('=={ Groups added! }==')

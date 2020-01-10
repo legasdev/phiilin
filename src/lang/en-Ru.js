@@ -1,4 +1,4 @@
-export const usersEnRu = {
+export const EnRu = {
     name: 'Имя',
     course: 'Курс',
     group: 'Группа',
@@ -6,4 +6,5 @@ export const usersEnRu = {
     check: 'На проверке',
     edit: 'На исправлении',
     done: 'Принято',
+    users: 'Пользователей',
 };

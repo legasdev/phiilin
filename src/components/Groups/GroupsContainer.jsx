@@ -33,8 +33,11 @@ const GroupsContainer = ({ setListGroups, listGroups, addNewGroup, isErrorAddNew
         const list = 
             courseFilter === 0
                 ? listGroups
-                : listGroups && listGroups.filter(item => item.course === courseFilter);
-            
+                : listGroups 
+                    && listGroups.filter(item => item.desk.reduce((res, e) => 
+                            res = e.name === 'Курс' && e.value === courseFilter, false)
+                    );
+
         setListGroupsByCourse(list);
 
     }, [setListGroupsByCourse, listGroups, courseFilter]);
