@@ -35,7 +35,11 @@ const PageGroupContainer = (
         clearListUsers
     ]);
 
-    return infoGroup && <PageGroup groupInfo={infoGroup} users={listUsers} />;
+    return (
+        infoGroup
+        ? <PageGroup groupInfo={infoGroup} users={listUsers} />
+        : <p>Такой группы не существует</p>
+    );
 };
 
 const mstp = state => ({

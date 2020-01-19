@@ -7,8 +7,8 @@ const PageGroup = ({ groupInfo, users }) => (
     <div className={s.main}>
         <h3 className={s.titleName}>Группа {groupInfo.name}</h3>
         <div className={s.info}>
-            <p className={s.infoItem}>Номер курса: {groupInfo.course}</p>
-            <p className={s.infoItem}>Количество учащихся: {groupInfo.users}</p>
+            <p className={s.infoItem}>Номер курса: {groupInfo.desk.course}</p>
+            <p className={s.infoItem}>Количество учащихся: {groupInfo.desk.users}</p>
         </div>
         <h4 className={s.titleName}>Список учащихся</h4>
         <div className={s.wrapper}>

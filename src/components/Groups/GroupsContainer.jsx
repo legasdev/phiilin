@@ -82,6 +82,6 @@ const mstp = state => ({
 const GroupsContainerCompose = compose(
     connect(mstp, { setListGroups, addNewGroup, setErrorAddNew }),
     withAuthRedirect
-)(GroupsContainer)
+)(GroupsContainer);
 
 export default GroupsContainerCompose;

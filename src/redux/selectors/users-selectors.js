@@ -1,21 +1,18 @@
 import { createSelector } from 'reselect';
 import { EnRu } from '../../lang/en-Ru';
 
-const listUsers = state => state.users.listUsers;
+const _listUsers = state => state.users.listUsers;
 
-export const getListUsers = createSelector(listUsers, listUsers => {
-    const newList = listUsers && listUsers.map(item => {
-        let array = [];
-        Object.keys(item.desk).forEach(key => {
-            array.push({
+export const getListUsers = createSelector(_listUsers, listUsers => (
+    listUsers && 
+    listUsers.map(item => ({
+        ...item,
+        desk: Object.keys(item.desk).reduce( (arr, key) => [
+            ...arr, 
+            {
                 name: EnRu[key],
                 value: item.desk[key]
-            });
-        });
-        item.desk = array.map(e => ({...e}));
-
-        return item;
-    });
-
-    return newList;
-});
+            }
+        ], [])
+    }))
+));

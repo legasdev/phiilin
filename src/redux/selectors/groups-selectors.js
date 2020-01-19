@@ -18,21 +18,17 @@ export const _getIsErrorAddNew = state => state.groups.isErrorAddNew;
 
 // Selector
 
-export const getListGroups = createSelector(_getListGroups, listGroups => {
-    const newList = listGroups && listGroups.map(item => {
-        let array = [];
-        Object.keys(item.desk).forEach(key => {
-            array.push({
+export const getListGroups = createSelector(_getListGroups, listGroups => (
+    listGroups && listGroups.map(item => ({
+        ...item,
+        desk: Object.keys(item.desk).reduce( (arr, key) => [
+            ...arr,
+            {
                 name: EnRu[key],
                 value: item.desk[key]
-            });
-        });
-        item.desk = array.map(e => ({...e}));
-
-        return item;
-    });
-
-    return newList;
-});
+            }
+        ], [])
+    }))
+));
 export const getInfoGroup = createSelector(_getInfoGroup, infoGroup => infoGroup);
 export const getIsErrorAddNew = createSelector(_getIsErrorAddNew, isErrorAddNew => isErrorAddNew);

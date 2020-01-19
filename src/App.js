@@ -13,9 +13,9 @@ import LoginWrapper from './components/LoginWrapper/LoginWrapper';
 import ProfileContainer from './components/Profile/ProfileContainer';
 import Register from './components/Register/Register';
 import GroupsContainer from './components/Groups/GroupsContainer';
-import Users from './components/Users/Users';
 import PageGroupContainer from './components/PageGroup/PageGroupContainer';
 import Empty from './components/Empty/Empty';
+import UserContainer from './components/Users/UserContainer';
 
 class App extends React.Component {
 
@@ -55,7 +55,7 @@ class App extends React.Component {
                 />
                 <Route
                   path={'/users'}
-                  render={ () => <Users /> }
+                  render={ () => <UserContainer /> }
                 />
                 <Route render={ () => <Empty /> }/>
               </Switch>
