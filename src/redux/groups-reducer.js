@@ -57,7 +57,7 @@ export default groupsReducer;
 
 export const _setListGroups = listGroups => ({type: SET_LIST_GROUPS, listGroups});
 export const _setInfoGroup = infoGroup => ({type: SET_INFO_GROUP, infoGroup});
-export const _setErrorAddNew = flag => ({type: SET_ERROR_NEW, flag});
+export const _setErrorAddNew = flag => ({type: SET_ERROR_NEW, flag}); 
 
 
 // Thunks
@@ -83,8 +83,7 @@ export const addNewGroup = data => async dispatch => {
     if (!res.data.errorCode) {
         dispatch(_setListGroups(res.data.listGroups));
         dispatch(_setErrorAddNew(false));
-    }
-    else {
+    } else {
         console.error(`Код ошибки: ${res.data.errorCode}`);
         dispatch(_setErrorAddNew(true));
     }

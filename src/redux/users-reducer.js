@@ -1,11 +1,13 @@
 import { usersAPI } from "../api/api";
 
 const 
-    SET_LIST_USERS = 'users/set_list_users';
+    SET_LIST_USERS = 'users/set_list_users',
+    SET_ERROR_NEW = 'users/ser_error_new';
 
 const
     initialState = {
         listUsers: null,
+        isErrorAddNew: null,
     };
 
 const usersReducer = (state=initialState, action) => {
@@ -18,17 +20,24 @@ const usersReducer = (state=initialState, action) => {
                 listUsers: action.listUsers
             };
 
+        case SET_ERROR_NEW:
+            return {
+                ...state,
+                isErrorAddNew: action.flag
+            }
+
         default: return {...state};
     }
 
 };
 
-export default usersReducer
+export default usersReducer;
 
 
 // Actions
 
 export const _setListUsers = listUsers => ({type: SET_LIST_USERS, listUsers});
+export const _setErrorAddNew = flag => ({type: SET_ERROR_NEW, flag});
 
 
 // Thunks
@@ -41,4 +50,21 @@ export const setListUsers = id => async dispatch => {
         : console.error(`Код ошибки: ${data.errorCode}`);
 };
 
-export const clearListUsers = () => async dispatch => dispatch(_setListUsers(null))
+export const addNewUser = user => async dispatch => {
+    try {
+        const res = await usersAPI.addNewUser(user);
+
+        if (!res.data.errorCode) {
+            dispatch(_setErrorAddNew(false));
+        } else {
+            dispatch(_setErrorAddNew(true));
+            console.error(`Код ошибки: ${res.data.errorCode}`);
+        }
+    } catch(e) {
+        dispatch(_setErrorAddNew(true));
+    }
+};
+
+export const clearListUsers = () => async dispatch => dispatch(_setListUsers(null));
+
+export const setErrorAddNew = flag => async dispatch => dispatch(_setErrorAddNew(flag));

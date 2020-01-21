@@ -329,6 +329,16 @@ app.get('/api/users', (req, res) => {
 
 });
 
+// Добавить нового пользователя
+app.post('/api/users/add', (req, res) => {
+    res
+        .status(200)
+        .json({
+            listUsers: users.listUsers,
+            errorCode: 0
+        })
+});
+
 // Запуск сервера
 app.listen(8080, () => {
     console.log('Ok. Server working...');

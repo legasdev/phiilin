@@ -47,4 +47,9 @@ export const usersAPI = {
             : await Instance.get(`/users`);
     },
 
+    // Добавление нового пользователя
+    async addNewUser(user) {
+        return await Instance.post(`/users/add`, user);
+    },
+
 };

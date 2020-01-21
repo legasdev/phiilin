@@ -2,6 +2,7 @@ import { createSelector } from 'reselect';
 import { EnRu } from '../../lang/en-Ru';
 
 const _listUsers = state => state.users.listUsers;
+const _getIsErrorAddNew = state => state.users.isErrorAddNew;
 
 export const getListUsers = createSelector(_listUsers, listUsers => (
     listUsers && 
@@ -16,3 +17,5 @@ export const getListUsers = createSelector(_listUsers, listUsers => (
         ], [])
     }))
 ));
+
+export const getIsErrorAddNew = createSelector(_getIsErrorAddNew, isErrorAddNew => isErrorAddNew);

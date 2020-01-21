@@ -14,7 +14,7 @@ const
     courseMaxSymbols = maxSymbols(1),
     vRequired = requiredField('Вы не заполнили это поле');
 
-const FormGroup = ({ onSubmit, submitError, onPortalClose, onClose}) => (
+const NewGroupForm = ({ onSubmit, submitError, onPortalClose, onClose}) => (
     <Form 
         onSubmit={onSubmit}
         render={({handleSubmit, form}) => (
@@ -70,13 +70,5 @@ const FormGroup = ({ onSubmit, submitError, onPortalClose, onClose}) => (
         )}
     />
 );
-
-const NewGroupForm = ({ onSubmit, onClose, submitError, onPortalClose }) => 
-    <FormGroup 
-        onSubmit={onSubmit} 
-        onClose={onClose} 
-        submitError={submitError} 
-        onPortalClose={onPortalClose}
-    />;
 
 export default NewGroupForm;
