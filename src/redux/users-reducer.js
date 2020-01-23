@@ -45,6 +45,16 @@ export const _setErrorAddNew = flag => ({type: SET_ERROR_NEW, flag});
 export const setListUsers = id => async dispatch => {
     const {data} = await usersAPI.getUsers(id);
 
+    console.log(data);
+
+    !data.errorCode
+        ? dispatch(_setListUsers(data.list))
+        : console.error(`Код ошибки: ${data.errorCode}`);
+};
+
+export const setListUsersByGroupId = groupId => async dispatch => {
+    const {data} = await usersAPI.getUsersById(groupId);
+
     !data.errorCode
         ? dispatch(_setListUsers(data.listUsers))
         : console.error(`Код ошибки: ${data.errorCode}`);

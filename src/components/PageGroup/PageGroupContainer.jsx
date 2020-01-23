@@ -7,12 +7,12 @@ import PageGroup from './PageGroup';
 
 import { getListUsers } from '../../redux/selectors/users-selectors';
 import { getInfoGroup } from '../../redux/selectors/groups-selectors';
-import { setListUsers, clearListUsers } from './../../redux/users-reducer';
+import { setListUsersByGroupId, clearListUsers } from './../../redux/users-reducer';
 import { setListGroups, clearInfoGroup } from './../../redux/groups-reducer';
 
 const PageGroupContainer = (
     { listUsers, infoGroup, 
-        setListUsers, clearListUsers, 
+        setListUsersByGroupId, clearListUsers, 
         setListGroups, clearInfoGroup, 
         match }) => {
 
@@ -20,7 +20,7 @@ const PageGroupContainer = (
 
     useEffect(() => {
         setListGroups(groupId)
-        setListUsers(groupId);
+        setListUsersByGroupId(groupId);
 
         return () => {
             clearInfoGroup();
@@ -28,7 +28,7 @@ const PageGroupContainer = (
         }
     }, 
     [
-        setListUsers, 
+        setListUsersByGroupId, 
         setListGroups, 
         groupId, 
         clearInfoGroup,
@@ -51,7 +51,7 @@ const ComposePageGroupContainer = compose(
     connect(
         mstp, 
         { 
-            setListUsers, 
+            setListUsersByGroupId, 
             setListGroups, 
             clearInfoGroup,
             clearListUsers,

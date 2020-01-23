@@ -8,7 +8,7 @@ app.use(bodyParser.json());
 const
     authData = {
         user: {
-            id: '1',
+            id: 1,
             login: 'legasdev',
             password: '1',
             name: 'Артем',
@@ -83,6 +83,19 @@ const
         listUsers: [
             {
                 id: 1,
+                name: 'Степанов Артем Алексеевич',
+                desk: {
+                    course: 6,
+                    group: '381804м',
+                    works: 11,
+                    check: 3,
+                    edit: 0,
+                    done: 8,
+                },
+                position: 'Преподаватель',
+            },
+            {
+                id: 2,
                 name: 'Чехов Эдуард Федорович',
                 desk: {
                     course: 6,
@@ -92,9 +105,10 @@ const
                     edit: 0,
                     done: 8,
                 },
+                position: 'Студент',
             },
             {
-                id: 2,
+                id: 3,
                 name: 'Дмитровский Венедикт Филимонович',
                 desk: {
                     course: 6,
@@ -104,9 +118,10 @@ const
                     edit: 0,
                     done: 0,
                 },
+                position: 'Студент',
             },
             {
-                id: 3,
+                id: 4,
                 name: 'Качурина Евгения Александровна',
                 desk: {
                     course: 5,
@@ -116,9 +131,10 @@ const
                     edit: 1,
                     done: 6,
                 },
+                position: 'Студент',
             },
             {
-                id: 4,
+                id: 5,
                 name: 'Головнина Дина Юлиевна',
                 desk: {
                     course: 4,
@@ -128,9 +144,10 @@ const
                     edit: 2,
                     done: 2,
                 },
+                position: 'Студент',
             },
             {
-                id: 5,
+                id: 6,
                 name: 'Помельников Прокофий Изяславович',
                 desk: {
                     course: 3,
@@ -140,9 +157,10 @@ const
                     edit: 1,
                     done: 0,
                 },
+                position: 'Студент',
             },
             {
-                id: 6,
+                id: 7,
                 name: 'Яшнов Адам Леонидович',
                 desk: {
                     course: 2,
@@ -152,9 +170,10 @@ const
                     edit: 2,
                     done: 3,
                 },
+                position: 'Студент',
             },
             {
-                id: 7,
+                id: 8,
                 name: 'Карякин Станислав Архипович',
                 desk: {
                     course: 1,
@@ -164,9 +183,10 @@ const
                     edit: 3,
                     done: 5,
                 },
+                position: 'Студент',
             },
             {
-                id: 8,
+                id: 9,
                 name: 'Кравчикова Милена Данииловна',
                 desk: {
                     course: 8,
@@ -176,6 +196,7 @@ const
                     edit: 6,
                     done: 5,
                 },
+                position: 'Студент',
             },
         ]
     }
@@ -303,6 +324,32 @@ app.post('/api/groups/add', (req, res) => {
 
 // Список всех пользователей
 app.get('/api/users', (req, res) => {
+
+    const {id} = {...req.query};
+
+    const list = 
+        id 
+        ? users.listUsers.filter(item => item.id === parseInt(id))
+        : users.listUsers;
+
+    if (authData.isAutorized) 
+        res
+            .status(200)
+            .json({ 
+                list,
+                errorCode: 0
+            });
+    else
+        res
+            .status(403)
+            .json({
+                errorCode: 403
+            });
+
+});
+
+// Список пользователей по группе
+app.get('/api/users/group', (req, res) => {
 
     const {id} = {...req.query};
 

@@ -12,6 +12,7 @@ import authReducer from './auth-reducer';
 import appReducer from './app-reducer';
 import groupsReducer from './groups-reducer';
 import usersReducer from './users-reducer';
+import profileReducer from './profile-reducer';
 
 // Редьюсеры
 const reducers = combineReducers({
@@ -19,8 +20,8 @@ const reducers = combineReducers({
     app: appReducer,
     groups: groupsReducer,
     users: usersReducer,
+    profile: profileReducer,
 });
-
 
 const composeEnchancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 

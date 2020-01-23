@@ -40,10 +40,17 @@ export const groupsAPI = {
 // API пользователей
 export const usersAPI = {
 
-    // Получить всех пользователей
+    // Получить пользователей/пользователя (по ID)
     async getUsers(id) {
         return id 
             ? await Instance.get(`/users?id=${id}`)
+            : await Instance.get(`/users`);
+    },
+
+    // Получить пользователя по id группы
+    async getUsersById(id) {
+        return id 
+            ? await Instance.get(`/users/group?id=${id}`)
             : await Instance.get(`/users`);
     },
 
