@@ -44,3 +44,16 @@
 .button:hover {
   background-color: #a73232;
 }
+.info {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1000px;
+  width: 100%;
+  margin: 25px 0;
+}
+.infoItem {
+  width: 33%;
+}
+.infoItem > span {
+  font-weight: 500;
+}

@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { EnRu } from '../../lang/en-Ru';
+import { objectToObjInArray } from './../../utils/utils';
 
 /**
  * 
@@ -21,13 +21,7 @@ export const _getIsErrorAddNew = state => state.groups.isErrorAddNew;
 export const getListGroups = createSelector(_getListGroups, listGroups => (
     listGroups && listGroups.map(item => ({
         ...item,
-        desk: Object.keys(item.desk).reduce( (arr, key) => [
-            ...arr,
-            {
-                name: EnRu[key],
-                value: item.desk[key]
-            }
-        ], [])
+        desk: objectToObjInArray(item.desk)
     }))
 ));
 export const getInfoGroup = createSelector(_getInfoGroup, infoGroup => infoGroup);

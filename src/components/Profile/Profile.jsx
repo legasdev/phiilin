@@ -13,10 +13,12 @@ const Profile = ({ userInfo, logout }) => (
         <div className={s.position}>
             {userInfo && userInfo.position}
         </div>
-        <div>
+        <div className={s.info}>
             {
-                userInfo && Object.keys(userInfo.desk).map(item => (
-                    <p key={item}>{`${item}: ${userInfo.desk[item]}`}</p>
+                userInfo && userInfo.desk.map(item => (
+                    <p className={s.infoItem} key={item.name}>
+                        <span>{item.name}</span>{`: ${item.value}`}
+                    </p>
                 ))
             }
         </div>

@@ -13,7 +13,7 @@ import Profile from './Profile';
 
 const ProfileContainer = ({auth, getInfo, userInfo, logout}) => {
 
-    console.log(userInfo);
+    console.log(userInfo)
 
     useEffect(() => {
         getInfo(1);
