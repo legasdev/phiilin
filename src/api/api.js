@@ -10,7 +10,7 @@ export const authAPI = {
 
     // Логин
     async login(login, password) {
-        return await Instance.post('/auth/login', {login, password});
+        return await Instance.post('/login', {login, password});
     },
 
     // Выход (Разлогин)

@@ -56,7 +56,7 @@ export const setRollUpSuccess = newStatus => ({type: SET_ROLLUP, newStatus});
 
 // Инициализирование приложения
 export const initializeApp = () => async dispatch => {
-    await dispatch(getMe());
+    // await dispatch(getMe());
     dispatch(setInitializedSuccess());
 };
 

@@ -8,14 +8,10 @@ import { getRollUpStatus } from './redux/selectors/app-selectors';
 
 import './App.css';
 
-import AsideContainer from './components/Aside/AsideContainer';
-import LoginWrapper from './components/LoginWrapper/LoginWrapper';
-import ProfileContainer from './components/Profile/ProfileContainer';
-import Register from './components/Register/Register';
-import GroupsContainer from './components/Groups/GroupsContainer';
-import PageGroupContainer from './components/PageGroup/PageGroupContainer';
-import Empty from './components/Empty/Empty';
-import UserContainer from './components/Users/UserContainer';
+import Empty from "./components/Empty";
+import Aside from "./components/Aside";
+import Profile from "./components/Pages/Profile";
+
 
 class App extends React.Component {
 
@@ -29,33 +25,12 @@ class App extends React.Component {
         ? <div className={'App'}>Загрузка...</div>
         : (
           <div className={`App ${this.props.rollUpStatus ? '' : 'close'}`}>
-            <AsideContainer />
+            <Aside />
             <Switch>
                 <Route
                   exact
                   path={'/'}
-                  render={ () => <ProfileContainer /> }
-                />
-                <Route
-                  path={'/login'}
-                  render={ () => <LoginWrapper /> }
-                />
-                <Route
-                  path={'/registration'}
-                  render={ () => <Register /> }
-                />
-                <Route
-                  exact
-                  path={'/groups'}
-                  render={ () => <GroupsContainer /> }
-                />
-                <Route
-                  path={'/groups/:groupId'}
-                  render={ () => <PageGroupContainer /> }
-                />
-                <Route
-                  path={'/users'}
-                  render={ () => <UserContainer /> }
+                  render={ () => <Profile /> }
                 />
                 <Route render={ () => <Empty /> }/>
               </Switch>

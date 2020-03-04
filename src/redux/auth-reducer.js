@@ -18,6 +18,7 @@ const
 
 const initialState = {
     id: 0,
+    token: null,
     login: '',
     name: '',
     lastName: '',
@@ -38,24 +39,23 @@ const authReducer = (state = initialState, action) => {
                 ...state,
                 ...action.data,
                 isAuth: true
-            }
+            };
 
         case SET_LOGIN_ERROR:
             return {
                 ...state,
                 loginError: action.loginError
-            }
+            };
         
         case SET_LOGOUT:
             return {
                 ...state,
                 isAuth: false
-            }
+            };
 
         default: return state;
     }
-
-}
+};
 
 export default authReducer;
 
@@ -72,43 +72,46 @@ export const setLogout = () => ({type: SET_LOGOUT});
 // Проверка авторизации
 export const getMe = () => async dispatch => {
     try {
-        const res = await authAPI.getMe();
-        dispatch(setUserData(res.data));
+        const
+            token = localStorage.getItem('token'),
+            login = localStorage.getItem('login');
+
+        if (token) {
+            dispatch(setUserData({
+                token,
+                login,
+                name: 'Артем',
+                lastName: 'Степанов',
+                position: 'Преподаватель',
+            }));
+        }
     } catch(e) {
         console.error(e);
     }
 };
 
-// Попытка авторизации
-// export const login = (login, password) => async dispatch => {
-//     const res = await authAPI.login(login, password);
-//     console.log(res);
-//     if (!res.data.resultCode) {
-//         dispatch(getMe());
-//     } else {
-//         dispatch(stopSubmit('login', 'Error'));
-//     }
-// }
-
 export const login = (login, password) => async dispatch => {
-    const res = await authAPI.login(login, password);
+    try {
+        const
+            result = await authAPI.login(login, password);
 
-    if (!res.data.errorCode) {
-        dispatch(setLoginError(false));
-        dispatch(getMe());
-    }
-    else 
+        if (result.data) {
+            dispatch(setLoginError(false));
+            localStorage.setItem('token', result.data.token);
+            localStorage.setItem('login', login);
+            dispatch(getMe());
+        } else {
+            throw new Error('Error login');
+        }
+    } catch(error) {
         dispatch(setLoginError(true));
-        
-}
+    }
+};
 
 export const logout = () => async dispatch => {
-    const res = await authAPI.logout();
-
-    if (!res.data.errorCode) {
-        dispatch(setLogout());
-    }
-}
+    localStorage.clear();
+    dispatch(setLogout());
+};
 
 // Отключение ошибки логина
 export const setError = sel => dispatch => {
