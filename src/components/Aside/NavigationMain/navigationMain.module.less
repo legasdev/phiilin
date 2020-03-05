@@ -1,0 +1,42 @@
+.nav {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.link {
+    width: 100%;
+    padding: 10px 0 10px 19px;
+    text-decoration: none;
+    color: #000;
+    transition: 
+            background-color .2s,
+            width .2s,
+            border-radius .2s;
+
+    & > span {
+        transition: opacity .2s;
+    }
+}
+
+.link.active {
+    width: calc(100% + 10px);
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: rgb(250, 221, 140);
+}
+
+.link.close:nth-child(n) {
+    background-image: url('/imgs/icons/alert-circle.svg');
+    background-position: ~'calc(50px - 16px)' center;
+    background-size: 33px;
+    background-repeat: no-repeat;
+
+    & > span {
+        opacity: 0;
+    }
+}
+
+.link:hover {
+    background-color: rgb(250, 229, 170);
+}
