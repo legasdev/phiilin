@@ -9,9 +9,9 @@ import { authAPI } from "../api/api";
 // Названия действий
 
 const
-    SET_USER_DATA = Symbol('set_info'),             // Авторизация пользователя
-    SET_LOGIN_ERROR = Symbol('set_login_error'),    // При авторизации возникла ошибка
-    SET_LOGOUT = Symbol('set_logout');              // Выход (разлогин)
+    SET_USER_DATA = 'auth-reducer/SET_USER_DATA',             // Авторизация пользователя
+    SET_LOGIN_ERROR = 'auth-reducer/SET_LOGIN_ERROR',    // При авторизации возникла ошибка
+    SET_LOGOUT = 'auth-reducer/SET_LOGOUT';              // Выход (разлогин)
 
 
 // Инициализация
@@ -63,14 +63,13 @@ export default authReducer;
 // Actions
 
 export const setUserData = data => ({type: SET_USER_DATA, data});
-export const setLoginError = loginError => ({type: SET_LOGIN_ERROR, loginError});
 export const setLogout = () => ({type: SET_LOGOUT});
 
 
 // Thunks
 
 // Проверка авторизации
-export const getMe = () => async dispatch => {
+export const setMe = () => async dispatch => {
     try {
         const
             token = localStorage.getItem('token'),
@@ -90,30 +89,24 @@ export const getMe = () => async dispatch => {
     }
 };
 
-export const login = (login, password) => async dispatch => {
+export const login = ({login, password}) => async dispatch => {
     try {
         const
             result = await authAPI.login(login, password);
 
         if (result.data) {
-            dispatch(setLoginError(false));
             localStorage.setItem('token', result.data.token);
             localStorage.setItem('login', login);
-            dispatch(getMe());
+            dispatch(setMe());
         } else {
             throw new Error('Error login');
         }
     } catch(error) {
-        dispatch(setLoginError(true));
+        console.error(error);
     }
 };
 
 export const logout = () => async dispatch => {
     localStorage.clear();
     dispatch(setLogout());
-};
-
-// Отключение ошибки логина
-export const setError = sel => dispatch => {
-    dispatch(setLoginError(sel));
 };

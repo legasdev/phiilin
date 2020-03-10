@@ -3,14 +3,10 @@
  * 
  * 
 */
-
-import { getMe } from "./auth-reducer";
-
 // Названия действий
 
 const
-    SET_INITIALIZED = 'app/setInitial',
-    SET_ROLLUP = 'app/setRollup';
+    SET_INITIALIZED = 'app/setInitial';
 
 
 // Инициализация
@@ -30,18 +26,11 @@ const appReducer = (state = initialState, action) => {
             return {
                 ...state,
                 initialized: true
-            }
-            
-        case SET_ROLLUP:
-            return {
-                ...state,
-                rollUp: action.newStatus
-            }
+            };
 
         default: return state;
     }
-
-}
+};
 
 export default appReducer;
 
@@ -49,16 +38,11 @@ export default appReducer;
 // Actions
 
 export const setInitializedSuccess = () => ({type: SET_INITIALIZED});
-export const setRollUpSuccess = newStatus => ({type: SET_ROLLUP, newStatus});
 
 
 // Thunks
 
 // Инициализирование приложения
 export const initializeApp = () => async dispatch => {
-    // await dispatch(getMe());
     dispatch(setInitializedSuccess());
 };
-
-// Развернуть/свернуть боковое меню
-export const setRollUp = newStatus => dispatch => dispatch(setRollUpSuccess(newStatus));
