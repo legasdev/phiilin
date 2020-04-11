@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
 
 import s from "./Login.module.less";
@@ -7,10 +7,26 @@ import Form from "@src/components/common/Form";
 
 import { login } from "@src/redux/auth-reducer";
 import useRedirectToLastPage from "../../../hooks/useRedirectToLastPage";
+import Input from "../../common/Form/Input";
+import Button from "../../common/Button";
 
 const LoginPage = ({ login }) => {
 
     const lastPage = useRedirectToLastPage();
+    const [loginField, setLoginField] = useState('');
+    const [passwordField, setPasswordField] = useState('');
+
+    useEffect(() => {
+        document.title = 'Авторизация | SLR Project';
+    });
+
+    function onChangeLogin(event) {
+        setLoginField(event.target.value);
+    }
+
+    function onChangePassword(event) {
+        setPasswordField(event.target.value);
+    }
 
     function onSubmit(data) {
         login(data);
@@ -19,8 +35,26 @@ const LoginPage = ({ login }) => {
     return (
         lastPage ||
         <div className={s.main}>
-            <h1>Логин</h1>
-            <Form onSubmit={onSubmit}/>
+            <h1 className={s.title}>Авторизация</h1>
+            <Form
+                onSubmit={onSubmit}
+            >
+                <Input
+                    name={'login'}
+                    label={'Логин'}
+                    type={'email'}
+                    onChange={onChangeLogin}
+                    value={loginField}
+                />
+                <Input
+                    name={'password'}
+                    label={'Пароль'}
+                    type={'password'}
+                    onChange={onChangePassword}
+                    value={passwordField}
+                />
+                <Button type={'submit'}>Войти</Button>
+            </Form>
         </div>
     );
 };

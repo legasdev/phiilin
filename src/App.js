@@ -11,10 +11,6 @@ import Pages from "./components/Pages";
 const App = ({ setMe }) => {
 
     useEffect(() => {
-       document.title = 'SLR Project';
-    });
-
-    useEffect(() => {
         setMe();
     });
 

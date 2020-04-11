@@ -11,6 +11,13 @@ import Profile from "./Profile";
 import Empty from "../Empty";
 import LoginPage from "./Login";
 
+/**
+ * Роутинг страниц
+ *
+ * @param props
+ * @returns {*}
+ * @constructor
+ */
 const Pages = props => {
 
     const isAuth = useSelector(state => state.auth.isAuth);

@@ -7,6 +7,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 
   --background: #FBCF57;
+  --background-hover: #fbdb57;
+  --background-active: #fbd553;
+  --color-white: #fff;
+  --color-border: #EFEFEF;
+  --color-dark: #2B2B2B;
 }
 
 code {

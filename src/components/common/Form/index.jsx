@@ -1,30 +1,37 @@
-import React, { useState } from "react";
+import React from "react";
 
 import s from "./Form.module.less";
 
-const Form = ({ onSubmit }) => {
+const Form = ({ onSubmit, children }) => {
 
-    const [loginInputText, setLoginInputText] = useState('');
-    const [passwordInputText, setPasswordInputText] = useState('');
-
-    function handlerSubmit(event) {
+    // Сабмит формы
+    function handleSubmit(event) {
         event.preventDefault();
-        onSubmit({
-            login: loginInputText,
-            password: passwordInputText
-        });
-    }
-
-    function onLoginChange(event) {
-        setLoginInputText(event.currentTarget.value);
-    }
-
-    function onPasswordChange(event) {
-        setPasswordInputText(event.currentTarget.value);
+        const data = children.reduce( (acc, field) => {
+            return field.props.name ?
+                {
+                    ...acc,
+                    [field.props.name]: field.props.value
+                } : acc;
+        }, {});
+        onSubmit(data);
     }
 
     return (
-        <form className={s.main} onSubmit={handlerSubmit}>
+        <form
+            className={s.main}
+            onSubmit={handleSubmit}
+            noValidate={true}
+        >
+            {children}
+        </form>
+    );
+};
+
+export default Form;
+
+/*
+<form className={s.main} onSubmit={handlerSubmit}>
             <input
                 type={'text'}
                 placeholder={'login'}
@@ -41,7 +48,4 @@ const Form = ({ onSubmit }) => {
             />
             <input type={'submit'} value={'Войти'} />
         </form>
-    );
-};
-
-export default Form;
+ */
