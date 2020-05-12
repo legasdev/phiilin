@@ -1,0 +1,28 @@
+@import "~@src/assets/styles/variables.less";
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 228px;
+  min-height: 252px;
+  padding: 25px;
+  background-color: transparent;
+  border: 2px solid var(--color-gray);
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background-color @tr-fast;
+
+  &:hover {
+    background-color: var(--color-white);
+  }
+}
+
+.text {
+  color: var(--color-gray);
+  font-family: var(--fontDemi);
+  width: 100%;
+  max-width: 116px;
+  margin-bottom: 25px;
+}

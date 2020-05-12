@@ -1,0 +1,69 @@
+@import "~@src/assets/styles/mixins.less";
+@import "~@src/assets/styles/variables.less";
+
+.table {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 20px;
+  background-color: var(--color-white);
+  border-radius: 15px;
+  border: 2px solid var(--color-border);
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 840px;
+  padding: 20px;
+  background-color: var(--color-popup);
+
+  &:nth-child(2n) {
+    background-color: var(--color-white);
+  }
+}
+
+.header {
+  background-color: var(--background);
+}
+
+.cell {
+  width: 100%;
+  max-width: 120px;
+
+  & + & {
+    margin-left: 35px;
+  }
+}
+
+.cellBold {
+  font-weight: 600;
+}
+
+.cellBig {
+  max-width: 250px;
+}
+
+.addNew {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 20px;
+  background-color: #fadd8c;
+  border: none;
+  cursor: pointer;
+  transition:
+          background-color @tr-fast;
+
+  &:hover {
+    background-color: var(--background-hover);
+  }
+
+  &:active {
+    background-color: #fadd8c;
+  }
+}

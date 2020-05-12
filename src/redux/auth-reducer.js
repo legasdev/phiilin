@@ -92,10 +92,10 @@ export const setMe = () => async dispatch => {
 export const login = ({login, password}) => async dispatch => {
     try {
         const
-            result = await authAPI.login(login, password);
+            {data} = await authAPI.login(login, password);
 
-        if (result.data) {
-            localStorage.setItem('token', result.data.token);
+        if (data) {
+            localStorage.setItem('token', data.token);
             localStorage.setItem('login', login);
             dispatch(setMe());
         } else {

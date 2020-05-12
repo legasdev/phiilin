@@ -29,23 +29,3 @@ const Form = ({ onSubmit, children }) => {
 };
 
 export default Form;
-
-/*
-<form className={s.main} onSubmit={handlerSubmit}>
-            <input
-                type={'text'}
-                placeholder={'login'}
-                name={'login'}
-                value={loginInputText}
-                onChange={onLoginChange}
-            />
-            <input
-                type={'password'}
-                placeholder={'password'}
-                name={'password'}
-                value={passwordInputText}
-                onChange={onPasswordChange}
-            />
-            <input type={'submit'} value={'Войти'} />
-        </form>
- */

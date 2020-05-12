@@ -2,6 +2,7 @@ import React from "react";
 import {compose} from "redux";
 import {connect, useSelector} from "react-redux";
 import {Route, Switch, withRouter} from "react-router-dom";
+import { LastLocationProvider } from 'react-router-last-location';
 
 import s from './Pages.module.less';
 
@@ -10,6 +11,10 @@ import {initializeApp} from "@src/redux/app-reducer";
 import Profile from "./Profile";
 import Empty from "../Empty";
 import LoginPage from "./Login";
+import GroupsPage from "./Groups";
+import UsersPage from "./Users";
+import TasksPage from "./Tasks";
+import WorksPage from "./Works";
 
 /**
  * Роутинг страниц
@@ -24,18 +29,36 @@ const Pages = props => {
 
     return (
         <div className={isAuth ? s.main : ''}>
+            <LastLocationProvider watchOnlyPathname>
             <Switch>
-                <Route
-                    exact
-                    path={'/'}
-                    render={ () => <Profile /> }
-                />
-                <Route
-                    path={'/login'}
-                    render={ () => <LoginPage /> }
-                />
-                <Route render={ () => <Empty /> }/>
+                    <Route
+                        exact
+                        path={'/'}
+                        render={ () => <Profile /> }
+                    />
+                    <Route
+                        path={'/login'}
+                        render={ () => <LoginPage /> }
+                    />
+                    <Route
+                        path={'/groups'}
+                        render={ () => <GroupsPage /> }
+                    />
+                    <Route
+                        path={'/users'}
+                        render={ () => <UsersPage /> }
+                    />
+                    <Route
+                        path={'/tasks'}
+                        render={ () => <TasksPage /> }
+                    />
+                    <Route
+                        path={'/works'}
+                        render={ () => <WorksPage /> }
+                    />
+                    <Route render={ () => <Empty /> }/>
             </Switch>
+            </LastLocationProvider>
         </div>
     );
 };

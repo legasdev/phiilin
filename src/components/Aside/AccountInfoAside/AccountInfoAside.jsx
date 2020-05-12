@@ -1,7 +1,7 @@
 import React from 'react';
 import {useSelector} from "react-redux";
 
-import s from './accountInfoAside.module.less';
+import s from './AccountInfoAside.module.less';
 
 import Avatar from '@src/components/common/Avatar/Avatar';
 
@@ -13,15 +13,14 @@ const AccountInfoAside = props => {
 
     return (
         <div className={s.info}>
-            <div>
-                <div>
-                    {`${userName} ${userLastName}`}
-                </div>
-                <div>
-                    {userPosition}
-                </div>
-            </div>
             <Avatar min={true} />
+            <p className={s.username}>
+                {`${userName} ${userLastName}`}
+            </p>
+            <div className={s.horizonLine} />
+            <p>
+                {userPosition}
+            </p>
         </div>
     );
 };

@@ -1,8 +1,10 @@
 /**
  *  Редьюсер профиля
- * 
- * 
+ *
+ *
 */
+import {setMe} from "./auth-reducer";
+
 // Названия действий
 
 const
@@ -44,5 +46,6 @@ export const setInitializedSuccess = () => ({type: SET_INITIALIZED});
 
 // Инициализирование приложения
 export const initializeApp = () => async dispatch => {
+    await dispatch(setMe());
     dispatch(setInitializedSuccess());
 };

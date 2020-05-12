@@ -63,8 +63,21 @@ export const _setErrorAddNew = flag => ({type: SET_ERROR_NEW, flag});
 // Thunks
 
 // Запрашиваем и добавляем в редакс список групп
+export const getListGroup = id => async dispatch => {
+    const res = await groupsAPI.getGroups();
+
+    console.log(res);
+
+    !res.data.errorCode
+        ? id
+        ? dispatch(_setInfoGroup(res.data.listGroups[0]))
+        : dispatch(_setListGroups(res.data.listGroups))
+        : console.error(`Код ошибки: ${res.data.errorCode}`);
+};
+
+// Запрашиваем и добавляем в редакс список групп
 export const setListGroups = id => async dispatch => {
-    const res = await groupsAPI.getGroups(id);
+    const res = await groupsAPI.getGroup(id);
 
     !res.data.errorCode
         ? id 

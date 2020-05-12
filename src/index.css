@@ -9,8 +9,11 @@ body {
   --background: #FBCF57;
   --background-hover: #fbdb57;
   --background-active: #fbd553;
+  --color-orange: #D97E15;
+  --color-popup: #FCFAF4;
   --color-white: #fff;
   --color-border: #EFEFEF;
+  --color-gray: #C5C5C5;
   --color-dark: #2B2B2B;
 }
 
