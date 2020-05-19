@@ -1,18 +1,28 @@
 import React, {useEffect} from 'react';
-import {connect} from "react-redux";
+import {connect, useSelector} from "react-redux";
 
 import './App.less';
 
-import {setMe} from "./redux/auth-reducer";
+import {getAuth} from "./redux/auth-reducer";
+import {getListGroups} from "./redux/groups-reducer";
 
 import Aside from "./components/Aside";
 import Pages from "./components/Pages";
 
-const App = ({ setMe }) => {
+const App = ({ getAuth, getListGroups }) => {
+
+    const
+        init = useSelector(state => state.app.initialized),
+        listGroups = useSelector(state => state.groups.listGroups);
 
     useEffect(() => {
-        setMe();
-    });
+        if (!init) {
+            getAuth();
+        }
+        if (!listGroups) {
+            getListGroups();
+        }
+    }, [init, listGroups, getAuth, getListGroups]);
 
     return (
         <div className={'App'}>
@@ -22,4 +32,4 @@ const App = ({ setMe }) => {
     );
 };
 
-export default connect(null, { setMe })(App);
+export default connect(null, { getAuth, getListGroups })(App);

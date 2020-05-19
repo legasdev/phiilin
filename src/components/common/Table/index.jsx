@@ -10,7 +10,10 @@ const Table = ({ header, rows, onAddNew, buttonText='Добавить', bigFirst
                 {
                     header &&
                     header.map((cell, i) => (
-                        <div className={`${s.cell} ${s.cellBold} ${i===0 && bigFirst ? s.cellBig : ''}`}>
+                        <div
+                            key={i}
+                            className={`${s.cell} ${s.cellBold} ${i===0 && bigFirst ? s.cellBig : ''}`}
+                        >
                             {cell}
                         </div>
                     ))
@@ -19,11 +22,14 @@ const Table = ({ header, rows, onAddNew, buttonText='Добавить', bigFirst
             {
                 rows &&
                 rows.map(row => (
-                    <div className={s.row}>
+                    <div className={s.row} key={row[1]}>
                         {
                             row &&
                             row.map((cell, i) => (
-                                <div className={`${s.cell} ${i===0 && bigFirst ? s.cellBig : ''}`}>
+                                <div
+                                    key={i}
+                                    className={`${s.cell} ${i===0 && bigFirst ? s.cellBig : ''}`}
+                                >
                                     {cell}
                                 </div>
                             ))

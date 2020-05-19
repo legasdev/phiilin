@@ -1,5 +1,6 @@
 import React from 'react';
 import {useSelector} from "react-redux";
+import {positionsUsers} from "../../../utils/maps";
 
 import s from './AccountInfoAside.module.less';
 
@@ -19,7 +20,7 @@ const AccountInfoAside = props => {
             </p>
             <div className={s.horizonLine} />
             <p>
-                {userPosition}
+                {positionsUsers.get(userPosition)}
             </p>
         </div>
     );

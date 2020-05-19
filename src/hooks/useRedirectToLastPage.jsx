@@ -8,7 +8,7 @@ function useRedirectToLastPage() {
     const isAuth = useSelector(state => state.auth.isAuth);
     const lastPage = useLastLocation();
 
-    if (isAuth) return <Redirect to={lastPage ? lastPage.pathname : '/'} />;
+    if (isAuth) return <Redirect to={lastPage && lastPage.pathname !== '/registration' ? lastPage.pathname : '/'} />;
     return void 0;
 }
 

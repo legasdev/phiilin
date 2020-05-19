@@ -4,7 +4,8 @@ import s from "./Input.module.less";
 
 const Input = ({ label, ...props }) => {
 
-    const id = Math.floor(Math.random() * new Date());
+    const
+        id = Math.floor(Math.random() * new Date());
 
     return (
         <div className={s.main}>

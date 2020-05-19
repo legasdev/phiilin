@@ -2,7 +2,7 @@ import React from "react";
 
 import s from "./Form.module.less";
 
-const Form = ({ onSubmit, children }) => {
+const Form = ({ onSubmit, children, style={} }) => {
 
     // Сабмит формы
     function handleSubmit(event) {
@@ -22,6 +22,7 @@ const Form = ({ onSubmit, children }) => {
             className={s.main}
             onSubmit={handleSubmit}
             noValidate={true}
+            style={style}
         >
             {children}
         </form>

@@ -9,6 +9,7 @@ import { login } from "@src/redux/auth-reducer";
 import useRedirectToLastPage from "../../../hooks/useRedirectToLastPage";
 import Input from "../../common/Form/Input";
 import Button from "../../common/Button";
+import {NavLink} from "react-router-dom";
 
 const LoginPage = ({ login }) => {
 
@@ -55,6 +56,11 @@ const LoginPage = ({ login }) => {
                 />
                 <Button type={'submit'}>Войти</Button>
             </Form>
+            <NavLink
+                to={'/registration'}
+                className={`${s.link}`}>
+                <span>Регистрация</span>
+            </NavLink>
         </div>
     );
 };

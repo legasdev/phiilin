@@ -9,7 +9,7 @@ import { authAPI } from "../api/api";
 // Названия действий
 
 const
-    SET_USER_DATA = 'auth-reducer/SET_USER_DATA',             // Авторизация пользователя
+    SET_USER_DATA = 'auth-reducer/SET_USER_DATA',        // Авторизация пользователя
     SET_LOGIN_ERROR = 'auth-reducer/SET_LOGIN_ERROR',    // При авторизации возникла ошибка
     SET_LOGOUT = 'auth-reducer/SET_LOGOUT';              // Выход (разлогин)
 
@@ -22,7 +22,7 @@ const initialState = {
     login: '',
     name: 'Имя',
     lastName: 'Фамилия',
-    position: 'Преподаватель',
+    position: 'teacher',
     isAuth: false,
     isFetching: false,
     loginError: false,
@@ -81,7 +81,7 @@ export const setMe = () => async dispatch => {
                 login,
                 name: 'Артем',
                 lastName: 'Степанов',
-                position: 'Преподаватель',
+                position: 'student',
             }));
         }
     } catch(e) {
@@ -89,6 +89,23 @@ export const setMe = () => async dispatch => {
     }
 };
 
+// Проверка авторизации
+export const getAuth = () => async dispatch => {
+    try {
+        const
+            data = await authAPI.getAuth();
+
+        if (data.ok) {
+            dispatch(setMe());
+        } else {
+            throw new Error('Error login');
+        }
+    } catch(error) {
+        console.error(error);
+    }
+};
+
+// Залогиниться
 export const login = ({login, password}) => async dispatch => {
     try {
         const
@@ -100,6 +117,22 @@ export const login = ({login, password}) => async dispatch => {
             dispatch(setMe());
         } else {
             throw new Error('Error login');
+        }
+    } catch(error) {
+        console.error(error);
+    }
+};
+
+// Зарегистрироваться
+export const register = (login, fio, email, tel, group, password) => async dispatch => {
+    try {
+        const
+            {data} = await authAPI.register(login, fio, email, tel, group, password);
+
+        if (data.ok) {
+            // TODO: Обработка регистрации
+        } else {
+            throw new Error('Error register');
         }
     } catch(error) {
         console.error(error);

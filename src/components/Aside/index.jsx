@@ -29,7 +29,10 @@ const Aside = ({ logout }) => {
                 <a href={'https://unn.ru'} target={'_blank'}>
                     <img src={'/imgs/logo-unn.png'} alt={'Университет Лобачевского'} />
                 </a>
-                <button onClick={onClickLogout}>Выйти</button>
+                <button
+                    className={s.logout}
+                    onClick={onClickLogout}
+                >Выйти</button>
             </div>
         </div>
     );

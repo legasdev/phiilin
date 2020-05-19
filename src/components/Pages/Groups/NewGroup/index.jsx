@@ -1,4 +1,5 @@
 import React, {useCallback, useState} from "react";
+import {connect} from "react-redux";
 
 import s from './NewGroup.module.less';
 
@@ -6,18 +7,26 @@ import Popup from "../../../common/Popup";
 import Input from "../../../common/Form/Input";
 import Button from "../../../common/Button";
 import Form from "../../../common/Form";
+import Textarea from "../../../common/Form/Textarea";
+import {addNewGroup} from "../../../../redux/groups-reducer";
 
-const NewGroup = ({onWrapperClose}) => {
+const NewGroup = ({onWrapperClose, addNewGroup}) => {
 
     const
-        [groupName, setGroupName] = useState('');
+        [groupName, setGroupName] = useState(''),
+        [groupDirection, setGroupDirection] = useState('');
 
     const
         onSubmit = useCallback(() => {
-            // TODO: Добавить добавление группы
-        },[]),
+            addNewGroup(groupName, groupDirection);
+            setGroupName('');
+            setGroupDirection('');
+        },[addNewGroup, groupName, groupDirection]),
         onChangeNameGroup = useCallback((event) => {
             setGroupName(event.target.value);
+        },[]),
+        onChangeDirectionGroup = useCallback((event) => {
+            setGroupDirection(event.target.value);
         },[]);
 
     return (
@@ -30,12 +39,19 @@ const NewGroup = ({onWrapperClose}) => {
                     onSubmit={onSubmit}
                 >
                     <Input
-                        name={'groupName'}
+                        name={'name'}
                         label={'Введите номер группы'}
                         type={'text'}
                         placeholder={'Например, 1234'}
                         onChange={onChangeNameGroup}
                         value={groupName}
+                    />
+                    <Textarea
+                        name={'direction'}
+                        label={'Введите описание'}
+                        placeholder={'Например, ФИИТ'}
+                        onChange={onChangeDirectionGroup}
+                        value={groupDirection}
                     />
                     <Button type={'submit'}>Добавить</Button>
                 </Form>
@@ -44,4 +60,4 @@ const NewGroup = ({onWrapperClose}) => {
     )
 };
 
-export default NewGroup;
+export default connect(null, {addNewGroup})(NewGroup);

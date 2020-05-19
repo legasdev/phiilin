@@ -8,6 +8,7 @@ import { groupsAPI } from "../api/api";
 */
 
 const
+    SET_GROUPS = 'groups/set_groups',
     SET_LIST_GROUPS = 'groups/set_list_groups',
     SET_INFO_GROUP = 'groups/set_info_group',
     SET_ERROR_NEW = 'groups/set_error_new';
@@ -18,6 +19,7 @@ const
 
 const initialState = {
     listGroups: null,
+    groups: null,
     infoGroup: null,
     isErrorAddNew: null,
 };
@@ -27,10 +29,17 @@ const initialState = {
 
 const groupsReducer = (state = initialState, action) => {
     switch (action.type) {
+
         case SET_LIST_GROUPS:
             return {
                 ...state,
                 listGroups: action.listGroups
+            };
+
+        case SET_GROUPS:
+            return {
+                ...state,
+                groups: action.groups
             };
 
         case SET_ERROR_NEW:
@@ -43,7 +52,7 @@ const groupsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 infoGroup: action.infoGroup
-            }
+            };
 
         default: return { ...state }
     }
@@ -56,51 +65,60 @@ export default groupsReducer;
 // Actons
 
 export const _setListGroups = listGroups => ({type: SET_LIST_GROUPS, listGroups});
+export const _setGroups = groups => ({type: SET_GROUPS, groups});
 export const _setInfoGroup = infoGroup => ({type: SET_INFO_GROUP, infoGroup});
 export const _setErrorAddNew = flag => ({type: SET_ERROR_NEW, flag}); 
 
 
 // Thunks
 
-// Запрашиваем и добавляем в редакс список групп
-export const getListGroup = id => async dispatch => {
-    const res = await groupsAPI.getGroups();
-
-    console.log(res);
-
-    !res.data.errorCode
-        ? id
-        ? dispatch(_setInfoGroup(res.data.listGroups[0]))
-        : dispatch(_setListGroups(res.data.listGroups))
-        : console.error(`Код ошибки: ${res.data.errorCode}`);
-};
-
-// Запрашиваем и добавляем в редакс список групп
-export const setListGroups = id => async dispatch => {
-    const res = await groupsAPI.getGroup(id);
-
-    !res.data.errorCode
-        ? id 
-            ? dispatch(_setInfoGroup(res.data.listGroups[0])) 
-            : dispatch(_setListGroups(res.data.listGroups))
-        : console.error(`Код ошибки: ${res.data.errorCode}`);
-};
-
-// Удаляем данные из стейта по группе
-export const clearInfoGroup = () => dispatch => dispatch(_setInfoGroup(null));
-
-// Добавляем новую группу в бд и делаем новый запрос на обновление групп
-export const addNewGroup = data => async dispatch => {
-    const res = await groupsAPI.addNewGroup(data);
-
-    if (!res.data.errorCode) {
-        dispatch(_setListGroups(res.data.listGroups));
-        dispatch(_setErrorAddNew(false));
-    } else {
-        console.error(`Код ошибки: ${res.data.errorCode}`);
-        dispatch(_setErrorAddNew(true));
+export const getListGroups = () => async dispatch => {
+    try {
+        const {data: {ok, groups}} = await groupsAPI.getListGroups();
+        if (ok) {
+            dispatch(_setListGroups(groups));
+        } else {
+            throw new Error('Данные не были получены');
+        }
+    } catch(error) {
+        console.error(error);
     }
 };
 
-// Изменить статус ошибки
-export const setErrorAddNew = flag => dispatch => dispatch(_setErrorAddNew(flag));
+// Запрашиваем и добавляем в редакс список групп
+export const getGroups = () => async dispatch => {
+    try {
+        const {data: {ok, groups}} = await groupsAPI.getGroups();
+        if (ok) {
+            dispatch(_setGroups(groups));
+        } else {
+            throw new Error('Данные не были получены');
+        }
+    } catch(error) {
+        console.error(error);
+    }
+};
+
+// Добавляем новую группу в бд и делаем новый запрос на обновление групп
+export const addNewGroup = (name, direction) => async dispatch => {
+    try {
+        const {data: {ok}} = await groupsAPI.addNewGroup(name, direction);
+        if (ok) {
+            const {data: {ok, groups}} = await groupsAPI.getGroups();
+            if (ok) {
+                dispatch(_setGroups(groups));
+
+                const {data: {ok, groups: listGroups}} = await groupsAPI.getListGroups();
+                if (ok) {
+                    dispatch(_setListGroups(listGroups));
+                }
+            } else {
+                throw new Error('Данные не были получены');
+            }
+        } else {
+            throw new Error('Ошибка добавления');
+        }
+    } catch(error) {
+        console.error(error);
+    }
+};

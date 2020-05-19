@@ -2,8 +2,13 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 import s from './navigationMain.module.less';
+import {useSelector} from "react-redux";
 
 const NavigationMain = (props) => {
+
+    const
+        position = useSelector(state => state.auth.position);
+
     return (
         <nav className={s.nav}>
             <NavLink 
@@ -12,18 +17,23 @@ const NavigationMain = (props) => {
                 activeClassName={s.active}>
                     <span>Профиль</span>
             </NavLink>
-            <NavLink 
-                to={'/groups'} 
-                className={`${s.link}`}
-                activeClassName={s.active}>
-                    <span>Группы</span>
-            </NavLink>
-            <NavLink 
-                to={'/users'} 
-                className={`${s.link}`}
-                activeClassName={s.active}>
-                <span>Учащиеся</span>
-            </NavLink>
+            {
+                position !== 'student' &&
+                <>
+                    <NavLink
+                        to={'/groups'}
+                        className={`${s.link}`}
+                        activeClassName={s.active}>
+                        <span>Группы</span>
+                    </NavLink>
+                    <NavLink
+                        to={'/users'}
+                        className={`${s.link}`}
+                        activeClassName={s.active}>
+                        <span>Учащиеся</span>
+                    </NavLink>
+                </>
+            }
             <NavLink
                 to={'/tasks'}
                 className={`${s.link}`}
@@ -38,6 +48,6 @@ const NavigationMain = (props) => {
             </NavLink>
         </nav>
     )
-}
+};
 
 export default NavigationMain;

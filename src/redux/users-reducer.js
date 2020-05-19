@@ -20,12 +20,6 @@ const usersReducer = (state=initialState, action) => {
                 listUsers: action.listUsers
             };
 
-        case SET_ERROR_NEW:
-            return {
-                ...state,
-                isErrorAddNew: action.flag
-            }
-
         default: return {...state};
     }
 
@@ -42,39 +36,17 @@ export const _setErrorAddNew = flag => ({type: SET_ERROR_NEW, flag});
 
 // Thunks
 
-export const setListUsers = id => async dispatch => {
-    const {data} = await usersAPI.getUsers(id);
-
-    console.log(data);
-
-    !data.errorCode
-        ? dispatch(_setListUsers(data.list))
-        : console.error(`Код ошибки: ${data.errorCode}`);
-};
-
-export const setListUsersByGroupId = groupId => async dispatch => {
-    const {data} = await usersAPI.getUsersById(groupId);
-
-    !data.errorCode
-        ? dispatch(_setListUsers(data.listUsers))
-        : console.error(`Код ошибки: ${data.errorCode}`);
-};
-
-export const addNewUser = user => async dispatch => {
+// Запрашиваем и добавляем в редакс список студентов
+export const getListUsers = () => async dispatch => {
     try {
-        const res = await usersAPI.addNewUser(user);
-
-        if (!res.data.errorCode) {
-            dispatch(_setErrorAddNew(false));
+        const {data} = await usersAPI.getUsers();
+        if (data.ok) {
+            console.log(data);
+            dispatch(_setListUsers(data.users));
         } else {
-            dispatch(_setErrorAddNew(true));
-            console.error(`Код ошибки: ${res.data.errorCode}`);
+            throw new Error('Данные не были получены');
         }
-    } catch(e) {
-        dispatch(_setErrorAddNew(true));
+    } catch(error) {
+        console.error(error);
     }
 };
-
-export const clearListUsers = () => async dispatch => dispatch(_setListUsers(null));
-
-export const setErrorAddNew = flag => async dispatch => dispatch(_setErrorAddNew(flag));

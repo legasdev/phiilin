@@ -15,6 +15,7 @@ import GroupsPage from "./Groups";
 import UsersPage from "./Users";
 import TasksPage from "./Tasks";
 import WorksPage from "./Works";
+import RegPage from "./Register";
 
 /**
  * Роутинг страниц
@@ -39,6 +40,10 @@ const Pages = props => {
                     <Route
                         path={'/login'}
                         render={ () => <LoginPage /> }
+                    />
+                    <Route
+                        path={'/registration'}
+                        render={ () => <RegPage /> }
                     />
                     <Route
                         path={'/groups'}

@@ -1,21 +1,21 @@
 import React, {useEffect, useCallback, useState} from "react";
 import {connect, useSelector} from "react-redux";
 import useRedirectToLogin from "@src/hooks/useRedirectLogin";
+import {getGroups} from "../../../redux/groups-reducer";
 
 import s from "./Groups.module.less";
 
 import Card from "@src/components/common/Card";
 import AddButton from "@src/components/common/AddButton";
 import NewGroup from "./NewGroup";
-import {getListGroup} from "../../../redux/groups-reducer";
 
-const GroupsPage = ({ getListGroup }) => {
+const GroupsPage = ({ getGroups }) => {
 
     const
         RedirectToLogin = useRedirectToLogin();
 
     const
-        groups = useSelector(state => state.groups.listGroups);
+        groups = useSelector(state => state.groups.groups);
 
     const
         [showNewGroup, setShowNewGroup] = useState(false);
@@ -26,9 +26,9 @@ const GroupsPage = ({ getListGroup }) => {
 
     useEffect(() => {
         if (!groups) {
-            getListGroup();
+            getGroups();
         }
-    }, [groups, getListGroup]);
+    }, [groups, getGroups]);
 
     const
         onAddClick = useCallback((event) => {
@@ -47,33 +47,25 @@ const GroupsPage = ({ getListGroup }) => {
                     title={'Добавить новую группу'}
                     onHandleClick={onAddClick}
                 />
-                <Card
-                    title={'Группа 6654'}
-                    info={[
-                        {
-                            title: 'Учащихся',
-                            value: '4'
-                        }
-                    ]}
-                />
-                <Card
-                    title={'Группа 6658'}
-                    info={[
-                        {
-                            title: 'Учащихся',
-                            value: '7'
-                        }
-                    ]}
-                />
-                <Card
-                    title={'Группа 66456'}
-                    info={[
-                        {
-                            title: 'Учащихся',
-                            value: '0'
-                        }
-                    ]}
-                />
+                {
+                    groups &&
+                    groups.map(group => (
+                        <Card
+                            key={group.id}
+                            title={group.number}
+                            info={[
+                                {
+                                    title: 'Направление',
+                                    value: group.direction
+                                },
+                                {
+                                    title: 'Учащихся',
+                                    value: Object.keys(group.users).length
+                                }
+                            ]}
+                        />
+                    ))
+                }
             </div>
             {
                 showNewGroup &&
@@ -85,4 +77,4 @@ const GroupsPage = ({ getListGroup }) => {
     );
 };
 
-export default connect(null, {getListGroup})(GroupsPage);
+export default connect(null, {getGroups})(GroupsPage);

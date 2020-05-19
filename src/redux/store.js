@@ -13,6 +13,7 @@ import appReducer from './app-reducer';
 import groupsReducer from './groups-reducer';
 import usersReducer from './users-reducer';
 import profileReducer from './profile-reducer';
+import tasksReducer from "./tasks-reducer";
 
 // Редьюсеры
 const reducers = combineReducers({
@@ -20,6 +21,7 @@ const reducers = combineReducers({
     app: appReducer,
     groups: groupsReducer,
     users: usersReducer,
+    tasks: tasksReducer,
     profile: profileReducer,
 });
 
