@@ -1,11 +1,11 @@
 import { tasksAPI } from "../api/api";
 
-function createObjectByTypeTask(typeTask, tasks) {
-    return {
-        type: typeTask,
-        tasks: tasks.filter(task => task.type.toLowerCase() === typeTask.toLowerCase())
-    }
-}
+// function createObjectByTypeTask(typeTask, tasks) {
+//     return {
+//         type: typeTask,
+//         tasks: tasks.filter(task => task.type.toLowerCase() === typeTask.toLowerCase())
+//     }
+// }
 
 const
     SET_LIST_TASKS = 'tasks/set_list_tasks';
@@ -41,9 +41,9 @@ export const _setListTasks = listTasks => ({type: SET_LIST_TASKS, listTasks});
 // Thunks
 
 // Запрашиваем и добавляем в редакс список студентов
-export const getListTasks = () => async dispatch => {
+export const getListTasks = (position, group, forAll=false) => async dispatch => {
     try {
-        const {data} = await tasksAPI.getTasks();
+        const {data} = await tasksAPI.getTasks(position, group);
         if (data.ok) {
             console.log(data.tasks);
             dispatch(_setListTasks({

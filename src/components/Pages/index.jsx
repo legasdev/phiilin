@@ -54,8 +54,13 @@ const Pages = props => {
                         render={ () => <UsersPage /> }
                     />
                     <Route
+                        exact
                         path={'/tasks'}
                         render={ () => <TasksPage /> }
+                    />
+                    <Route
+                        path={'/tasks/group'}
+                        render={ () => <TasksPage forAllGroup /> }
                     />
                     <Route
                         path={'/works'}

@@ -6,8 +6,12 @@ import Table from "@src/components/common/Table";
 import NewTask from "../NewTask";
 
 import {typeWorks, statusWorks} from "@src/utils/maps";
+import {useSelector} from "react-redux";
 
 const GroupTasks = ({ tasks, typeTask }) => {
+
+    const
+        position = useSelector(state => state.auth.position);
 
     const
         [showNewTask, setShowNewTask] = useState(false);
@@ -40,11 +44,11 @@ const GroupTasks = ({ tasks, typeTask }) => {
                 }
                 buttonText={'Добавить задание'}
                 bigFirst={true}
-                addNew={true}
+                addNew={position !== 'student'}
                 onAddNew={onAddNew}
             />
             {
-                showNewTask &&
+                showNewTask && position &&
                 <NewTask
                     onWrapperClose={onClosePopup}
                     typeTask={typeTask}

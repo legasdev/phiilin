@@ -9,14 +9,13 @@ import Avatar from '@src/components/common/Avatar/Avatar';
 const AccountInfoAside = props => {
 
     const userName = useSelector(state => state.auth.name);
-    const userLastName = useSelector(state => state.auth.lastName);
     const userPosition = useSelector(state => state.auth.position);
 
     return (
         <div className={s.info}>
             <Avatar min={true} />
             <p className={s.username}>
-                {`${userName} ${userLastName}`}
+                {userName}
             </p>
             <div className={s.horizonLine} />
             <p>

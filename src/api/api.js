@@ -28,10 +28,7 @@ export const authAPI = {
 
     // Проверка авторизации
     async getAuth() {
-        return {ok: true};
-        // return await Instance.post('/api/v1/auth', {token: localStorage.getItem('token')}, {
-        //     headers: addToken()
-        // });
+        return await Instance.post('/api/v1/auth', {token: localStorage.getItem('token')}, {});
     }
 
 };
@@ -75,15 +72,20 @@ export const usersAPI = {
 // API задач
 export const tasksAPI = {
 
-    // Получить список студентов
-    async getTasks() {
+    // Получить список заданий
+    async getTasks(position, group) {
+        if (position === 'student') {
+            return await Instance.post('/api/v1/tasks/for_group', {group}, {
+                headers: addToken()
+            });
+        }
+
         return await Instance.get('/api/v1/tasks', {
             headers: addToken()
         });
     },
 
     // Добавить новое задание
-
     async addNewTask(task) {
         return await Instance.post('/api/v1/task/create', task, {
             headers: addToken()

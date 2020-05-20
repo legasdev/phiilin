@@ -9,7 +9,7 @@ import GroupTasks from "./GroupTasks";
 
 import {typeWorks} from "@src/utils/maps";
 
-const TasksPage = ({ getListTasks }) => {
+const TasksPage = ({ getListTasks, forAllGroup=false }) => {
 
     const
         RedirectToLogin = useRedirectToLogin();
@@ -18,7 +18,9 @@ const TasksPage = ({ getListTasks }) => {
         [typeTask, setTypeTask] = useState('all');
 
     const
-        tasks = useSelector(state => state.tasks.listTasks);
+        tasks = useSelector(state => state.tasks.listTasks),
+        position = useSelector(state => state.auth.position),
+        userNameGroup = useSelector(state => state.auth.groupName);
 
     const
         onChangeTypeTask = useCallback((event) => {
@@ -26,19 +28,19 @@ const TasksPage = ({ getListTasks }) => {
         }, []);
 
     useEffect(() => {
-        document.title = 'Задания | SLR Project';
+        document.title = `Задания${forAllGroup ? ' группы' : ''} | SLR Project`;
     });
 
     useEffect(() => {
         if (!tasks) {
-            getListTasks();
+            getListTasks(position, userNameGroup, forAllGroup);
         }
-    }, [tasks, getListTasks]);
+    }, [tasks, forAllGroup, userNameGroup, position, getListTasks]);
 
     return (
         RedirectToLogin ||
         <section className={s.main}>
-            <h2>Задания</h2>
+            <h2>Задания{forAllGroup ? ` группы ${userNameGroup}` : ''}</h2>
             <select
                 value={typeTask}
                 onChange={onChangeTypeTask}
