@@ -6,6 +6,7 @@ export const typeWorks = new Map([
 
 export const statusWorks = new Map([
     ['active', 'Активная'],
+    ['inactive', 'Неактивная'],
 ]);
 
 export const positionsUsers = new Map([

@@ -28,18 +28,23 @@ const GroupTasks = ({ tasks, typeTask }) => {
         <section className={s.main}>
             <h3>{typeWorks.get(typeTask)}</h3>
             <Table
-                header={['Название', 'ID', 'Статус', 'Тип работы', 'Выдана', 'Сдать до']}
+                header={
+                    position === 'student'
+                        ? ['Название', 'ID', 'Статус', 'Тип работы', 'Выдана', 'Сдать до']
+                        : ['Название', 'ID', 'Группа', 'Статус', 'Тип работы', 'Выдана', 'Сдать до']
+                }
                 rows={
                     tasks &&
                     tasks.map(task => {
                         const
                             start_date = new Date(task.start_date).toLocaleString("ru"),
                             end_date = new Date(task.end_date).toLocaleString("ru");
-                        return [
-                            task.name, task.id,
-                            statusWorks.get(task.status.toLowerCase()),
-                            typeWorks.get(task.type.toLowerCase()),
-                            start_date, end_date]
+                        return (
+                            position === 'student'
+                                ? [task.name, task.id, statusWorks.get(task.status.toLowerCase()),
+                                    typeWorks.get(task.type.toLowerCase()), start_date, end_date]
+                                : [task.name, task.id, task.group, statusWorks.get(task.status.toLowerCase()),
+                                    typeWorks.get(task.type.toLowerCase()), start_date, end_date])
                     })
                 }
                 buttonText={'Добавить задание'}

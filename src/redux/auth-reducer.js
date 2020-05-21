@@ -108,7 +108,7 @@ export const getAuth = () => async dispatch => {
             {data: {ok, user}} = await authAPI.getAuth();
 
         if (ok) {
-            dispatch(setMe(user.fio, user.phone, user.email, user.roles[user.roles.length - 1].name, user.groupName));
+            await dispatch(setMe(user.fio, user.phone, user.email, user.roles[user.roles.length - 1].name, user.groupName));
             dispatch(setAuth(true));
         } else {
             throw new Error('Error auth');
@@ -125,7 +125,6 @@ export const login = ({login, password}) => async dispatch => {
             {data} = await authAPI.login(login, password);
 
         if (data.token) {
-            console.log(data)
             localStorage.setItem('token', data.token);
             localStorage.setItem('login', login);
             dispatch(setMe(data.user.fio, data.user.phone, data.user.email, data.user.roles[data.user.roles.length - 1].name, data.user.groupName));

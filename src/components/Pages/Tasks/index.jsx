@@ -15,7 +15,8 @@ const TasksPage = ({ getListTasks, forAllGroup=false }) => {
         RedirectToLogin = useRedirectToLogin();
 
     const
-        [typeTask, setTypeTask] = useState('all');
+        [typeTask, setTypeTask] = useState('all'),
+        [wasCheckListTask, setWasCheckListTask] = useState(1); // TODO: Убрать костыль
 
     const
         tasks = useSelector(state => state.tasks.listTasks),
@@ -32,10 +33,15 @@ const TasksPage = ({ getListTasks, forAllGroup=false }) => {
     });
 
     useEffect(() => {
-        if (!tasks) {
+        if (
+            (!tasks ||
+            (tasks.lab.length === 0 && tasks.course.length === 0 && tasks.test.length === 0))
+            && wasCheckListTask > 0
+        ) {
             getListTasks(position, userNameGroup, forAllGroup);
+            setWasCheckListTask(wasCheckListTask - 1);
         }
-    }, [tasks, forAllGroup, userNameGroup, position, getListTasks]);
+    }, [wasCheckListTask, tasks, forAllGroup, userNameGroup, position, getListTasks]);
 
     return (
         RedirectToLogin ||
