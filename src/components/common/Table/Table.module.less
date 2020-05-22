@@ -20,10 +20,16 @@
   min-width: 840px;
   padding: 20px;
   background-color: var(--color-popup);
+  transition: background-color @tr-fast;
 
   &:nth-child(2n) {
     background-color: var(--color-white);
   }
+}
+
+.rowSelect:hover {
+  cursor: pointer;
+  background-color: #fffaf0;
 }
 
 .header {

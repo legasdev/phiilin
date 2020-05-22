@@ -14,6 +14,7 @@ import groupsReducer from './groups-reducer';
 import usersReducer from './users-reducer';
 import profileReducer from './profile-reducer';
 import tasksReducer from "./tasks-reducer";
+import exercisesReducer from "./exercises-reducer";
 
 // Редьюсеры
 const reducers = combineReducers({
@@ -22,6 +23,7 @@ const reducers = combineReducers({
     groups: groupsReducer,
     users: usersReducer,
     tasks: tasksReducer,
+    exercises: exercisesReducer,
     profile: profileReducer,
 });
 

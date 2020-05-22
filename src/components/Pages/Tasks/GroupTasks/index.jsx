@@ -7,6 +7,7 @@ import NewTask from "../NewTask";
 
 import {typeWorks, statusWorks} from "@src/utils/maps";
 import {useSelector} from "react-redux";
+import NewExercises from "../NewExercises/NewExercises";
 
 const GroupTasks = ({ tasks, typeTask }) => {
 
@@ -14,14 +15,28 @@ const GroupTasks = ({ tasks, typeTask }) => {
         position = useSelector(state => state.auth.position);
 
     const
-        [showNewTask, setShowNewTask] = useState(false);
+        [showNewTask, setShowNewTask] = useState(false),
+        [showNewExercises, setShowNewExercises] = useState(false),
+        [idTaskForNewExercises, setIdTaskForNewExercises] = useState(null),
+        [nameTaskForNewExercises, setNameTaskForNewExercises] = useState(null);
 
     const
-        onAddNew = useCallback(() => {
+        onAddNewTask = useCallback(() => {
             setShowNewTask(true);
         }, []),
-        onClosePopup = useCallback(() => {
+        onClosePopupNewTask = useCallback(() => {
             setShowNewTask(false);
+        }, []),
+        onShowMoreInfo = useCallback(() => {
+            // TODO: Изменение группы
+        }, []),
+        onAddNewExercises = useCallback((taskId, taskName) => {
+            setShowNewExercises(true);
+            setIdTaskForNewExercises(taskId);
+            setNameTaskForNewExercises(taskName);
+        }, []),
+        onClosePopupNewExercises = useCallback(() => {
+            setShowNewExercises(false);
         }, []);
 
     return (
@@ -30,8 +45,8 @@ const GroupTasks = ({ tasks, typeTask }) => {
             <Table
                 header={
                     position === 'student'
-                        ? ['Название', 'ID', 'Статус', 'Тип работы', 'Выдана', 'Сдать до']
-                        : ['Название', 'ID', 'Группа', 'Статус', 'Тип работы', 'Выдана', 'Сдать до']
+                        ? ['Название', 'Статус', 'Тип работы', 'Выдана', 'Сдать до']
+                        : ['Название', 'Группа', 'Статус', 'Тип работы', 'Выдана', 'Сдать до']
                 }
                 rows={
                     tasks &&
@@ -41,22 +56,31 @@ const GroupTasks = ({ tasks, typeTask }) => {
                             end_date = new Date(task.end_date).toLocaleString("ru");
                         return (
                             position === 'student'
-                                ? [task.name, task.id, statusWorks.get(task.status.toLowerCase()),
+                                ? [task.id, task.name, statusWorks.get(task.status.toLowerCase()),
                                     typeWorks.get(task.type.toLowerCase()), start_date, end_date]
-                                : [task.name, task.id, task.group, statusWorks.get(task.status.toLowerCase()),
+                                : [task.id, task.name, task.group, statusWorks.get(task.status.toLowerCase()),
                                     typeWorks.get(task.type.toLowerCase()), start_date, end_date])
                     })
                 }
                 buttonText={'Добавить задание'}
                 bigFirst={true}
                 addNew={position !== 'student'}
-                onAddNew={onAddNew}
+                onAddNew={onAddNewTask}
+                handlerClickRow={position === 'student' ? onAddNewExercises : onShowMoreInfo}
             />
             {
                 showNewTask && position &&
                 <NewTask
-                    onWrapperClose={onClosePopup}
+                    onWrapperClose={onClosePopupNewTask}
                     typeTask={typeTask}
+                />
+            }
+            {
+                showNewExercises && position &&
+                <NewExercises
+                    onWrapperClose={onClosePopupNewExercises}
+                    idTask={idTaskForNewExercises}
+                    nameTask={nameTaskForNewExercises}
                 />
             }
         </section>

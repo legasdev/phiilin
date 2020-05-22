@@ -74,6 +74,7 @@ export const tasksAPI = {
 
     // Получить список заданий
     async getTasks(position, group) {
+
         if (position === 'student') {
             return await Instance.post('/api/v1/tasks/for_group', {group}, {
                 headers: addToken()
@@ -89,6 +90,26 @@ export const tasksAPI = {
     async addNewTask(task) {
         return await Instance.post('/api/v1/task/create', task, {
             headers: addToken()
+        });
+    },
+
+};
+
+export const exercisesAPI = {
+
+    // Отправить ответ на задание
+    async addExercises(file, taskId) {
+        const
+            formData = new FormData();
+
+        formData.append('file', file);
+        formData.append('properties', new Blob([JSON.stringify({'taskId': taskId})], {
+            type: "application/json"
+        }));
+
+        return await Instance.post('/api/v1/exercise/create', formData, {
+            headers: addToken(),
+            'Content-Type': undefined
         });
     },
 

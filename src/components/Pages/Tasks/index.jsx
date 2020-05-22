@@ -16,7 +16,7 @@ const TasksPage = ({ getListTasks, forAllGroup=false }) => {
 
     const
         [typeTask, setTypeTask] = useState('all'),
-        [wasCheckListTask, setWasCheckListTask] = useState(1); // TODO: Убрать костыль
+        [wasCheckListTask, setWasCheckListTask] = useState(2); // TODO: Убрать костыль
 
     const
         tasks = useSelector(state => state.tasks.listTasks),
