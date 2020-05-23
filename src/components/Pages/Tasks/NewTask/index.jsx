@@ -10,19 +10,23 @@ import Button from "../../../common/Button";
 import Form from "../../../common/Form";
 import Textarea from "../../../common/Form/Textarea";
 
-const NewTask = ({ onWrapperClose, addNewTask, typeTask='lab' }) => {
+const NewTask = ({ onWrapperClose, typeTask='lab', nameTask='', groupTask=[], descriptionTask='',
+                     startDateTask, endDateTask, buttonName='Добавить', addNewTask }) => {
 
     const
         listGroups = useSelector(state => state.groups.listGroups);
 
     const
-        [taskName, setTaskName] = useState(''),
+        [taskName, setTaskName] = useState(nameTask),
         [taskType, setTaskType] = useState(typeTask),
-        [taskGroup, setTaskGroup] = useState([]),
-        [taskDescription, setTaskDescription] = useState(''),
-        [minDateToSetup] = useState(new Date().toISOString().slice(0, -8)),
-        [taskDateStart, setTaskDateStart] = useState(minDateToSetup),
-        [taskDateEnd, setTaskDateEnd] = useState(minDateToSetup);
+        [taskGroup, setTaskGroup] = useState(groupTask),
+        [taskDescription, setTaskDescription] = useState(descriptionTask),
+        [minDateToSetup] = useState(startDateTask || new Date().toISOString().slice(0, -8)),
+        [taskDateStart, setTaskDateStart] = useState(startDateTask || minDateToSetup),
+        [taskDateEnd, setTaskDateEnd] = useState(endDateTask || minDateToSetup);
+
+    console.log(minDateToSetup, taskDateStart, taskDateEnd);
+
 
     const
         onSubmit = useCallback(() => {
@@ -129,7 +133,7 @@ const NewTask = ({ onWrapperClose, addNewTask, typeTask='lab' }) => {
                             onChange={onChangeDateEndTask}
                             value={taskDateEnd}
                         />
-                        <Button type={'submit'}>Добавить</Button>
+                        <Button type={'submit'}>{buttonName}</Button>
                     </Form>
                 </div>
             </div>

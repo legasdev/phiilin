@@ -1,26 +1,39 @@
 import React, {useEffect, useState, useCallback} from "react";
+import {connect, useSelector} from "react-redux";
+import useRedirectToLogin from "@src/hooks/useRedirectLogin";
+import {getExercises} from "../../../redux/exercises-reducer";
 
 import s from "./Works.module.less";
 
-import useRedirectToLogin from "@src/hooks/useRedirectLogin";
 import GroupWorks from "./GroupWorks";
 
-const WorkPage = props => {
+const WorkPage = ({getExercises}) => {
 
     const
         RedirectToLogin = useRedirectToLogin();
 
     const
-        [numberGroup, setNumberGroup] = useState('');
+        listGroups = useSelector(state => state.groups.listGroups);
+
+    const
+        [numberGroup, setNumberGroup] = useState(''),
+        [taskType, setTypeTask] = useState('lab');
 
     const
         onChangeNumberGroup = useCallback((event) => {
             setNumberGroup(event.target.value);
+        }, []),
+        onChangeTypeTask = useCallback((event) => {
+            setTypeTask(event.target.value);
         }, []);
 
     useEffect(() => {
         document.title = 'Работы | SLR Project';
     });
+
+    useEffect(() => {
+        getExercises(numberGroup, taskType);
+    }, [getExercises, numberGroup, taskType]);
 
     return (
         RedirectToLogin ||
@@ -31,18 +44,26 @@ const WorkPage = props => {
                 onChange={onChangeNumberGroup}
             >
                 <option value="">===[ Выберите номер группы ]===</option>
-                <option value="1234">1234</option>
-                <option value="4324ИИ">4324ИИ</option>
+                {
+                    listGroups &&
+                    listGroups.map(group => <option key={group} value={group}>{group}</option>)
+                }
+            </select>
+            <select
+                value={taskType}
+                onChange={onChangeTypeTask}
+            >
+                <option value="lab">Лабораторная</option>
+                <option value="course">Курсовая</option>
+                <option value="test">Тестовая</option>
             </select>
             <div className={s.cardWrapper}>
                 {
                     numberGroup !== '' &&
                     <>
                         <GroupWorks
-                            nameGroup={'1234'}
-                        />
-                        <GroupWorks
-                            nameGroup={'4324ИИ'}
+                            nameGroup={numberGroup}
+                            taskType={taskType}
                         />
                     </>
                 }
@@ -51,4 +72,4 @@ const WorkPage = props => {
     );
 };
 
-export default WorkPage;
+export default connect(null, {getExercises})(WorkPage);

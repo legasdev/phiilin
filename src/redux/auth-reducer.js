@@ -5,6 +5,7 @@
 */
 
 import { authAPI } from "../api/api";
+import {_setListTasks} from "./tasks-reducer";
 
 // Названия действий
 
@@ -155,4 +156,5 @@ export const register = (login, fio, email, tel, group, password) => async dispa
 export const logout = () => async dispatch => {
     localStorage.clear();
     dispatch(setLogout());
+    dispatch(_setListTasks(null));
 };

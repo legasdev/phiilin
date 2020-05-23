@@ -7,6 +7,8 @@ export const typeWorks = new Map([
 export const statusWorks = new Map([
     ['active', 'Активная'],
     ['inactive', 'Неактивная'],
+    ['finished', 'Сдана'],
+    ['rejected', 'Непринята']
 ]);
 
 export const positionsUsers = new Map([

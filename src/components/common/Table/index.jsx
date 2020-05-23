@@ -5,8 +5,8 @@ import s from "./Table.module.less";
 const Table = ({ header, rows, onAddNew, buttonText='Добавить', bigFirst=false, addNew=false, handlerClickRow }) => {
 
     const
-        onClickRow = useCallback((taskId, taskName) => {
-            handlerClickRow && handlerClickRow(taskId, taskName);
+        onClickRow = useCallback((data) => {
+            handlerClickRow && handlerClickRow(data);
         }, [handlerClickRow]);
 
     return (
@@ -27,17 +27,33 @@ const Table = ({ header, rows, onAddNew, buttonText='Добавить', bigFirst
             {
                 rows &&
                 rows.map(row => (
-                    <div className={`${s.row} ${handlerClickRow ? s.rowSelect : ''}`} key={row[1]} onClick={() => onClickRow(row[0], row[1])}>
+                    <div
+                        className={`${s.row} ${handlerClickRow ? s.rowSelect : ''}`}
+                        key={row[0]}
+                        onClick={() => onClickRow(row)}
+                    >
                         {
                             row &&
                             row
-                                .filter((value, i) => i > 0)
+                                .filter((value, i) => i > 2)
                                 .map((cell, i) => (
                                 <div
                                     key={i}
                                     className={`${s.cell} ${i===0 && bigFirst ? s.cellBig : ''}`}
                                 >
-                                    {cell}
+                                    {
+                                        typeof cell === 'object'
+                                            ? cell.name === 'link'
+                                                ? <a className={s.cellLink} href={cell.value} target={"_blank"}>Скачать</a>
+                                                : <select onChange={(event) => {cell.value(event, row[0])}} value={cell.selectValue}>
+                                                <option value={''}>Нет оценки</option>
+                                                <option value={'2'}>2</option>
+                                                <option value={'3'}>3</option>
+                                                <option value={'4'}>4</option>
+                                                <option value={'5'}>5</option>
+                                            </select>
+                                            : cell
+                                    }
                                 </div>
                             ))
                         }

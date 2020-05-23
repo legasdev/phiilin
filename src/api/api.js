@@ -113,4 +113,11 @@ export const exercisesAPI = {
         });
     },
 
+    // Получить работы студентов в группе по типу
+    async getExercises(group, taskType) {
+        return await Instance.post('/api/v1/exercises/for_group', {group, taskType}, {
+            headers: addToken()
+        });
+    },
+
 };

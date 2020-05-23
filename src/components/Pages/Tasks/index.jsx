@@ -16,9 +16,10 @@ const TasksPage = ({ getListTasks, forAllGroup=false }) => {
 
     const
         [typeTask, setTypeTask] = useState('all'),
-        [wasCheckListTask, setWasCheckListTask] = useState(2); // TODO: Убрать костыль
+        [wasCheckListTask, setWasCheckListTask] = useState(1);
 
     const
+        isAuth = useSelector(state => state.auth.isAuth),
         tasks = useSelector(state => state.tasks.listTasks),
         position = useSelector(state => state.auth.position),
         userNameGroup = useSelector(state => state.auth.groupName);
@@ -36,12 +37,12 @@ const TasksPage = ({ getListTasks, forAllGroup=false }) => {
         if (
             (!tasks ||
             (tasks.lab.length === 0 && tasks.course.length === 0 && tasks.test.length === 0))
-            && wasCheckListTask > 0
+            && wasCheckListTask > 0 && isAuth
         ) {
             getListTasks(position, userNameGroup, forAllGroup);
             setWasCheckListTask(wasCheckListTask - 1);
         }
-    }, [wasCheckListTask, tasks, forAllGroup, userNameGroup, position, getListTasks]);
+    }, [isAuth, wasCheckListTask, tasks, forAllGroup, userNameGroup, position, getListTasks]);
 
     return (
         RedirectToLogin ||

@@ -18,22 +18,54 @@ const GroupTasks = ({ tasks, typeTask }) => {
         [showNewTask, setShowNewTask] = useState(false),
         [showNewExercises, setShowNewExercises] = useState(false),
         [idTaskForNewExercises, setIdTaskForNewExercises] = useState(null),
-        [nameTaskForNewExercises, setNameTaskForNewExercises] = useState(null);
+        [nameTaskForNewExercises, setNameTaskForNewExercises] = useState(null),
+        [descriptionTaskForNewExercises, setDescriptionTaskForNewExercises] = useState(null),
+        [plagiarismTaskForNewExercises, setPlagiarismTaskForNewExercises] = useState(null),
+
+        [taskName, setTaskName] = useState(''),
+        [taskGroup, setTaskGroup] = useState([]),
+        [taskDescription, setTaskDescription] = useState(''),
+        [taskDateStart, setTaskDateStart] = useState(null),
+        [taskDateEnd, setTaskDateEnd] = useState(null),
+
+        [buttonName, setButtonName] = useState(null);
 
     const
         onAddNewTask = useCallback(() => {
+            setButtonName('Добавить');
             setShowNewTask(true);
         }, []),
         onClosePopupNewTask = useCallback(() => {
             setShowNewTask(false);
         }, []),
-        onShowMoreInfo = useCallback(() => {
-            // TODO: Изменение группы
+        onShowMoreInfo = useCallback((data) => {
+            let
+                startDate = data[7].replace(', ', 'T').replace(/\./g, '-'),
+                endDate = data[8].replace(', ', 'T').replace(/\./g, '-'),
+                startYear = startDate.slice(6, 10),
+                startDay = startDate.slice(0, 2),
+                endYear = endDate.slice(6, 10),
+                endDay = endDate.slice(0, 2);
+
+            startDate = startDate.replace(startYear, startDay);
+            startDate = startDate.replace(startDay, startYear);
+            endDate = endDate.replace(endYear, endDay);
+            endDate = endDate.replace(endDay, endYear);
+
+            setButtonName('Обновить');
+            setShowNewTask(true);
+            setTaskName(data[3]);
+            setTaskGroup(data[4].split(', '));
+            setTaskDescription(data[1]);
+            setTaskDateStart(startDate);
+            setTaskDateEnd(endDate);
         }, []),
-        onAddNewExercises = useCallback((taskId, taskName) => {
+        onAddNewExercises = useCallback((data) => {
             setShowNewExercises(true);
-            setIdTaskForNewExercises(taskId);
-            setNameTaskForNewExercises(taskName);
+            setIdTaskForNewExercises(data[0]);
+            setNameTaskForNewExercises(data[3]);
+            setDescriptionTaskForNewExercises(data[1]);
+            setPlagiarismTaskForNewExercises(data[2]);
         }, []),
         onClosePopupNewExercises = useCallback(() => {
             setShowNewExercises(false);
@@ -45,8 +77,8 @@ const GroupTasks = ({ tasks, typeTask }) => {
             <Table
                 header={
                     position === 'student'
-                        ? ['Название', 'Статус', 'Тип работы', 'Выдана', 'Сдать до']
-                        : ['Название', 'Группа', 'Статус', 'Тип работы', 'Выдана', 'Сдать до']
+                        ? ['Название', 'Статус', 'Тип работы', 'Выдана', 'Сдать до', 'Оценка']
+                        : ['Название', 'Для групп', 'Статус', 'Тип работы', 'Выдана', 'Сдать до']
                 }
                 rows={
                     tasks &&
@@ -56,9 +88,9 @@ const GroupTasks = ({ tasks, typeTask }) => {
                             end_date = new Date(task.end_date).toLocaleString("ru");
                         return (
                             position === 'student'
-                                ? [task.id, task.name, statusWorks.get(task.status.toLowerCase()),
-                                    typeWorks.get(task.type.toLowerCase()), start_date, end_date]
-                                : [task.id, task.name, task.group, statusWorks.get(task.status.toLowerCase()),
+                                ? [task.id, task.description, null, task.name, statusWorks.get(task.status.toLowerCase()),
+                                    typeWorks.get(task.type.toLowerCase()), start_date, end_date, 'Нет оценки']
+                                : [task.id, task.description, null, task.name, task.groups.join(', '), statusWorks.get(task.status.toLowerCase()),
                                     typeWorks.get(task.type.toLowerCase()), start_date, end_date])
                     })
                 }
@@ -73,6 +105,12 @@ const GroupTasks = ({ tasks, typeTask }) => {
                 <NewTask
                     onWrapperClose={onClosePopupNewTask}
                     typeTask={typeTask}
+                    nameTask={taskName}
+                    groupTask={taskGroup}
+                    descriptionTask={taskDescription}
+                    startDateTask={taskDateStart}
+                    endDateTask={taskDateEnd}
+                    buttonName={buttonName}
                 />
             }
             {
@@ -81,6 +119,8 @@ const GroupTasks = ({ tasks, typeTask }) => {
                     onWrapperClose={onClosePopupNewExercises}
                     idTask={idTaskForNewExercises}
                     nameTask={nameTaskForNewExercises}
+                    descriptionTask={descriptionTaskForNewExercises}
+                    plagiarismTasks={plagiarismTaskForNewExercises}
                 />
             }
         </section>
