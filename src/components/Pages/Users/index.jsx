@@ -5,6 +5,7 @@ import useRedirectToLogin from "@src/hooks/useRedirectLogin";
 import s from "./Users.module.less";
 import UserGroup from "./UserGroup";
 import {getListUsers} from "../../../redux/users-reducer";
+import Select from "../../common/Form/Select";
 
 const UsersPage = ({getListUsers}) => {
 
@@ -15,11 +16,12 @@ const UsersPage = ({getListUsers}) => {
         [numberGroup, setNumberGroup] = useState('');
 
     const
-        users = useSelector(state => state.users.listUsers);
+        listGroups = useSelector(state => state.groups.listGroups),
+        listUsers = useSelector(state => state.users.listUsers);
 
     const
-        onChangeNumberGroup = useCallback((event) => {
-            setNumberGroup(event.target.value);
+        onChangeNumberGroup = useCallback(({value}) => {
+            setNumberGroup(value);
         }, []);
 
     useEffect(() => {
@@ -27,31 +29,32 @@ const UsersPage = ({getListUsers}) => {
     });
 
     useEffect(() => {
-        if (!users) {
-            getListUsers();
-        }
-    }, [users, getListUsers]);
+        getListUsers(numberGroup);
+    }, [getListUsers, numberGroup]);
 
     return (
         RedirectToLogin ||
         <section className={s.main}>
             <h2>Учащиеся</h2>
-            <select
-                value={numberGroup}
-                onChange={onChangeNumberGroup}
-            >
-                <option value="">===[ Выберите номер группы ]===</option>
-                <option value="1234">1234</option>
-                <option value="4324ИИ">4324ИИ</option>
-            </select>
-            <div className={s.cardWrapper}>
-                <UserGroup
-                    name={'11234'}
-                />
-                <UserGroup
-                    name={'43232'}
+            <div className={s.filters}>
+                <Select
+                    isMini
+                    values={listGroups && [
+                        {name: 'Выберите группу', value: ''},
+                        ...listGroups.map(group => ({name: group, value: group}))
+                    ]}
+                    onChange={onChangeNumberGroup}
                 />
             </div>
+            {
+                listUsers && numberGroup &&
+                <div className={s.cardWrapper}>
+                    <UserGroup
+                        name={numberGroup}
+                        list={listUsers}
+                    />
+                </div>
+            }
         </section>
     );
 };

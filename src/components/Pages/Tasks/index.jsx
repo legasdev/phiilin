@@ -8,6 +8,7 @@ import s from "./Tasks.module.less";
 import GroupTasks from "./GroupTasks";
 
 import {typeWorks} from "@src/utils/maps";
+import Select from "../../common/Form/Select";
 
 const TasksPage = ({ getListTasks, forAllGroup=false }) => {
 
@@ -25,8 +26,8 @@ const TasksPage = ({ getListTasks, forAllGroup=false }) => {
         userNameGroup = useSelector(state => state.auth.groupName);
 
     const
-        onChangeTypeTask = useCallback((event) => {
-            setTypeTask(event.target.value);
+        onChangeTypeTask = useCallback(({value}) => {
+            setTypeTask(value);
         }, []);
 
     useEffect(() => {
@@ -48,15 +49,18 @@ const TasksPage = ({ getListTasks, forAllGroup=false }) => {
         RedirectToLogin ||
         <section className={s.main}>
             <h2>Задания{forAllGroup ? ` группы ${userNameGroup}` : ''}</h2>
-            <select
-                value={typeTask}
-                onChange={onChangeTypeTask}
-            >
-                <option value={'all'}>Все типы работ</option>
-                <option value={'lab'}>{typeWorks.get('lab')}</option>
-                <option value={'course'}>{typeWorks.get('course')}</option>
-                <option value={'test'}>{typeWorks.get('test')}</option>
-            </select>
+            <div className={s.filters}>
+                <Select
+                    isMini
+                    values={[
+                        {name: 'Все типы работ', value: 'all'},
+                        {name: typeWorks.get('lab'), value: 'lab'},
+                        {name: typeWorks.get('course'), value: 'course'},
+                        {name: typeWorks.get('test'), value: 'test'}
+                    ]}
+                    onChange={onChangeTypeTask}
+                />
+            </div>
             <div className={s.cardWrapper}>
                 {
                     tasks &&

@@ -37,11 +37,11 @@ export const _setErrorAddNew = flag => ({type: SET_ERROR_NEW, flag});
 // Thunks
 
 // Запрашиваем и добавляем в редакс список студентов
-export const getListUsers = () => async dispatch => {
+export const getListUsers = (group) => async dispatch => {
     try {
-        const {data} = await usersAPI.getUsers();
+        const {data} = await usersAPI.getUsers(group);
+        console.log(data);
         if (data.ok) {
-            console.log(data);
             dispatch(_setListUsers(data.users));
         } else {
             throw new Error('Данные не были получены');

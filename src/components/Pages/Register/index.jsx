@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useCallback} from "react";
-import {connect} from "react-redux";
+import {connect, useSelector} from "react-redux";
 import {NavLink} from "react-router-dom";
 import {register} from "../../../redux/auth-reducer";
 
@@ -10,11 +10,15 @@ import Form from "@src/components/common/Form";
 import useRedirectToLastPage from "../../../hooks/useRedirectToLastPage";
 import Input from "../../common/Form/Input";
 import Button from "../../common/Button";
+import Select from "../../common/Form/Select";
 
 const RegPage = ({ register }) => {
 
     const
         lastPage = useRedirectToLastPage();
+
+    const
+        listGroups = useSelector(state => state.groups.listGroups);
 
     const
         [loginField, setLoginField] = useState(''),
@@ -37,8 +41,8 @@ const RegPage = ({ register }) => {
         onChangeTel = useCallback((event) => {
             setTelField(event.target.value);
         }, []),
-        onChangeGroupNumber = useCallback((event) => {
-            setGroupNumber(event.target.value);
+        onChangeGroupNumber = useCallback(({value}) => {
+            setGroupNumber(value);
         }, []),
         onChangePassword = useCallback((event) => {
             setPasswordField(event.target.value);
@@ -93,18 +97,16 @@ const RegPage = ({ register }) => {
                         onChange={onChangeTel}
                         value={telField}
                     />
-                    <select
-                        name={'groupNumber'}
-                        value={groupNumber}
+                    <Select
+                        values={listGroups && [
+                            {name: 'Выберите группу', value: ''},
+                            ...listGroups.map(group => ({name: group, value: group}))
+                        ]}
                         onChange={onChangeGroupNumber}
                         style={{
                             width: '100%'
                         }}
-                    >
-                        <option value="">===[ Выберите номер группы ]===</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                    </select>
+                    />
                     <Input
                         name={'password'}
                         label={'Пароль'}

@@ -1,6 +1,7 @@
 import React, {useCallback, useState} from "react";
 import {connect, useSelector} from "react-redux";
 import {addNewTask} from "../../../../redux/tasks-reducer";
+import {typeWorks} from "@src/utils/maps";
 
 import s from './NewTask.module.less';
 
@@ -9,6 +10,8 @@ import Input from "../../../common/Form/Input";
 import Button from "../../../common/Button";
 import Form from "../../../common/Form";
 import Textarea from "../../../common/Form/Textarea";
+import Select from "../../../common/Form/Select";
+import MultipleSelect from "../../../common/Form/MultipleSelect";
 
 const NewTask = ({ onWrapperClose, typeTask='lab', nameTask='', groupTask=[], descriptionTask='',
                      startDateTask, endDateTask, buttonName='Добавить', addNewTask }) => {
@@ -42,8 +45,8 @@ const NewTask = ({ onWrapperClose, typeTask='lab', nameTask='', groupTask=[], de
         onChangeTaskName = useCallback((event) => {
             setTaskName(event.target.value);
         },[]),
-        onChangeTypeTask = useCallback((event) => {
-            setTaskType(event.target.value);
+        onChangeTypeTask = useCallback(({value}) => {
+            setTaskType(value);
         }, []),
         onChangeGroupTask = useCallback((event) => {
             setTaskGroup([...event.target.options].filter(option => option.selected).map(option => option.value));
@@ -83,27 +86,34 @@ const NewTask = ({ onWrapperClose, typeTask='lab', nameTask='', groupTask=[], de
                             onChange={onChangeTaskName}
                             value={taskName}
                         />
-                        <select
-                            name={'taskType'}
-                            value={taskType}
+                        <Select
+                            values={[
+                                {name: typeWorks.get('lab'), value: 'lab'},
+                                {name: typeWorks.get('course'), value: 'course'},
+                                {name: typeWorks.get('test'), value: 'test'}
+                            ]}
                             onChange={onChangeTypeTask}
                             style={{
                                 width: '100%'
                             }}
-                        >
-                            <option value="lab">Лабораторная</option>
-                            <option value="course">Курсовая</option>
-                            <option value="test">Тестовая</option>
-                        </select>
+                        />
+
+                        <MultipleSelect
+                            values={
+                                listGroups &&
+                                listGroups.map(group => ({name: group, value: group}))
+                            }
+                            style={{
+                                width: '100%'
+                            }}
+                        />
+
                         <select
                             name={'taskGroups'}
                             value={taskGroup}
                             onChange={onChangeGroupTask}
                             multiple={true}
                             size={5}
-                            style={{
-                                width: '100%'
-                            }}
                         >
                             {
                                 listGroups &&

@@ -1,9 +1,10 @@
 import React, {useState, useCallback} from "react";
+import {useSelector} from "react-redux";
+import {statusWorks} from "./../../../../utils/maps";
 
 import s from "./GroupWorks.module.less";
 
 import Table from "@src/components/common/Table";
-import {useSelector} from "react-redux";
 import GroupExercises from "../GroupExercises/GroupExercises";
 
 const GroupWorks = ({ nameGroup='', taskType='' }) => {
@@ -44,7 +45,7 @@ const GroupWorks = ({ nameGroup='', taskType='' }) => {
                                 start_date = new Date(task.start_date).toLocaleString("ru"),
                                 end_date = new Date(task.end_date).toLocaleString("ru");
 
-                            return [task.id, task.description, task.exercises, task.name, task.status, '0', '0', '0', '0', start_date, end_date]
+                            return [task.id, task.description, task.exercises, task.name, statusWorks.get(task.status), '0', '0', '0', '0', start_date, end_date]
                         })
                     }
                     buttonText={'Добавить задание'}

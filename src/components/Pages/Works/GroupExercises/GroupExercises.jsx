@@ -8,8 +8,8 @@ import Table from "../../../common/Table";
 const GroupExercises = ({onWrapperClose, taskName, taskDescription, exercisesList}) => {
 
     const
-        onChangeMark = useCallback((event, exerciseId) => {
-            console.log(event.target.value, exerciseId);
+        onChangeMark = useCallback(({value}, exerciseId) => {
+            console.log(value, exerciseId);
         }, []);
 
     return (

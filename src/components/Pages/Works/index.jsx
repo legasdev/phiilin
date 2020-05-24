@@ -6,6 +6,7 @@ import {getExercises} from "../../../redux/exercises-reducer";
 import s from "./Works.module.less";
 
 import GroupWorks from "./GroupWorks";
+import Select from "../../common/Form/Select";
 
 const WorkPage = ({getExercises}) => {
 
@@ -20,11 +21,11 @@ const WorkPage = ({getExercises}) => {
         [taskType, setTypeTask] = useState('lab');
 
     const
-        onChangeNumberGroup = useCallback((event) => {
-            setNumberGroup(event.target.value);
+        onChangeNumberGroup = useCallback(({value}) => {
+            setNumberGroup(value);
         }, []),
-        onChangeTypeTask = useCallback((event) => {
-            setTypeTask(event.target.value);
+        onChangeTypeTask = useCallback(({value}) => {
+            setTypeTask(value);
         }, []);
 
     useEffect(() => {
@@ -39,24 +40,25 @@ const WorkPage = ({getExercises}) => {
         RedirectToLogin ||
         <section className={s.main}>
             <h2>Работы</h2>
-            <select
-                value={numberGroup}
-                onChange={onChangeNumberGroup}
-            >
-                <option value="">===[ Выберите номер группы ]===</option>
-                {
-                    listGroups &&
-                    listGroups.map(group => <option key={group} value={group}>{group}</option>)
-                }
-            </select>
-            <select
-                value={taskType}
-                onChange={onChangeTypeTask}
-            >
-                <option value="lab">Лабораторная</option>
-                <option value="course">Курсовая</option>
-                <option value="test">Тестовая</option>
-            </select>
+            <div className={s.filters}>
+                <Select
+                    isMini
+                    values={listGroups && [
+                        {name: 'Выберите группу', value: ''},
+                        ...listGroups.map(group => ({name: group, value: group}))
+                    ]}
+                    onChange={onChangeNumberGroup}
+                />
+                <Select
+                    isMini
+                    values={[
+                        {name: 'Лабораторная', value: 'lab'},
+                        {name: 'Курсовая', value: 'course'},
+                        {name: 'Тестовая', value: 'test'},
+                    ]}
+                    onChange={onChangeTypeTask}
+                />
+            </div>
             <div className={s.cardWrapper}>
                 {
                     numberGroup !== '' &&

@@ -9,8 +9,8 @@
   background-color: var(--color-white);
   border-radius: 15px;
   border: 2px solid var(--color-border);
-  overflow-y: hidden;
-  overflow-x: auto;
+  //overflow-y: hidden;
+  //overflow-x: auto;
 }
 
 .row {
@@ -25,6 +25,10 @@
   &:nth-child(2n) {
     background-color: var(--color-white);
   }
+
+  &:last-child {
+    border-radius: 0 0 14px 14px;
+  }
 }
 
 .rowSelect:hover {
@@ -34,11 +38,17 @@
 
 .header {
   background-color: var(--background);
+
+  border-radius: 15px 15px 0 0;
+
+  &:last-child {
+    border-radius: 13px;
+  }
 }
 
 .cell {
   width: 100%;
-  max-width: 120px;
+  max-width: 140px;
 
   & + & {
     margin-left: 35px;
@@ -67,6 +77,7 @@
   background-color: #fadd8c;
   border: none;
   cursor: pointer;
+  border-radius: 0 0 14px 14px;
   transition:
           background-color @tr-fast;
 

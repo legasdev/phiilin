@@ -61,8 +61,8 @@ export const groupsAPI = {
 export const usersAPI = {
 
     // Получить список студентов
-    async getUsers() {
-        return await Instance.get('/api/v1/users', {
+    async getUsers(group) {
+        return await Instance.post('/api/v1/students/in_group', {group}, {
             headers: addToken()
         });
     },
@@ -95,6 +95,7 @@ export const tasksAPI = {
 
 };
 
+// API ответов на задачи
 export const exercisesAPI = {
 
     // Отправить ответ на задание
