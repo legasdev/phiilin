@@ -2,18 +2,21 @@ import React, {useState, useEffect, useCallback} from "react";
 
 import s from "./Select.module.less";
 
-const Select = ({ nameSelect='', values=[], isMini=false, onChange, style, styleActive }) => {
+const Select = ({ nameSelect='', values=[], firstSelectValue, isMini=false, onChange, style, styleActive }) => {
 
     const
         [isOpen, setIsOpen] = useState(false),
-        [selectedName, setSelectedName] = useState(values && values.length > 0 ? values[0].name : '');
+        [selectedName, setSelectedName] = useState(values &&
+            (!!firstSelectValue
+            ? values.filter(item => item.value === firstSelectValue)[0].name
+            : values.length > 0 ? values[0].name : '')
+        );
 
     const
         onOpenSelect = useCallback(() => {
             setIsOpen(!isOpen)
         }, [isOpen]),
         onClickOption = useCallback((value, name) => {
-            // setSelectedValue(value);
             setSelectedName(name);
             onChange && onChange({value, name, nameSelect});
         }, [nameSelect, onChange]),
@@ -22,7 +25,9 @@ const Select = ({ nameSelect='', values=[], isMini=false, onChange, style, style
         }, []);
 
     useEffect(() => {
-        if (values && values.length > 0 && selectedName.length === 0) {
+        if (selectedName && selectedName.length === 0) {
+            setSelectedName(values[0].name)
+        } else if (!selectedName && values && values.length > 0) {
             setSelectedName(values[0].name)
         }
     }, [values, selectedName]);

@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import {useSelector} from "react-redux";
 import useRedirectToLogin from "@src/hooks/useRedirectLogin";
+import {positionsUsers} from "@src/utils/maps";
 
 import s from './Profile.module.less';
 
@@ -29,7 +30,7 @@ const Profile = props => {
                 <p><b>Логин</b>: {login || ''}</p>
                 <p><b>Email</b>: {email || ''}</p>
                 <p><b>Телефон</b>: {phone || ''}</p>
-                <p><b>Тип аккаунта</b>: {position || ''}</p>
+                <p><b>Тип аккаунта</b>: {positionsUsers.get(position) || ''}</p>
             </div>
         </section>
     );

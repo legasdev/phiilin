@@ -56,3 +56,18 @@ export const getExercises = (group, taskType) => async dispatch => {
         console.error(error);
     }
 };
+
+// Поставить оценку
+export const setMark = (mark, exerciseId) => async dispatch => {
+    try {
+        const {data} = await exercisesAPI.setMark(mark, exerciseId);
+
+        if (data.ok) {
+            // dispatch(_setList(data.tasks));
+        } else {
+            throw new Error(`Ошибка выставления оценки. Id работы: ${exerciseId}. Оценка: ${mark}`)
+        }
+    } catch(error) {
+        console.error(error);
+    }
+};

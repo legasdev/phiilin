@@ -22,6 +22,7 @@ const GroupTasks = ({ tasks, typeTask }) => {
         [descriptionTaskForNewExercises, setDescriptionTaskForNewExercises] = useState(null),
         [plagiarismTaskForNewExercises, setPlagiarismTaskForNewExercises] = useState(null),
 
+        [taskId, setTaskId] = useState(0),
         [taskName, setTaskName] = useState(''),
         [taskGroup, setTaskGroup] = useState([]),
         [taskDescription, setTaskDescription] = useState(''),
@@ -54,6 +55,7 @@ const GroupTasks = ({ tasks, typeTask }) => {
 
             setButtonName('Обновить');
             setShowNewTask(true);
+            setTaskId(data[0]);
             setTaskName(data[3]);
             setTaskGroup(data[4].split(', '));
             setTaskDescription(data[1]);
@@ -89,7 +91,8 @@ const GroupTasks = ({ tasks, typeTask }) => {
                         return (
                             position === 'student'
                                 ? [task.id, task.description, null, task.name, statusWorks.get(task.status.toLowerCase()),
-                                    typeWorks.get(task.type.toLowerCase()), start_date, end_date, 'Нет оценки']
+                                    typeWorks.get(task.type.toLowerCase()), start_date, end_date,
+                                    task.exercises.length > 0 ? task.exercises[0].mark : 'Нет оценки']
                                 : [task.id, task.description, null, task.name, task.groups.join(', '), statusWorks.get(task.status.toLowerCase()),
                                     typeWorks.get(task.type.toLowerCase()), start_date, end_date])
                     })
@@ -104,6 +107,7 @@ const GroupTasks = ({ tasks, typeTask }) => {
                 showNewTask && position &&
                 <NewTask
                     onWrapperClose={onClosePopupNewTask}
+                    taskId={taskId}
                     typeTask={typeTask}
                     nameTask={taskName}
                     groupTask={taskGroup}
@@ -111,6 +115,8 @@ const GroupTasks = ({ tasks, typeTask }) => {
                     startDateTask={taskDateStart}
                     endDateTask={taskDateEnd}
                     buttonName={buttonName}
+                    isUpdateTask={buttonName === 'Обновить'}
+                    closePopup={onClosePopupNewTask}
                 />
             }
             {

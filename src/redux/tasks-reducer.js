@@ -89,3 +89,35 @@ export const addNewTask = task => async dispatch => {
         console.error(error);
     }
 };
+
+// Удалить задание
+export const deleteTask = id => async dispatch => {
+    try {
+        const {data} = await tasksAPI.deleteTask(id);
+
+        if (data.ok) {
+            await getTasks(dispatch);
+
+        } else {
+            throw new Error('Данные не были получены');
+        }
+    } catch(error) {
+        console.error(error);
+    }
+};
+
+// Проверить на антиплагиат
+export const checkPlagiarism = taskId => async dispatch => {
+    try {
+        const {data} = await tasksAPI.checkPlagiarism(taskId);
+
+        if (data.ok) {
+            await getTasks(dispatch);
+
+        } else {
+            throw new Error('Данные не были получены');
+        }
+    } catch(error) {
+        console.error(error);
+    }
+};

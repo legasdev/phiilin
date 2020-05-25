@@ -2,6 +2,7 @@ import React, {useCallback} from "react";
 
 import s from "./Table.module.less";
 import Select from "../Form/Select";
+import Button from "../Button";
 
 const Table = ({ header, rows, onAddNew, buttonText='Добавить', bigFirst=false, addNew=false, handlerClickRow }) => {
 
@@ -48,24 +49,27 @@ const Table = ({ header, rows, onAddNew, buttonText='Добавить', bigFirst
                                     {
                                         typeof cell === 'object'
                                             ? cell.name === 'link'
-                                            ? <a className={s.cellLink} href={cell.value} target={"_blank"}>Скачать</a>
-                                            : <Select
-                                                isMini
-                                                values={[
-                                                    {name: 'Нет оценки', value: ''},
-                                                    {name: '2', value: '2'},
-                                                    {name: '3', value: '3'},
-                                                    {name: '4', value: '4'},
-                                                    {name: '5', value: '5'},
-                                                ]}
-                                                onChange={({value}) => {cell.value(value, row[0])}}
-                                                style={{
-                                                    left: '-20px'
-                                                }}
-                                                styleActive={{
-                                                    minWidth: '80px'
-                                                }}
-                                            />
+                                                ? <a className={s.cellLink} href={cell.value} target={"_blank"}>Скачать</a>
+                                                : cell.name === 'button'
+                                                    ? <Button mini onClick={cell.value}>Проверить</Button>
+                                                    : <Select
+                                                        isMini
+                                                        values={[
+                                                            {name: 'Нет оценки', value: ''},
+                                                            {name: '2', value: '2'},
+                                                            {name: '3', value: '3'},
+                                                            {name: '4', value: '4'},
+                                                            {name: '5', value: '5'},
+                                                        ]}
+                                                        firstSelectValue={cell.selectValue}
+                                                        onChange={({value}) => {cell.value(value, row[0])}}
+                                                        style={{
+                                                            left: '-20px'
+                                                        }}
+                                                        styleActive={{
+                                                            minWidth: '80px'
+                                                        }}
+                                                    />
                                             : cell
                                     }
                                 </div>

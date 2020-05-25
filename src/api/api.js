@@ -93,6 +93,20 @@ export const tasksAPI = {
         });
     },
 
+    // Удалить таску
+    async deleteTask(id) {
+        return await Instance.post('/api/v1/task/delete', {id}, {
+            headers: addToken()
+        });
+    },
+
+    // Проверить на антиплагиат
+    async checkPlagiarism(taskId) {
+        return await Instance.post('/api/v1/task/plagiarism_check', {taskId}, {
+            headers: addToken()
+        });
+    },
+
 };
 
 // API ответов на задачи
@@ -117,6 +131,13 @@ export const exercisesAPI = {
     // Получить работы студентов в группе по типу
     async getExercises(group, taskType) {
         return await Instance.post('/api/v1/exercises/for_group', {group, taskType}, {
+            headers: addToken()
+        });
+    },
+
+    // Изменить оценку
+    async setMark(mark, id) {
+        return await Instance.post('/api/v1/exercise/mark', {mark, id}, {
             headers: addToken()
         });
     },

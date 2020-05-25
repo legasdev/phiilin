@@ -16,16 +16,17 @@ const GroupWorks = ({ nameGroup='', taskType='' }) => {
     const
         [isShowExercises, setIsShowExercises] = useState(false),
 
+        [taskId, setTaskId] = useState(0),
         [taskName, setTaskName] = useState(''),
         [taskDescription, setTaskDescription] = useState(''),
         [exercisesList, setExercisesList] = useState([]);
 
     const
         onClickRow = useCallback((data) => {
-            console.log(data);
-            setTaskName(data[1]);
+            setTaskId(data[0]);
+            setTaskName(data[3]);
             setExercisesList(data[2]);
-            setTaskDescription(data[3]);
+            setTaskDescription(data[1]);
             setIsShowExercises(true);
         }, []),
         onClosePopupExercises = useCallback(() => {
@@ -58,6 +59,7 @@ const GroupWorks = ({ nameGroup='', taskType='' }) => {
                 isShowExercises && position &&
                 <GroupExercises
                     onWrapperClose={onClosePopupExercises}
+                    taskId={taskId}
                     taskName={taskName}
                     taskDescription={taskDescription}
                     exercisesList={exercisesList}

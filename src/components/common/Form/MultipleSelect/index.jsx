@@ -1,56 +1,85 @@
-import React, {useState, useEffect, useCallback, useRef} from "react";
+import React, {useState, useCallback, useRef} from "react";
 
 import s from "./MultipleSelect.module.less";
 
-const MultipleSelect = ({ nameSelect='', values=[], isMini=false, onChange, style, styleActive }) => {
+const MultipleSelect = ({ nameSelect='', values=[], firstSelectValue, isMini=false, placeholder, onChange, style, styleActive }) => {
 
     const
         mainSelect = useRef(null);
 
     const
         [isOpen, setIsOpen] = useState(false),
-        [selectedName, setSelectedName] = useState(values && values.length > 0 ? values[0].name : '');
+        [selected, setSelected] = useState(firstSelectValue
+            ? firstSelectValue.map(item => ({value: item, name: item}))
+            : []);
 
     const
         onOpenSelect = useCallback((event) => {
-            console.log(event.target === mainSelect.current)
-            console.log(event.target)
-            console.log(mainSelect.current)
             setIsOpen(!isOpen)
         }, [isOpen]),
         onClickOption = useCallback((value, name) => {
-            // setSelectedValue(value);
-            setSelectedName(name);
-            onChange && onChange({value, name, nameSelect});
-        }, [nameSelect, onChange]),
-        onBlur = useCallback(() => {
-            setIsOpen(false);
-        }, []);
+            let
+                isCheckUnique = true;
 
-    useEffect(() => {
-        if (values && values.length > 0 && selectedName.length === 0) {
-            setSelectedName(values[0].name)
-        }
-    }, [values, selectedName]);
+            selected.forEach(item => {
+                if (item.value === value) {
+                    isCheckUnique = false;
+                }
+            });
+
+            if (isCheckUnique) {
+                const
+                    newSelected = [...selected, {
+                        value,
+                        name
+                    }];
+
+                setSelected(newSelected);
+                onChange && onChange(newSelected);
+            }
+        }, [selected, onChange]),
+        onDeleteSelectedOption = useCallback((value) => {
+            const
+                newSelected = selected.filter(item => item.value !== value);
+
+            setSelected(newSelected);
+        }, [selected]);
 
     return (
         <div
             className={`${s.main}`}
-            onClick={onOpenSelect}
-            onBlur={onBlur}
             style={style}
             ref={mainSelect}
         >
             <div
                 className={`${s.header} ${isMini ? s.header__min : ''} ${isOpen ? s.header__open : ''}`}
             >
-                <div className={s.header__wrapper}>
-                    <div className={s.selectedOption}>
-                        <span>Группа 1</span>
-                        <button className={s.cross}/>
-                    </div>
+                <div
+                    className={s.activeElement}
+                    onClick={onOpenSelect}
+                >
+                    {
+                        placeholder && selected.length === 0 &&
+                        <span>{placeholder}</span>
+                    }
                 </div>
-                <div className={`${s.arrow} ${isOpen ? s.arrow__open : ''}`} />
+                <div className={s.header__wrapper}>
+                    {
+                        selected.map(item => (
+                            <div key={item.value} className={s.selectedOption}>
+                                <span>{item.name}</span>
+                                <button
+                                    className={s.cross}
+                                    onClick={() => onDeleteSelectedOption(item.value)}
+                                />
+                            </div>
+                        ))
+                    }
+                </div>
+                <div
+                    className={`${s.arrow} ${isOpen ? s.arrow__open : ''}`}
+                    onClick={onOpenSelect}
+                />
             </div>
             <div className={`${s.wrapper} ${isOpen ? s.wrapper__open : ''}`}>
                 <div>

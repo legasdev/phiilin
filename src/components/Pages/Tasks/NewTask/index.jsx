@@ -1,6 +1,6 @@
 import React, {useCallback, useState} from "react";
 import {connect, useSelector} from "react-redux";
-import {addNewTask} from "../../../../redux/tasks-reducer";
+import {addNewTask, deleteTask} from "../../../../redux/tasks-reducer";
 import {typeWorks} from "@src/utils/maps";
 
 import s from './NewTask.module.less';
@@ -13,8 +13,9 @@ import Textarea from "../../../common/Form/Textarea";
 import Select from "../../../common/Form/Select";
 import MultipleSelect from "../../../common/Form/MultipleSelect";
 
-const NewTask = ({ onWrapperClose, typeTask='lab', nameTask='', groupTask=[], descriptionTask='',
-                     startDateTask, endDateTask, buttonName='Добавить', addNewTask }) => {
+const NewTask = ({ onWrapperClose, taskId, typeTask='lab', nameTask='', groupTask=[], descriptionTask='',
+                     startDateTask, endDateTask, buttonName='Добавить', addNewTask, isUpdateTask=false,
+                     deleteTask, closePopup }) => {
 
     const
         listGroups = useSelector(state => state.groups.listGroups);
@@ -28,9 +29,6 @@ const NewTask = ({ onWrapperClose, typeTask='lab', nameTask='', groupTask=[], de
         [taskDateStart, setTaskDateStart] = useState(startDateTask || minDateToSetup),
         [taskDateEnd, setTaskDateEnd] = useState(endDateTask || minDateToSetup);
 
-    console.log(minDateToSetup, taskDateStart, taskDateEnd);
-
-
     const
         onSubmit = useCallback(() => {
             addNewTask({
@@ -42,14 +40,18 @@ const NewTask = ({ onWrapperClose, typeTask='lab', nameTask='', groupTask=[], de
                 end_date: taskDateEnd
             })
         },[addNewTask, taskName, taskType, taskGroup, taskDescription, taskDateStart, taskDateEnd]),
+        onDeleteTask = useCallback(() => {
+            deleteTask(taskId);
+            closePopup();
+        }, [taskId, deleteTask, closePopup]),
         onChangeTaskName = useCallback((event) => {
             setTaskName(event.target.value);
         },[]),
         onChangeTypeTask = useCallback(({value}) => {
             setTaskType(value);
         }, []),
-        onChangeGroupTask = useCallback((event) => {
-            setTaskGroup([...event.target.options].filter(option => option.selected).map(option => option.value));
+        onChangeGroupTask = useCallback((values) => {
+            setTaskGroup(values.map(item => item.value));
         }, []),
         onChangeDescriptionTask = useCallback((event) => {
             setTaskDescription(event.target.value);
@@ -92,34 +94,25 @@ const NewTask = ({ onWrapperClose, typeTask='lab', nameTask='', groupTask=[], de
                                 {name: typeWorks.get('course'), value: 'course'},
                                 {name: typeWorks.get('test'), value: 'test'}
                             ]}
+                            firstSelectValue={typeTask}
                             onChange={onChangeTypeTask}
                             style={{
-                                width: '100%'
+                                width: '100%',
+                                zIndex: 3
                             }}
                         />
-
                         <MultipleSelect
                             values={
                                 listGroups &&
                                 listGroups.map(group => ({name: group, value: group}))
                             }
+                            firstSelectValue={groupTask && groupTask.length > 0 && groupTask[0] && groupTask }
+                            placeholder={'Для каких групп'}
+                            onChange={onChangeGroupTask}
                             style={{
                                 width: '100%'
                             }}
                         />
-
-                        <select
-                            name={'taskGroups'}
-                            value={taskGroup}
-                            onChange={onChangeGroupTask}
-                            multiple={true}
-                            size={5}
-                        >
-                            {
-                                listGroups &&
-                                listGroups.map(group => <option key={group} value={group}>{group}</option>)
-                            }
-                        </select>
                         <Textarea
                             name={'taskDescription'}
                             label={'Введите описание'}
@@ -145,10 +138,17 @@ const NewTask = ({ onWrapperClose, typeTask='lab', nameTask='', groupTask=[], de
                         />
                         <Button type={'submit'}>{buttonName}</Button>
                     </Form>
+                    {
+                        isUpdateTask &&
+                        <Button
+                            light
+                            onClick={onDeleteTask}
+                        >Удалить</Button>
+                    }
                 </div>
             </div>
         </Popup>
     )
 };
 
-export default connect(null, {addNewTask})(NewTask);
+export default connect(null, {addNewTask, deleteTask})(NewTask);

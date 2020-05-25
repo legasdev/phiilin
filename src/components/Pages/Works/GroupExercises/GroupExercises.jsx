@@ -1,16 +1,22 @@
 import React, {useCallback} from "react";
+import {connect} from "react-redux";
 import Popup from "../../../common/Popup";
 import {statusWorks} from "./../../../../utils/maps";
+import {setMark} from "../../../../redux/exercises-reducer";
+import {checkPlagiarism} from "../../../../redux/tasks-reducer";
 
 import s from "./GroupExercises.module.less";
 import Table from "../../../common/Table";
 
-const GroupExercises = ({onWrapperClose, taskName, taskDescription, exercisesList}) => {
+const GroupExercises = ({onWrapperClose, taskId, taskName, taskDescription, exercisesList, setMark, checkPlagiarism}) => {
 
     const
-        onChangeMark = useCallback(({value}, exerciseId) => {
-            console.log(value, exerciseId);
-        }, []);
+        onChangeMark = useCallback((value, exerciseId) => {
+            setMark(value, exerciseId);
+        }, [setMark]),
+        onCheckPlagiarism = useCallback(() => {
+            checkPlagiarism(taskId);
+        }, [taskId, checkPlagiarism]);
 
     return (
         <Popup
@@ -32,7 +38,13 @@ const GroupExercises = ({onWrapperClose, taskName, taskDescription, exercisesLis
 
                             return [
                                 exercises.id, null, null,
-                                exercises.name || 'Нет имени', statusWorks.get(exercises.status), sendDate, exercises.plagiarism,
+                                exercises.fio || 'Нет имени', statusWorks.get(exercises.status), sendDate,
+                                exercises.plagiarism > 0 ?
+                                exercises.plagiarism :
+                                    {
+                                        name: 'button',
+                                        value: onCheckPlagiarism,
+                                    },
                                 {
                                     name: 'link',
                                     value: exercises.path
@@ -51,5 +63,5 @@ const GroupExercises = ({onWrapperClose, taskName, taskDescription, exercisesLis
     );
 };
 
-export default GroupExercises;
+export default connect(null, {setMark, checkPlagiarism})(GroupExercises);
 
