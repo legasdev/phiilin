@@ -8,12 +8,12 @@ import {checkPlagiarism} from "../../../../redux/tasks-reducer";
 import s from "./GroupExercises.module.less";
 import Table from "../../../common/Table";
 
-const GroupExercises = ({onWrapperClose, taskId, taskName, taskDescription, exercisesList, setMark, checkPlagiarism}) => {
+const GroupExercises = ({onWrapperClose, nameGroup, taskId, taskType, taskName, taskDescription, exercisesList, setMark, checkPlagiarism}) => {
 
     const
         onChangeMark = useCallback((value, exerciseId) => {
-            setMark(value, exerciseId);
-        }, [setMark]),
+            setMark(value, exerciseId, nameGroup, taskType);
+        }, [setMark, nameGroup, taskType]),
         onCheckPlagiarism = useCallback(() => {
             checkPlagiarism(taskId);
         }, [taskId, checkPlagiarism]);

@@ -1,12 +1,5 @@
 import { tasksAPI } from "../api/api";
 
-// function createObjectByTypeTask(typeTask, tasks) {
-//     return {
-//         type: typeTask,
-//         tasks: tasks.filter(task => task.type.toLowerCase() === typeTask.toLowerCase())
-//     }
-// }
-
 /**
  * Получает список заданий и добавляет в редакс
  *
@@ -17,8 +10,6 @@ import { tasksAPI } from "../api/api";
  */
 async function getTasks(dispatch, position, group) {
     const {data} = await tasksAPI.getTasks(position, group);
-
-    console.log(position, group, data)
 
     if (data.ok) {
         dispatch(_setListTasks({
@@ -65,7 +56,7 @@ export const _setListTasks = listTasks => ({type: SET_LIST_TASKS, listTasks});
 // Thunks
 
 // Запрашиваем и добавляем в редакс список заданий
-export const getListTasks = (position, group, forAll=false) => async dispatch => {
+export const getListTasks = (position, group) => async dispatch => {
     try {
         await getTasks(dispatch, position, group);
 

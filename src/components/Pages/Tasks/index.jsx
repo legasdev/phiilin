@@ -40,10 +40,10 @@ const TasksPage = ({ getListTasks, forAllGroup=false }) => {
             (tasks.lab.length === 0 && tasks.course.length === 0 && tasks.test.length === 0))
             && wasCheckListTask > 0 && isAuth
         ) {
-            getListTasks(position, userNameGroup, forAllGroup);
+            getListTasks(position, userNameGroup);
             setWasCheckListTask(wasCheckListTask - 1);
         }
-    }, [isAuth, wasCheckListTask, tasks, forAllGroup, userNameGroup, position, getListTasks]);
+    }, [isAuth, wasCheckListTask, tasks, userNameGroup, position, getListTasks]);
 
     return (
         RedirectToLogin ||
@@ -68,19 +68,23 @@ const TasksPage = ({ getListTasks, forAllGroup=false }) => {
                         <GroupTasks
                             typeTask={typeTask}
                             tasks={tasks[typeTask]}
+                            forAllGroup={forAllGroup}
                         /> :
                         <>
                             <GroupTasks
                                 typeTask={'lab'}
                                 tasks={tasks.lab}
+                                forAllGroup={forAllGroup}
                             />
                             <GroupTasks
                                 typeTask={'course'}
                                 tasks={tasks.course}
+                                forAllGroup={forAllGroup}
                             />
                             <GroupTasks
                                 typeTask={'test'}
                                 tasks={tasks.test}
+                                forAllGroup={forAllGroup}
                             />
                         </>)
                 }

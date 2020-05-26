@@ -46,7 +46,11 @@ const GroupWorks = ({ nameGroup='', taskType='' }) => {
                                 start_date = new Date(task.start_date).toLocaleString("ru"),
                                 end_date = new Date(task.end_date).toLocaleString("ru");
 
-                            return [task.id, task.description, task.exercises, task.name, statusWorks.get(task.status), '0', '0', '0', '0', start_date, end_date]
+                            return [
+                                task.id, task.description, task.exercises, task.name, statusWorks.get(task.status),
+                                task.stat.exercises, task.stat.onCheck, task.stat.rejected, task.stat.finished,
+                                start_date, end_date
+                            ]
                         })
                     }
                     buttonText={'Добавить задание'}
@@ -59,7 +63,9 @@ const GroupWorks = ({ nameGroup='', taskType='' }) => {
                 isShowExercises && position &&
                 <GroupExercises
                     onWrapperClose={onClosePopupExercises}
+                    nameGroup={nameGroup}
                     taskId={taskId}
+                    taskType={taskType}
                     taskName={taskName}
                     taskDescription={taskDescription}
                     exercisesList={exercisesList}

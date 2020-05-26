@@ -1,4 +1,4 @@
-import React, {useCallback, useRef} from "react";
+import React, {useState, useCallback, useRef} from "react";
 import {connect} from "react-redux";
 import {addExercises} from "../../../../redux/exercises-reducer";
 
@@ -14,15 +14,25 @@ const NewExercises = ({onWrapperClose, idTask, nameTask, descriptionTask, addExe
         fileRef = useRef(null);
 
     const
-        onAddExercises = useCallback(() => {
+        [fileName, setFileName] = useState(null);
 
+    const
+        onAddExercises = useCallback(() => {
             const
                 file = fileRef.current.files[0];
 
             if (file.size <= 2000000 && file.name.match(/\.java$|\.cpp$|\.c$/gi)) {
                 addExercises(file, idTask);
             }
-        }, [addExercises, idTask]);
+        }, [addExercises, idTask]),
+        onChangeFile = useCallback(() => {
+            const
+                file = fileRef.current.files[0];
+
+            if (file.size <= 2000000 && file.name.match(/\.java$|\.cpp$|\.c$/gi)) {
+                setFileName(file.name);
+            }
+        }, []);
 
     return (
         <Popup
@@ -51,7 +61,17 @@ const NewExercises = ({onWrapperClose, idTask, nameTask, descriptionTask, addExe
                             marginTop: '0'
                         }}
                     >
-                        <input type={'file'} accept={'.java,.cpp,.c'} ref={fileRef}/>
+
+                        <label className={s.inputFile} htmlFor={'addFile'}>Прикрепить файл</label>
+                        <input
+                            type={'file'}
+                            accept={'.java,.cpp,.c'}
+                            onChange={onChangeFile}
+                            ref={fileRef}
+                            id={'addFile'}
+                            style={{display: 'none'}}
+                        />
+                        <p>{fileName ? fileName : 'Файл не выбран'}</p>
                         <Button type={'submit'}>Отправить ответ</Button>
                     </Form>
                 </div>

@@ -47,6 +47,7 @@ const Table = ({ header, rows, onAddNew, buttonText='Добавить', bigFirst
                                     className={`${s.cell} ${i===0 && bigFirst ? s.cellBig : ''}`}
                                 >
                                     {
+                                        cell &&
                                         typeof cell === 'object'
                                             ? cell.name === 'link'
                                                 ? <a className={s.cellLink} href={cell.value} target={"_blank"}>Скачать</a>

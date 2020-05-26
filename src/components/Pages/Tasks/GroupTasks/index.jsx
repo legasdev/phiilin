@@ -8,11 +8,13 @@ import NewTask from "../NewTask";
 import {typeWorks, statusWorks} from "@src/utils/maps";
 import {useSelector} from "react-redux";
 import NewExercises from "../NewExercises/NewExercises";
+import InfoByGroup from "../InfoByGroup";
 
-const GroupTasks = ({ tasks, typeTask }) => {
+const GroupTasks = ({ tasks, typeTask, forAllGroup=false }) => {
 
     const
-        position = useSelector(state => state.auth.position);
+        position = useSelector(state => state.auth.position),
+        userId = useSelector(state => state.auth.id);
 
     const
         [showNewTask, setShowNewTask] = useState(false),
@@ -21,6 +23,7 @@ const GroupTasks = ({ tasks, typeTask }) => {
         [nameTaskForNewExercises, setNameTaskForNewExercises] = useState(null),
         [descriptionTaskForNewExercises, setDescriptionTaskForNewExercises] = useState(null),
         [plagiarismTaskForNewExercises, setPlagiarismTaskForNewExercises] = useState(null),
+        [isShowInfoAboutGroup, setIsShowInfoAboutGroup] = useState(false),
 
         [taskId, setTaskId] = useState(0),
         [taskName, setTaskName] = useState(''),
@@ -30,6 +33,13 @@ const GroupTasks = ({ tasks, typeTask }) => {
         [taskDateEnd, setTaskDateEnd] = useState(null),
 
         [buttonName, setButtonName] = useState(null);
+
+    const
+        getUserMark = useCallback((exercises) => {
+            const
+                works = exercises.filter(work => work.userId === userId).pop();
+            return works ? works.mark : 'Нет оценки';
+        }, [userId]);
 
     const
         onAddNewTask = useCallback(() => {
@@ -71,6 +81,13 @@ const GroupTasks = ({ tasks, typeTask }) => {
         }, []),
         onClosePopupNewExercises = useCallback(() => {
             setShowNewExercises(false);
+        }, []),
+        onShowInfoByGroup = useCallback((data) => {
+            setTaskId(data[0]);
+            setIsShowInfoAboutGroup(true);
+        }, []),
+        onCloseInfoByGroup = useCallback(() => {
+            setIsShowInfoAboutGroup(false);
         }, []);
 
     return (
@@ -79,7 +96,9 @@ const GroupTasks = ({ tasks, typeTask }) => {
             <Table
                 header={
                     position === 'student'
-                        ? ['Название', 'Статус', 'Тип работы', 'Выдана', 'Сдать до', 'Оценка']
+                        ? forAllGroup
+                            ? ['Название', 'Статус', 'Тип работы', 'Выдана', 'Сдать до']
+                            : ['Название', 'Статус', 'Тип работы', 'Выдана', 'Сдать до', 'Оценка']
                         : ['Название', 'Для групп', 'Статус', 'Тип работы', 'Выдана', 'Сдать до']
                 }
                 rows={
@@ -90,9 +109,12 @@ const GroupTasks = ({ tasks, typeTask }) => {
                             end_date = new Date(task.end_date).toLocaleString("ru");
                         return (
                             position === 'student'
-                                ? [task.id, task.description, null, task.name, statusWorks.get(task.status.toLowerCase()),
-                                    typeWorks.get(task.type.toLowerCase()), start_date, end_date,
-                                    task.exercises.length > 0 ? task.exercises[0].mark : 'Нет оценки']
+                                ? forAllGroup
+                                    ? [task.id, task.description, null, task.name, statusWorks.get(task.status.toLowerCase()),
+                                        typeWorks.get(task.type.toLowerCase()), start_date, end_date]
+                                    : [task.id, task.description, null, task.name, statusWorks.get(task.status.toLowerCase()),
+                                        typeWorks.get(task.type.toLowerCase()), start_date, end_date,
+                                        task.exercises.length > 0 ? getUserMark(task.exercises) : 'Нет оценки']
                                 : [task.id, task.description, null, task.name, task.groups.join(', '), statusWorks.get(task.status.toLowerCase()),
                                     typeWorks.get(task.type.toLowerCase()), start_date, end_date])
                     })
@@ -101,7 +123,7 @@ const GroupTasks = ({ tasks, typeTask }) => {
                 bigFirst={true}
                 addNew={position !== 'student'}
                 onAddNew={onAddNewTask}
-                handlerClickRow={position === 'student' ? onAddNewExercises : onShowMoreInfo}
+                handlerClickRow={position === 'student' ? forAllGroup ? onShowInfoByGroup : onAddNewExercises : onShowMoreInfo}
             />
             {
                 showNewTask && position &&
@@ -127,6 +149,14 @@ const GroupTasks = ({ tasks, typeTask }) => {
                     nameTask={nameTaskForNewExercises}
                     descriptionTask={descriptionTaskForNewExercises}
                     plagiarismTasks={plagiarismTaskForNewExercises}
+                />
+            }
+            {
+                forAllGroup && isShowInfoAboutGroup &&
+                <InfoByGroup
+                    onWrapperClose={onCloseInfoByGroup}
+                    taskId={taskId}
+                    tasks={tasks}
                 />
             }
         </section>

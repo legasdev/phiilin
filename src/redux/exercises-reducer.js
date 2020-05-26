@@ -58,12 +58,18 @@ export const getExercises = (group, taskType) => async dispatch => {
 };
 
 // Поставить оценку
-export const setMark = (mark, exerciseId) => async dispatch => {
+export const setMark = (mark, exerciseId, group, taskType) => async dispatch => {
     try {
         const {data} = await exercisesAPI.setMark(mark, exerciseId);
 
         if (data.ok) {
-            // dispatch(_setList(data.tasks));
+            const {data} = await exercisesAPI.getExercises(group, taskType);
+
+            if (data.ok) {
+                dispatch(_setList(data.tasks));
+            } else {
+                throw new Error(`Ошибка загрузки работ. Группа: ${group}. Тип: ${taskType}`)
+            }
         } else {
             throw new Error(`Ошибка выставления оценки. Id работы: ${exerciseId}. Оценка: ${mark}`)
         }
