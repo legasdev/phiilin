@@ -23,11 +23,13 @@ async function getTasks(dispatch, position, group) {
 }
 
 const
-    SET_LIST_TASKS = 'tasks/set_list_tasks';
+    SET_LIST_TASKS = 'tasks/set_list_tasks',
+    SET_LIST_PLAGIARISM = 'tasks/set_list_plagiarism';
 
 const
     initialState = {
         listTasks: null,
+        listPlagiarism: null
     };
 
 const tasksReducer = (state=initialState, action) => {
@@ -38,6 +40,12 @@ const tasksReducer = (state=initialState, action) => {
             return {
                 ...state,
                 listTasks: action.listTasks
+            };
+
+        case SET_LIST_PLAGIARISM:
+            return {
+                ...state,
+                listPlagiarism: action.listPlagiarism
             };
 
         default: return {...state};
@@ -51,6 +59,7 @@ export default tasksReducer;
 // Actions
 
 export const _setListTasks = listTasks => ({type: SET_LIST_TASKS, listTasks});
+export const _setListPlagiarism = listPlagiarism => ({type: SET_LIST_PLAGIARISM, listPlagiarism});
 
 
 // Thunks
@@ -98,12 +107,12 @@ export const deleteTask = id => async dispatch => {
 };
 
 // Проверить на антиплагиат
-export const checkPlagiarism = taskId => async dispatch => {
+export const checkPlagiarism = (taskId, exerciseId) => async dispatch => {
     try {
-        const {data} = await tasksAPI.checkPlagiarism(taskId);
+        const {data} = await tasksAPI.checkPlagiarism(taskId, exerciseId);
 
         if (data.ok) {
-            await getTasks(dispatch);
+            dispatch(_setListPlagiarism(data.plagiarism));
 
         } else {
             throw new Error('Данные не были получены');

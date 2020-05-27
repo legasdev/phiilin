@@ -52,25 +52,31 @@ const Table = ({ header, rows, onAddNew, buttonText='Добавить', bigFirst
                                             ? cell.name === 'link'
                                                 ? <a className={s.cellLink} href={cell.value} target={"_blank"}>Скачать</a>
                                                 : cell.name === 'button'
-                                                    ? <Button mini onClick={cell.value}>Проверить</Button>
-                                                    : <Select
-                                                        isMini
-                                                        values={[
-                                                            {name: 'Нет оценки', value: ''},
-                                                            {name: '2', value: '2'},
-                                                            {name: '3', value: '3'},
-                                                            {name: '4', value: '4'},
-                                                            {name: '5', value: '5'},
-                                                        ]}
-                                                        firstSelectValue={cell.selectValue}
-                                                        onChange={({value}) => {cell.value(value, row[0])}}
-                                                        style={{
-                                                            left: '-20px'
-                                                        }}
-                                                        styleActive={{
-                                                            minWidth: '80px'
-                                                        }}
-                                                    />
+                                                    ? <Button mini onClick={() => cell.value(cell.data)}>Проверить</Button>
+                                                    : cell.name === 'percent'
+                                                    ?   (<div className={s.percentWrapper}>
+                                                            <div className={s.percent}>
+                                                                <div style={{transform: `scaleX(${parseInt(cell.value) / 100})`}} />
+                                                            </div> | {cell.value}%
+                                                        </div>)
+                                                        : <Select
+                                                            isMini
+                                                            values={[
+                                                                {name: 'Нет оценки', value: ''},
+                                                                {name: '2', value: '2'},
+                                                                {name: '3', value: '3'},
+                                                                {name: '4', value: '4'},
+                                                                {name: '5', value: '5'},
+                                                            ]}
+                                                            firstSelectValue={cell.selectValue}
+                                                            onChange={({value}) => {cell.value(value, row[0])}}
+                                                            style={{
+                                                                left: '-20px'
+                                                            }}
+                                                            styleActive={{
+                                                                minWidth: '80px'
+                                                            }}
+                                                        />
                                             : cell
                                     }
                                 </div>

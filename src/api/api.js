@@ -101,8 +101,8 @@ export const tasksAPI = {
     },
 
     // Проверить на антиплагиат
-    async checkPlagiarism(taskId) {
-        return await Instance.post('/api/v1/task/plagiarism_check', {taskId}, {
+    async checkPlagiarism(taskId, exerciseId) {
+        return await Instance.post('/api/v1/task/plagiarism_check', {taskId, exerciseId}, {
             headers: addToken()
         });
     },
