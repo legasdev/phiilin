@@ -1,0 +1,41 @@
+a:active,
+a:focus {
+  outline: none;
+}
+input,
+textarea {
+  outline: none;
+}
+input:active,
+textarea:active {
+  outline: none;
+}
+:focus {
+  outline: none;
+}
+textarea {
+  resize: none;
+}
+textarea {
+  resize: vertical;
+}
+textarea {
+  resize: horizontal;
+}
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'FuturaBookC', "Segoe UI", "Roboto", 'Arial', sans-serif;
+}
+body {
+  overflow-x: hidden;
+  background-color: #fffaf0;
+  scroll-behavior: smooth;
+  width: 100%;
+
+  --fontLight: 'FuturaLightC', "Segoe UI", "Roboto", 'Arial', sans-serif;
+  --fontBook: 'FuturaBookC', "Segoe UI", "Roboto", 'Arial', sans-serif;
+  --fontMedium: 'FuturaMediumC', "Segoe UI", "Roboto", 'Arial', sans-serif;
+  --fontDemi: 'FuturaDemiC', "Segoe UI", "Roboto", 'Arial', sans-serif;
+}

@@ -1,23 +1,28 @@
 import React from 'react';
+import {useSelector} from "react-redux";
+import {positionsUsers} from "../../../utils/maps";
 
-import s from './accountInfoAside.module.css';
+import s from './AccountInfoAside.module.less';
 
-import IMG_AVATAR from './../../../assets/img/avatar_default.png';
+import Avatar from '@src/components/common/Avatar/Avatar';
 
 const AccountInfoAside = props => {
+
+    const userName = useSelector(state => state.auth.name);
+    const userPosition = useSelector(state => state.auth.position);
+
     return (
         <div className={s.info}>
-            <div className={s.info__name}>
-                <div>
-                    {`${props.userName} ${props.userLastName}`} 
-                </div>
-                <div>
-                    {props.userPosition}
-                </div>
-            </div>
-            <img src={IMG_AVATAR} className={s.avatar} alt="Ава"/>
+            <Avatar min={true} />
+            <p className={s.username}>
+                {userName}
+            </p>
+            <div className={s.horizonLine} />
+            <p>
+                {positionsUsers.get(userPosition)}
+            </p>
         </div>
     );
-}
+};
 
 export default AccountInfoAside;

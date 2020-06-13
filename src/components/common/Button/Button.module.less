@@ -1,0 +1,39 @@
+@import "~@src/assets/styles/variables.less";
+
+.main {
+  width: 100%;
+  max-width: 291px;
+  min-height: 60px;
+  background-color: var(--background);
+  border-radius: 100vh;
+  border: none;
+  color: var(--color-dark);
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color @tr-fast;
+
+  &:hover {
+    background-color: var(--background-hover);
+  }
+
+  &:active {
+    background-color: var(--background-active);
+  }
+}
+
+.light {
+  background-color: transparent;
+  border: 2px solid var(--color-red);
+  transition: background-color @tr-fast, color @tr-fast;
+
+  &:hover {
+    background-color: var(--color-red);
+    color: var(--color-white);
+  }
+}
+
+.mini {
+  max-width: 100px;
+  min-height: 40px;
+  height: 40px;
+}
